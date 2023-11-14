@@ -1,5 +1,5 @@
 # info4
-
+Groupe de MAGHSOUDIAN Eglantine , SAUZE Ewan, GUIMBERTEAU Boris, ARGAUD Romain et MERMRI Yassin
 
 
 ## Getting started
