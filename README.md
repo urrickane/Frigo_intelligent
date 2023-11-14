@@ -1,6 +1,6 @@
 # info4
 CONTRIBUTORS:
-Groupe de MAGHSOUDIAN Eglantine , SAUZE Ewan, GUIMBERTEAU Boris, ARGAUD Romain et MERMRI Yassin,et BEN MAACHOU Mohamed Taha
+Groupe de MAGHSOUDIAN Eglantine , SAUZE Ewan, GUIMBERTEAU Boris, ARGAUD Romain et MERMRI Yassin,et BEN MAACHOU Mohamed Taha .
 
 
 ## Getting started
