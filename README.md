@@ -1,4 +1,5 @@
 # info4
+CONTRIBUTORS:
 Groupe de MAGHSOUDIAN Eglantine , SAUZE Ewan, GUIMBERTEAU Boris, ARGAUD Romain et MERMRI Yassin
 
 
