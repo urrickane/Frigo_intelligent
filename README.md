@@ -2,6 +2,7 @@
 CONTRIBUTORS:
 Groupe de MAGHSOUDIAN Eglantine , SAUZE Ewan, GUIMBERTEAU Boris, ARGAUD Romain et MERMRI Yassin
 
+
 ## Getting started
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.
