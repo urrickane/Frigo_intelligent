@@ -1,19 +1,9 @@
 package org.example;
 
+
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.spoonacular.DefaultApi;
-import com.spoonacular.RecipesApi;
-import com.spoonacular.client.ApiClient;
-import com.spoonacular.client.ApiException;
-import com.spoonacular.client.Configuration;
-import com.spoonacular.client.auth.*;
-import com.spoonacular.client.model.GetAnalyzedRecipeInstructions200Response;
-import com.spoonacular.client.model.GetIngredientInformation200Response;
-import com.spoonacular.IngredientsApi;
-import com.spoonacular.client.model.GetRandomRecipes200Response;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -31,7 +21,9 @@ public class Main {
         HttpClient client = getDefaultApi();
         String Baseurl = "https://api.spoonacular.com/";
         List<String> l_ingredients = new ArrayList<String>();
-        l_ingredients.add("beans");
+        l_ingredients.add("chocolate");
+        l_ingredients.add("milk");
+        l_ingredients.add("apple");
         StringBuilder ingredients = new StringBuilder();
         for(int i=0;i<l_ingredients.size();i++){
             ingredients.append(l_ingredients.get(i));
@@ -41,7 +33,7 @@ public class Main {
 
         // create a request
         var request = HttpRequest.newBuilder(
-                        URI.create(Baseurl+"recipes/complexSearch?includeIngredients="+ingredients+"&number=2&sort=max-used-ingredients&addRecipeInformation=true&apiKey=338284d8348d4e2bb344a1747cb00005"))
+                        URI.create(Baseurl+"recipes/complexSearch?includeIngredients="+ingredients+"&fillIngredients=true&number=2&sort=max-used-ingredients&addRecipeInformation=true&apiKey=338284d8348d4e2bb344a1747cb00005"))
                 .header("accept", "application/json")
                 .build();
 
@@ -59,8 +51,7 @@ public class Main {
 
     private static HttpClient getDefaultApi() {
         // create a client
-        var client = HttpClient.newHttpClient();
-        return client;
+        return HttpClient.newHttpClient();
     }
 
 
