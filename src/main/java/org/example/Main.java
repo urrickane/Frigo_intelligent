@@ -1,9 +1,14 @@
 package org.example;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import Classes.ShoppingList;
+import Classes.Ingredients;
+import Classes.Allergen;
+import Classes.User;
+
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -16,6 +21,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
+	// Méthode utilitaire pour afficher les détails d'un ingrédient
+    private static void displayIngredientDetails(Ingredients ingredient) {
+        System.out.println("Name: " + ingredient.getName());
+        System.out.println("Expiry Date: " + ingredient.getExpDate());
+        System.out.println("Is Allergen: " + ingredient.isAllergen());
+        System.out.println();
+    }
+
+    // Méthode utilitaire pour afficher les détails de la liste de courses
+    private static void displayShoppingList(List<Ingredients> shoppingList) {
+        for (Ingredients ingredient : shoppingList) {
+            displayIngredientDetails(ingredient);
+        }
+    }
     public static void main(String[] args) throws IOException, InterruptedException {
         System.out.println("Hello world!");
         HttpClient client = getDefaultApi();
@@ -26,7 +45,39 @@ public class Main {
         for(int i=0;i<l_ingredients.size();i++){
             ingredients.append(l_ingredients.get(i));
             if(i!=l_ingredients.size()-1) ingredients.append(",");
-        }
+     // Créez quelques ingrédients
+        Ingredients tomato = new Ingredients("2023-01-01", "Tomato", false);
+        Ingredients milk = new Ingredients("2023-02-15", "Milk", true);
+        Ingredients flour = new Ingredients("2023-03-20", "Flour", false);
+     // Ajoutez ces ingrédients à une liste de courses
+        ShoppingList shoppingList = new ShoppingList();
+        shoppingList.addIngredient(tomato);
+        shoppingList.addIngredient(milk);
+        shoppingList.addIngredient(flour);
+
+        // Affichez la liste de courses
+        System.out.println("\nShopping List:");
+        displayShoppingList(shoppingList.getShoppingList());
+
+        // Supprimez un ingrédient de la liste de courses
+        Ingredients itemToRemove = new Ingredients("2023-02-15", "Milk", true);
+        shoppingList.removeItem(itemToRemove);
+
+        // Affichez la liste de courses mise à jour
+        System.out.println("\nUpdated Shopping List:");
+        displayShoppingList(shoppingList.getShoppingList());
+
+        // Videz la liste de courses
+        shoppingList.clear();
+
+        // Affichez la liste de courses après vidage
+        System.out.println("\nCleared Shopping List:");
+        displayShoppingList(shoppingList.getShoppingList());
+    }
+
+    
+        
+     
 
 
         // create a request
