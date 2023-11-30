@@ -1,5 +1,6 @@
 package API;
 
+import Classes.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -10,6 +11,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 public class API {
@@ -50,31 +52,32 @@ public class API {
     }
 
     /**
-     * @param l_ingredients
-     * @param l_intolerances
+     * @param user
      * @param number
-     * @param maybesort
+     * @param sort
      * @param addRecipeInformation
      * @param fillIngredients
-     * @param add
+     * @param includeNutrition
      * @return
      * @throws IOException
      * @throws InterruptedException
      */
-    public JsonNode ComplexSearch(List<String> l_ingredients,List<String> l_intolerances, int number, String sort, boolean addRecipeInformation,boolean fillIngredients,boolean includeNutrition) {
-
+    public List<Recipe> ComplexSearch(User user, int number, String sort, boolean addRecipeInformation, boolean fillIngredients, boolean includeNutrition) {
+        Fridge fridge = user.getFridge();
+        List<Ingredient> l_ingredients = fridge.getInventory();
+        List<Allergen> l_intolerances = user.getAllergies();
         StringBuilder ingredients = new StringBuilder();
         StringBuilder intolerances = new StringBuilder();
 
         if (l_ingredients != null) {
             for (int i = 0; i < l_ingredients.size(); i++) {
-                ingredients.append(l_ingredients.get(i));
+                ingredients.append(l_ingredients.get(i).getName());
                 if (i != l_ingredients.size() - 1) ingredients.append(",");
             }
         }
         if (l_intolerances != null) {
             for (int i = 0; i < l_intolerances.size(); i++) {
-                intolerances.append(l_intolerances.get(i));
+                intolerances.append(l_intolerances.get(i).getaName());
                 if (i != l_intolerances.size() - 1) intolerances.append(",");
             }
         }
@@ -89,7 +92,25 @@ public class API {
             if (statusCode == 200) {
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode jsonNode = objectMapper.readTree(response.body());
-                return jsonNode.get("results");
+                List<Recipe> recipies = new ArrayList<>();
+                for(int i=0;i<jsonNode.get("results").size();i++){
+                    List<Ingredient> l_ing = new ArrayList<>();
+                    List<Double> l_quantity = new ArrayList<>();
+                    JsonNode jsonRecipe = jsonNode.get("results").get(i);
+
+                    for(int j=0;j<jsonRecipe.get("extendedIngredients").size();j++){
+                        Ingredient ingredient = new Ingredient(null,jsonRecipe.get("extendedIngredients").get(j).get("name").asText(),false);
+                        double quantity = jsonRecipe.get("extendedIngredients").get(j).get("amount").asDouble();
+                        l_ing.add(ingredient);
+                        l_quantity.add(quantity);
+                    }
+                    int cookingTime = jsonRecipe.get("readyInMinutes").asInt();
+                    String srcimg = jsonRecipe.get("image").asText();
+                    String title = jsonRecipe.get("title").asText();
+                    Recipe recipe = new Recipe(srcimg,title,l_ing,l_quantity,cookingTime);
+                    recipies.add(recipe);
+                }
+                return recipies;
             } else {
                 throw new RuntimeException("Error: " + statusCode);
             }

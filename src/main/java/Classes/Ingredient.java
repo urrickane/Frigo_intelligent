@@ -1,6 +1,6 @@
 package Classes;
 
-public class Ingredients {
+public class Ingredient {
 	private String expDate;
 	private String name;
 	private boolean isAlergen;
@@ -8,7 +8,7 @@ public class Ingredients {
 
 
     // Constructeur 
-    public Ingredients(String expDate, String name, boolean isAlergen) {
+    public Ingredient(String expDate, String name, boolean isAlergen) {
         this.expDate = expDate;
         this.name = name;
         this.isAlergen = isAlergen;

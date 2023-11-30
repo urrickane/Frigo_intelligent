@@ -1,13 +1,8 @@
 package org.example;
+import API.API;
+import Classes.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import Classes.ShoppingList;
-import Classes.Ingredients;
-import Classes.Allergen;
-import Classes.User;
 
 
 import java.io.IOException;
@@ -22,7 +17,7 @@ import java.util.List;
 
 public class Main {
 	// Méthode utilitaire pour afficher les détails d'un ingrédient
-    private static void displayIngredientDetails(Ingredients ingredient) {
+    private static void displayIngredientDetails(Ingredient ingredient) {
         System.out.println("Name: " + ingredient.getName());
         System.out.println("Expiry Date: " + ingredient.getExpDate());
         System.out.println("Is Allergen: " + ingredient.isAllergen());
@@ -30,13 +25,16 @@ public class Main {
     }
 
     // Méthode utilitaire pour afficher les détails de la liste de courses
-    private static void displayShoppingList(List<Ingredients> shoppingList) {
-        for (Ingredients ingredient : shoppingList) {
+    private static void displayShoppingList(List<Ingredient> shoppingList) {
+        for (Ingredient ingredient : shoppingList) {
             displayIngredientDetails(ingredient);
         }
     }
     public static void main(String[] args) throws IOException, InterruptedException {
         System.out.println("Hello world!");
+        API api = new API();
+        List<Ingredient> l_ingredients = new ArrayList<Ingredient>();
+        /*
         HttpClient client = getDefaultApi();
         String Baseurl = "https://api.spoonacular.com/";
         List<String> l_ingredients = new ArrayList<String>();
@@ -44,11 +42,24 @@ public class Main {
         StringBuilder ingredients = new StringBuilder();
         for(int i=0;i<l_ingredients.size();i++){
             ingredients.append(l_ingredients.get(i));
-            if(i!=l_ingredients.size()-1) ingredients.append(",");
+            if(i!=l_ingredients.size()-1) ingredients.append(",");*/
+
      // Créez quelques ingrédients
-        Ingredients tomato = new Ingredients("2023-01-01", "Tomato", false);
-        Ingredients milk = new Ingredients("2023-02-15", "Milk", true);
-        Ingredients flour = new Ingredients("2023-03-20", "Flour", false);
+        Ingredient tomato = new Ingredient("2023-01-01", "Tomato", false);
+        Ingredient milk = new Ingredient("2023-02-15", "Milk", true);
+        Ingredient flour = new Ingredient("2023-03-20", "Flour", false);
+        l_ingredients.add(tomato);
+        l_ingredients.add(milk);
+        l_ingredients.add(flour);
+        Fridge fridge = new Fridge(l_ingredients);
+        User user = new User("Alice", null, null);
+        user.setFridge(fridge);
+        List<Recipe> l_recipe = api.ComplexSearch(user, 2, "max-used-ingredients", true, true, true);
+        for (Recipe recipe : l_recipe) {
+            System.out.println(recipe.getTitle());
+        }
+
+
      // Ajoutez ces ingrédients à une liste de courses
         ShoppingList shoppingList = new ShoppingList();
         shoppingList.addIngredient(tomato);
@@ -60,7 +71,7 @@ public class Main {
         displayShoppingList(shoppingList.getShoppingList());
 
         // Supprimez un ingrédient de la liste de courses
-        Ingredients itemToRemove = new Ingredients("2023-02-15", "Milk", true);
+        Ingredient itemToRemove = new Ingredient("2023-02-15", "Milk", true);
         shoppingList.removeItem(itemToRemove);
 
         // Affichez la liste de courses mise à jour
@@ -75,13 +86,13 @@ public class Main {
         displayShoppingList(shoppingList.getShoppingList());
     }
 
-    
-        
-     
+
+
+
 
 
         // create a request
-        var request = HttpRequest.newBuilder(
+        /*var request = HttpRequest.newBuilder(
                         URI.create(Baseurl+"recipes/complexSearch?includeIngredients="+ingredients+"&number=2&sort=max-used-ingredients&addRecipeInformation=true&apiKey=dc10b74fe415423ebe608bad9c004691"))
                 .header("accept", "application/json")
                 .build();
@@ -128,7 +139,7 @@ public class Main {
         // create a client
         var client = HttpClient.newHttpClient();
         return client;
-    }
+    }*/
 
 
 }

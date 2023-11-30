@@ -7,8 +7,12 @@ public class User {
     private List<Allergen> l_allergies;
     private List<Recipe> l_favoriteRecipes;
 
+
+
+    private Fridge fridge;
     // Constructeur
     public User(String name, List<Allergen> l_allergies, List<Recipe> l_favRecipes) {
+        this.fridge = new Fridge();
         this.userName = name;
         this.l_allergies = l_allergies;
         this.l_favoriteRecipes = l_favRecipes;
@@ -53,5 +57,10 @@ public class User {
     public List<Recipe> getFavRecipes() {
         return this.l_favoriteRecipes;
     }
+
+    // Méthode pour obtenir le réfrigérateur de l'utilisateur
+    public Fridge getFridge() { return fridge;}
+    // Méthode pour définir le réfrigérateur de l'utilisateur
+    public void setFridge(Fridge fridge) { this.fridge = fridge;}
 }
 
