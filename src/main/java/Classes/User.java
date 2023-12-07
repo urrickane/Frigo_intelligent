@@ -5,13 +5,13 @@ import java.util.List;
 public class User {
     private String userName;
     private List<Allergen> l_allergies;
-    private List<Recipe> l_favoriteRecipes;
+    private List<Integer> l_favoriteRecipes;
 
 
 
     private Fridge fridge;
     // Constructeur
-    public User(String name, List<Allergen> l_allergies, List<Recipe> l_favRecipes) {
+    public User(String name, List<Allergen> l_allergies, List<Integer> l_favRecipes) {
         this.fridge = new Fridge();
         this.userName = name;
         this.l_allergies = l_allergies;
@@ -29,7 +29,7 @@ public class User {
     }
 
     // Méthode pour définir les recettes favorites de l'utilisateur
-    public void setFavRecipes(List<Recipe> l_recipes) {
+    public void setFavRecipes(List<Integer> l_recipes) {
         this.l_favoriteRecipes = l_recipes;
     }
 
@@ -39,7 +39,7 @@ public class User {
     }
 
     // Méthode pour ajouter une recette favorite à la liste
-    public void addFavRecipe(Recipe recipe) {
+    public void addFavRecipe(Integer recipe) {
         this.l_favoriteRecipes.add(recipe);
     }
 
@@ -54,7 +54,7 @@ public class User {
     }
 
     // Méthode pour obtenir la liste des recettes favorites de l'utilisateur
-    public List<Recipe> getFavRecipes() {
+    public List<Integer> getFavRecipes() {
         return this.l_favoriteRecipes;
     }
 

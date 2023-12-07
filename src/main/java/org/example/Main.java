@@ -1,17 +1,9 @@
 package org.example;
 import API.API;
 import Classes.*;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +12,6 @@ public class Main {
     private static void displayIngredientDetails(Ingredient ingredient) {
         System.out.println("Name: " + ingredient.getName());
         System.out.println("Expiry Date: " + ingredient.getExpDate());
-        System.out.println("Is Allergen: " + ingredient.isAllergen());
         System.out.println();
     }
 
@@ -45,9 +36,9 @@ public class Main {
             if(i!=l_ingredients.size()-1) ingredients.append(",");*/
 
      // Créez quelques ingrédients
-        Ingredient tomato = new Ingredient("2023-01-01", "Tomato", false);
-        Ingredient milk = new Ingredient("2023-02-15", "Milk", true);
-        Ingredient flour = new Ingredient("2023-03-20", "Flour", false);
+        Ingredient tomato = new Ingredient("2023-01-01", "Tomato", null,null);
+        Ingredient milk = new Ingredient("2023-02-15", "Milk", null,null);
+        Ingredient flour = new Ingredient("2023-03-20", "Flour", null,null);
         l_ingredients.add(tomato);
         l_ingredients.add(milk);
         l_ingredients.add(flour);
@@ -71,7 +62,7 @@ public class Main {
         displayShoppingList(shoppingList.getShoppingList());
 
         // Supprimez un ingrédient de la liste de courses
-        Ingredient itemToRemove = new Ingredient("2023-02-15", "Milk", true);
+        Ingredient itemToRemove = new Ingredient("2023-02-15", "Milk", null,null);
         shoppingList.removeItem(itemToRemove);
 
         // Affichez la liste de courses mise à jour

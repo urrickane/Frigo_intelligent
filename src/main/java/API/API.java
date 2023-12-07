@@ -90,27 +90,7 @@ public class API {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
             int statusCode = response.statusCode();
             if (statusCode == 200) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode jsonNode = objectMapper.readTree(response.body());
-                List<Recipe> recipies = new ArrayList<>();
-                for(int i=0;i<jsonNode.get("results").size();i++){
-                    List<Ingredient> l_ing = new ArrayList<>();
-                    List<Double> l_quantity = new ArrayList<>();
-                    JsonNode jsonRecipe = jsonNode.get("results").get(i);
-
-                    for(int j=0;j<jsonRecipe.get("extendedIngredients").size();j++){
-                        Ingredient ingredient = new Ingredient(null,jsonRecipe.get("extendedIngredients").get(j).get("name").asText(),false);
-                        double quantity = jsonRecipe.get("extendedIngredients").get(j).get("amount").asDouble();
-                        l_ing.add(ingredient);
-                        l_quantity.add(quantity);
-                    }
-                    int cookingTime = jsonRecipe.get("readyInMinutes").asInt();
-                    String srcimg = jsonRecipe.get("image").asText();
-                    String title = jsonRecipe.get("title").asText();
-                    Recipe recipe = new Recipe(srcimg,title,l_ing,l_quantity,cookingTime);
-                    recipies.add(recipe);
-                }
-                return recipies;
+                return getRecipeList(response);
             } else {
                 throw new RuntimeException("Error: " + statusCode);
             }
@@ -120,7 +100,58 @@ public class API {
             return null;
         }
     }
-        public JsonNode GetRecipeInformation(List<Integer> l_id,boolean includeNutrition) throws IOException, InterruptedException {
+
+    private static List<Recipe> getRecipeList(HttpResponse<String> response) throws JsonProcessingException, NullPointerException {
+        System.out.println(response.body());
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(response.body());
+        List<Recipe> recipes = new ArrayList<>();
+        JsonNode jsonResults = jsonNode.get("results");
+        if(jsonNode.get("results") == null) jsonResults = jsonNode;
+        for(JsonNode aRecipe : jsonResults){
+            List<Ingredient> l_ing = new ArrayList<>();
+            List<Ingredient> l_usedIng = new ArrayList<>();
+            List<Ingredient> l_missIng = new ArrayList<>();
+            List<String> l_steps = new ArrayList<>();
+            System.out.println(aRecipe);
+            JsonNode jsonSteps = aRecipe.get("analyzedInstructions");
+            if(!aRecipe.get("analyzedInstructions").isEmpty()){
+                jsonSteps = jsonSteps.get(0).get("steps");
+            }
+            else jsonSteps = aRecipe.get("instructions");
+            for(JsonNode anIngredient :aRecipe.get("extendedIngredients")){
+                Ingredient ingredient = new Ingredient(null,anIngredient.get("name").asText(),anIngredient.get("measures").get("metric").get("amount").asDouble(),anIngredient.get("measures").get("metric").get("unitShort").asText());
+                l_ing.add(ingredient);
+            }
+            if(aRecipe.get("usedIngredients") != null) {
+                for (JsonNode anUsedIngredient : aRecipe.get("usedIngredients")) {
+                    Ingredient ingredient = new Ingredient(null, anUsedIngredient.get("name").asText(), anUsedIngredient.get("amount").asDouble(), anUsedIngredient.get("unit").asText());
+                    l_usedIng.add(ingredient);
+                }
+            }
+            if(aRecipe.get("missedIngredients") != null) {
+                for (JsonNode anMissingIngredient : aRecipe.get("missedIngredients")) {
+                    Ingredient ingredient = new Ingredient(null, anMissingIngredient.get("name").asText(), anMissingIngredient.get("amount").asDouble(), anMissingIngredient.get("unit").asText());
+                    l_missIng.add(ingredient);
+                }
+            }
+            for(JsonNode jsonStep : jsonSteps){
+                String step = jsonStep.get("step").asText();
+                l_steps.add(step);
+            }
+            int cookingTime = aRecipe.get("readyInMinutes").asInt();
+            int nbPeople = aRecipe.get("servings").asInt();
+            String srcImg = aRecipe.get("image").asText();
+            String summary = aRecipe.get("summary").asText();
+            String title = aRecipe.get("title").asText();
+            Recipe recipe = new Recipe(srcImg,title,l_ing,summary,nbPeople,l_steps,l_usedIng,l_missIng,cookingTime);
+            recipes.add(recipe);
+        }
+        return recipes;
+    }
+
+    public List<Recipe> GetRecipeInformation(User user,boolean includeNutrition) throws IOException, InterruptedException {
+        List<Integer> l_id = user.getFavRecipes();
         StringBuilder id = new StringBuilder();
         for(int i=0;i<l_id.size();i++){
             id.append(l_id.get(i));
@@ -135,8 +166,7 @@ public class API {
                 var response = client.send(request, HttpResponse.BodyHandlers.ofString());
                 int statusCode = response.statusCode();
                 if (statusCode == 200) {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    return objectMapper.readTree(response.body());
+                    return getRecipeList(response);
                 } else {
                     throw new RuntimeException("Error: " + statusCode);
                 }
