@@ -5,12 +5,12 @@ import java.util.List;
 public class Fridge {
     private List<Ingredient> ingredients;
 
-    // Constructeur avec paramètres
+    // Constructeur avec paramÃ¨tres
     public Fridge(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
-    // Constructeur par défaut
+    // Constructeur par dÃ©faut
     public Fridge() {
         this.ingredients = new ArrayList<Ingredient>();
     }
