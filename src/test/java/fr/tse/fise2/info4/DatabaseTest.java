@@ -50,6 +50,25 @@ class DatabaseTest {
     }
 
     @Test
+    void testAddorUpdateIngredient() {
+        Ingredient testIngredient = new Ingredient("29-11-2024", "eggs", 1.0,"gram");
+        List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
+        l_testIngredients.add(testIngredient);
+        Fridge testFridge = new Fridge(l_testIngredients);
+        User testUser = new User(1,"Boris",new ArrayList<>(),new ArrayList<>());
+        testUser.setFridge(testFridge);
+        Database.AddorUpdateIngredient(1, testIngredient);
+        assertThat(Database.getUser("Boris").getFridge().getInventory())
+                .isNotNull()
+                .isEqualTo(testUser.getFridge().getInventory());
+        Database.AddorUpdateIngredient(1, testIngredient);
+        testFridge.addOrUpdateIngredients(testIngredient);
+        assertThat(Database.getUser("Boris").getFridge().getInventory())
+                .isNotNull()
+                .isEqualTo(testUser.getFridge().getInventory());
+        Database.SupressIngredient(1, testIngredient);
+    }
+    @Test
     void supressIngredient() {
         Ingredient testIngredient = new Ingredient("29-11-2024", "eggs", 1.0,"gram");
         List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
@@ -57,9 +76,16 @@ class DatabaseTest {
         Fridge testFridge = new Fridge(l_testIngredients);
         User testUser = new User(1,"Boris",new ArrayList<>(),new ArrayList<>());
         testUser.setFridge(testFridge);
+        Database.AddorUpdateIngredient(1, testIngredient);
         Database.SupressIngredient(1, testIngredient);
-        assertThat(Data)
+        assertThat(Database.getUser("Boris").getFridge().getInventory())
                 .isNotNull()
                 .isEmpty();
+        Database.AddorUpdateIngredient(1, testIngredient);
+        Database.AddorUpdateIngredient(1, testIngredient);
+        Database.SupressIngredient(1, testIngredient);
+        assertThat(Database.getUser("Boris").getFridge().getInventory())
+                .isNotNull()
+                .isEqualTo(testUser.getFridge().getInventory());
     }
 }

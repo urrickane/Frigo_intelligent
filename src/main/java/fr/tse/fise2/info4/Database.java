@@ -35,12 +35,12 @@ public class Database {
         }
     }
 
-    public static Integer getIngredientID(String ingredientName) {
+    public static Integer getAnIngredientID(String ingredientName) {
     	Integer id = null;
     	try (Connection connection = connect()) {
             if (connection != null) {
                 // Request all users from table User
-                String query = "SELECT ID FROM Ingredients WHERE NAME = ?";
+                String query = "SELECT ID FROM Ingredients WHERE ingredient = ?";
 
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
                 	statement.setString(1, ingredientName);
@@ -184,20 +184,42 @@ public class Database {
 
     public static void AddorUpdateIngredient(Integer userID, Ingredient ingredient){
         int id;
-        double amount = ingredient.getQuantity();
+        Double amount = null;
         int unitID;
         // Establish connection to db
         try(Connection connection = connect()){
             if(connection != null){
-                String query = "SELECT AMOUNT"
-                query = "INSERT INTO Ingredients (NAME, USERID, AMOUNT, UNITID, EXPDATE) VALUES (?, ?, ?, ?, ?)";
+                id = getAnIngredientID(ingredient.getName());
+                String query = "SELECT AMOUNT FROM Fridge WHERE INGREDIENTID = ? AND USERID = ?";
                 try(PreparedStatement statement = connection.prepareStatement(query)){
-                    statement.setString(1, ingredient.getName());
+                    statement.setInt(1, id);
                     statement.setInt(2, userID);
-                    statement.setDouble(3, amount);
-                    statement.setInt(4, 1);
-                    statement.setString(5, ingredient.getExpDate());
-                    statement.executeUpdate();
+                    // Execute request
+                    ResultSet resultSet = statement.executeQuery();
+                    while (resultSet.next()) {
+                        amount = resultSet.getDouble("AMOUNT");
+                    }
+                }
+                if(amount != null){
+                    query = "UPDATE Fridge SET AMOUNT = ? WHERE INGREDIENTID = ? AND USERID = ?";
+                    try(PreparedStatement statement = connection.prepareStatement(query)){
+                        statement.setDouble(1, amount + ingredient.getQuantity());
+                        statement.setInt(2, id);
+                        statement.setInt(3, userID);
+                        // Execute request
+                        statement.executeUpdate();
+                    }
+                }
+                else{
+                    query = "INSERT INTO Fridge (INGREDIENTID, USERID, AMOUNT, UNITID, EXPDATE) VALUES (?, ?, ?, ?, ?)";
+                    try(PreparedStatement statement = connection.prepareStatement(query)){
+                        statement.setInt(1, id);
+                        statement.setInt(2, userID);
+                        statement.setDouble(3, ingredient.getQuantity());
+                        statement.setInt(4, 1);
+                        statement.setString(5, ingredient.getExpDate());
+                        statement.executeUpdate();
+                    }
                 }
             }
             else{
@@ -210,24 +232,25 @@ public class Database {
     }
     public static void SupressIngredient(Integer userID, Ingredient ingredient){
         int id;
-        double amount;
+        Double amount = null;
         // Establish connection to db
         try (Connection connection = connect()) {
             if (connection != null) {
-                id = getIngredientID(ingredient.getName());
-                String query = "SELECT AMOUNT FROM Fridge WHERE ID = ? AND USERID = ?";
+                id = getAnIngredientID(ingredient.getName());
+                String query = "SELECT AMOUNT FROM Fridge WHERE INGREDIENTID = ? AND USERID = ?";
 
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
                     statement.setInt(1, id);
                     statement.setInt(2, userID);
                     // Execute request
                     ResultSet resultSet = statement.executeQuery();
-
-                    amount = resultSet.getDouble("AMOUNT");
+                    while (resultSet.next()) {
+                        amount = resultSet.getDouble("AMOUNT");
+                    }
                 }
 
                 if(amount > ingredient.getQuantity()) {
-                	query = "UPDATE Ingredients SET AMOUNT = ? WHERE ID = ? AND USERID = ?";
+                	query = "UPDATE Fridge SET AMOUNT = ? WHERE INGREDIENTID = ? AND USERID = ?";
 
                 	try (PreparedStatement statement = connection.prepareStatement(query)) {
                         statement.setDouble(1, amount - ingredient.getQuantity());
@@ -238,10 +261,10 @@ public class Database {
                     }
                 }
                 else {
-                	query = "DELETE FROM Ingredients WHERE NAME = ? AND USERID = ?";
+                	query = "DELETE FROM Fridge WHERE INGREDIENTID = ? AND USERID = ?";
 
                 	try (PreparedStatement statement = connection.prepareStatement(query)) {
-                        statement.setString(1, ingredient.getName());
+                        statement.setInt(1, id);
                         statement.setInt(2, userID);
                         // Execute request
                         statement.executeUpdate();

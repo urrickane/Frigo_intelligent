@@ -17,13 +17,32 @@ public class Fridge {
     }
 
     // Méthode pour ajouter un ingrédient au réfrigérateur
-    public void addIngredients(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
+    public void addOrUpdateIngredients(Ingredient ingredient) {
+        Ingredient toFind = findItemFromName(ingredient.getName());
+        if(toFind != null) {
+            toFind.setQuantity(toFind.getQuantity() + ingredient.getQuantity());
+            toFind.setExpDate(ingredient.getExpDate());
+            toFind.setUnit(ingredient.getUnit());
+        }
+        else
+        {
+            this.ingredients.add(ingredient);
+        }
     }
 
     // Méthode pour supprimer un ingrédient du réfrigérateur
-    public boolean removeItem(Ingredient toRemove) {
-        return this.ingredients.remove(toRemove);
+    public boolean removeOrUpdateItem(Ingredient toRemove) {
+        Ingredient toFind = findItemFromName(toRemove.getName());
+        if(toFind != null && toFind.getQuantity() > toRemove.getQuantity()) {
+            toFind.setQuantity(toFind.getQuantity() - toRemove.getQuantity());
+            toFind.setExpDate(toRemove.getExpDate());
+            toFind.setUnit(toRemove.getUnit());
+            return true;
+        }
+        else
+        {
+            return this.ingredients.remove(toRemove);
+        }
     }
 
     // Méthode pour trouver un ingrédient par son nom
