@@ -14,6 +14,8 @@ import Classes.Fridge;
 import Classes.Ingredient;
 import Classes.Recipe;
 
+import javax.xml.crypto.Data;
+
 public class Database {
 	//URL to connect to db
 	private static final String URL = "jdbc:sqlite:src/main/resources/data.db";
@@ -33,8 +35,36 @@ public class Database {
         }
     }
 
-	public static void getAllUsers() {
+    public static Integer getIngredientID(String ingredientName) {
+    	Integer id = null;
+    	try (Connection connection = connect()) {
+            if (connection != null) {
+                // Request all users from table User
+                String query = "SELECT ID FROM Ingredients WHERE NAME = ?";
+
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                	statement.setString(1, ingredientName);
+                    // Execute request
+                    ResultSet resultSet = statement.executeQuery();
+
+                    // Go through the results and display them on console
+                    while (resultSet.next()) {
+                        id = resultSet.getInt("ID");
+                    }
+                }
+            } else {
+                System.out.println("Failed to connect to db");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return id;
+    }
+
+	public static List<String> getAllUsers() {
         // Establish connection to db
+        List<String> l_users = new ArrayList<>();
         try (Connection connection = connect()) {
             if (connection != null) {
                 // Request all users from table User
@@ -48,24 +78,25 @@ public class Database {
                     while (resultSet.next()) {
                         int id = resultSet.getInt("ID");
                         String username = resultSet.getString("USERNAME");
-
-                        System.out.println("ID: " + id + ", Username: " + username);
+                        l_users.add(username);
                     }
                 }
             } else {
                 System.out.println("Failed to connect to db");
             }
+            return l_users;
         } catch (SQLException e) {
             e.printStackTrace();
+            return l_users;
         }
     }
 	
 	
 	public static User getUser(String userName) {
         // Establish connection to db
-		int id;
+		int id = 0;
 		List<Allergen> l_allergies = new ArrayList<>();
-		List<Recipe> l_favoriteRecipes = new ArrayList<>();
+		List<Integer> l_favoriteRecipes = new ArrayList<>();
 		List<Ingredient> l_ingredients = new ArrayList<>();
 		
         try (Connection connection = connect()) {
@@ -100,18 +131,21 @@ public class Database {
                 }
                 
                 // Preping fridge of user
-                query = "SELECT i.NAME, i.EXPDATE, i.AMOUNT, u.UNIT_NAME FROM Ingredients AS i JOIN Unit AS u ON i.UNITID = u.ID  WHERE USERID = ?";
+                query = "SELECT i.ingredient, f.EXPDATE, f.AMOUNT, u.UNIT_NAME FROM Fridge AS f JOIN Unit AS u ON f.UNITID = u.ID JOIN ingredients AS i ON f.INGREDIENTID=i.ID   WHERE USERID = ?";
                 
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
                 	statement.setInt(1, id);
                     // Execute request
+
                     ResultSet resultSet = statement.executeQuery();
                     
                     // Go through the results and display them on console
                     while (resultSet.next()) {
-                        String name = resultSet.getString("NAME");
+                        String name = resultSet.getString("ingredient");
                         String expDate = resultSet.getString("EXPDATE");
-                        Ingredient t_ingredient = new Ingredient(expDate, name, false);
+                        Double amount = resultSet.getDouble("AMOUNT");
+                        String unit = resultSet.getString("UNIT_NAME");
+                        Ingredient t_ingredient = new Ingredient(expDate, name, amount, unit);
                         l_ingredients.add(t_ingredient);
                     }
 
@@ -123,25 +157,114 @@ public class Database {
             e.printStackTrace();
         }
         Fridge fridge = new Fridge(l_ingredients);
-        User user = new User(userName, l_allergies, l_favoriteRecipes);
+        User user = new User(id,userName, l_allergies, l_favoriteRecipes);
         user.setFridge(fridge);
 		return user;
     }
+
+    public static void addUser(String username) {
+        // Establish connection to db
+        try (Connection connection = connect()) {
+            if (connection != null) {
+                // add a user to table User
+                String query = "INSERT INTO User (USERNAME) VALUES (?)";
+
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                	statement.setString(1, username);
+                    // Execute request
+                    statement.executeUpdate();
+                }
+            } else {
+                System.out.println("Failed to connect to db");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void AddorUpdateIngredient(Integer userID, Ingredient ingredient){
+        int id;
+        double amount = ingredient.getQuantity();
+        int unitID;
+        // Establish connection to db
+        try(Connection connection = connect()){
+            if(connection != null){
+                String query = "SELECT AMOUNT"
+                query = "INSERT INTO Ingredients (NAME, USERID, AMOUNT, UNITID, EXPDATE) VALUES (?, ?, ?, ?, ?)";
+                try(PreparedStatement statement = connection.prepareStatement(query)){
+                    statement.setString(1, ingredient.getName());
+                    statement.setInt(2, userID);
+                    statement.setDouble(3, amount);
+                    statement.setInt(4, 1);
+                    statement.setString(5, ingredient.getExpDate());
+                    statement.executeUpdate();
+                }
+            }
+            else{
+                System.out.println("Failed to connect to db");
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void SupressIngredient(Integer userID, Ingredient ingredient){
+        int id;
+        double amount;
+        // Establish connection to db
+        try (Connection connection = connect()) {
+            if (connection != null) {
+                id = getIngredientID(ingredient.getName());
+                String query = "SELECT AMOUNT FROM Fridge WHERE ID = ? AND USERID = ?";
+
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setInt(1, id);
+                    statement.setInt(2, userID);
+                    // Execute request
+                    ResultSet resultSet = statement.executeQuery();
+
+                    amount = resultSet.getDouble("AMOUNT");
+                }
+
+                if(amount > ingredient.getQuantity()) {
+                	query = "UPDATE Ingredients SET AMOUNT = ? WHERE ID = ? AND USERID = ?";
+
+                	try (PreparedStatement statement = connection.prepareStatement(query)) {
+                        statement.setDouble(1, amount - ingredient.getQuantity());
+                        statement.setInt(2, id);
+                        statement.setInt(3, userID);
+                        // Execute request
+                        statement.executeUpdate();
+                    }
+                }
+                else {
+                	query = "DELETE FROM Ingredients WHERE NAME = ? AND USERID = ?";
+
+                	try (PreparedStatement statement = connection.prepareStatement(query)) {
+                        statement.setString(1, ingredient.getName());
+                        statement.setInt(2, userID);
+                        // Execute request
+                        statement.executeUpdate();
+                    }
+                }
+            } else {
+            System.out.println("Failed to connect to db");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 	
 	
 	
 	// Main not here to stay, meant for testing purposes only !
 	public static void main(String[] args) {
-		// Establishing connection to db
-        Connection connection = Database.connect();
-
-        // Verifying if it worked
-        if (connection != null) {
-            System.out.println("Successfully connected to db");
-            
             // Testing the getAllUsers test method
-            Database.getAllUsers();
-            Database.getUser("Boris");
+            List<String> users = Database.getAllUsers();
+            for (String user : users) {
+                System.out.println(user);
+            }
             User Boris = Database.getUser("Boris");
             System.out.println(Boris.getName());
             List<Ingredient> l_ingredients = Boris.getFridge().getInventory();
@@ -149,17 +272,7 @@ public class Database {
             for(int i=0; i<l_ingredients.size(); i++) {
             	System.out.println(l_ingredients.get(i).getName());
             }
-            
-            
-            // Closing the connection after using it
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Failed to connect to db");
-        }
+
 	}
 
 }

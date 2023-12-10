@@ -24,7 +24,7 @@ class APITest {
         l_ingredients.add(ingredient1);
         l_ingredients.add(ingredient2);
         Fridge fridge = new Fridge(l_ingredients);
-        User user = new User("test",null,null);
+        User user = new User(0,"test",null,null);
         user.setFridge(fridge);
         List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
         List<Ingredient> l_testUsedIngredients = new ArrayList<Ingredient>();
@@ -88,7 +88,7 @@ class APITest {
         Ingredient ingredient2 = new Ingredient("2023-02-15", "Milk", null,null);
         List<Integer> l_id = new ArrayList<Integer>();
         l_id.add(715538);
-        User user = new User("test",null,l_id);
+        User user = new User(0,"test",null,l_id);
         List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
         List<Ingredient> l_testUsedIngredients = new ArrayList<Ingredient>();
         List<Ingredient> l_testMissingIngredients = new ArrayList<Ingredient>();

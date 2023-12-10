@@ -1,6 +1,7 @@
 package Classes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Fridge {
     private List<Ingredient> ingredients;
@@ -38,6 +39,14 @@ public class Fridge {
     // Méthode pour obtenir la liste des ingrédients dans le réfrigérateur
     public List<Ingredient> getInventory() {
         return this.ingredients;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Fridge fridge = (Fridge) o;
+        return Objects.equals(ingredients, fridge.ingredients);
     }
 
 }
