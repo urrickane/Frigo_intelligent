@@ -61,6 +61,7 @@ public class Interface extends JFrame {
 	private JPasswordField pswdConnexion;
 	private JPasswordField pswdInscription;
 	private JPasswordField pswdInscriptionConfirm;
+	private JTextField nomIng;
 
 	/**
 	 * Create the frame.
@@ -129,7 +130,7 @@ public class Interface extends JFrame {
 		//Panels
 		
 		JPanel pnlMain = new JPanel();
-		pnlMain.setBounds(0, 0, 1920, 1080);
+		pnlMain.setBounds(800, 800, 1920, 1080);
 		getContentPane().add(pnlMain);
 		pnlMain.setLayout(null);
 								
@@ -506,5 +507,27 @@ public class Interface extends JFrame {
 		btnAllergenesAdd.setIcon(new ImageIcon(".\\src\\main\\resources\\btnAllergenesAdd.png"));
 		btnAllergenesAdd.setBounds(1720, 50, 100, 100);
 		pnlAllergenesRetourAdd.add(btnAllergenesAdd);
+		
+		JPanel panlAjoutIng = new JPanel();
+		panlAjoutIng.setBounds(0, 0, 10, 10);
+		getContentPane().add(panlAjoutIng);
+		
+		nomIng = new JTextField();
+		nomIng.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		nomIng.setBounds(750, 500, 325, 55);
+		getContentPane().add(nomIng);
+		nomIng.setColumns(10);
+		
+		JButton btnAjIng = new JButton("Ajouter");
+		btnAjIng.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nomIngStr=nomIng.getText();
+				nomIng.setText("");
+			}
+		});
+		btnAjIng.setForeground(new Color(255, 255, 255));
+		btnAjIng.setBackground(new Color(111, 221, 0));
+		btnAjIng.setBounds(750, 570, 325, 38);
+		getContentPane().add(btnAjIng);
 	}
 }
