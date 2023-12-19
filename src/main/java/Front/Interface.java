@@ -130,7 +130,7 @@ public class Interface extends JFrame {
 		//Panels
 		
 		JPanel pnlMain = new JPanel();
-		pnlMain.setBounds(800, 800, 1920, 1080);
+		pnlMain.setBounds(0, 0, 1920, 1080);
 		getContentPane().add(pnlMain);
 		pnlMain.setLayout(null);
 								
@@ -231,6 +231,13 @@ public class Interface extends JFrame {
 		lblMainConnexion.setFont(new Font("Calibri", Font.BOLD, 30));
 		lblMainConnexion.setBounds(1110, 500, 300, 50);
 		pnlMain.add(lblMainConnexion);
+		
+		
+        String cheminImage = "imgFrigo/frigoferme.png";
+        ImageIcon iconeFrigoFerme = new ImageIcon(getClass().getClassLoader().getResource(cheminImage));
+        JLabel lblNewLabel = new JLabel(iconeFrigoFerme);
+		lblNewLabel.setBounds(0, 0, 1920, 1080);
+		pnlMain.add(lblNewLabel);
 		
 		//Panel Inscription (1850;20)
 		
@@ -509,7 +516,7 @@ public class Interface extends JFrame {
 		pnlAllergenesRetourAdd.add(btnAllergenesAdd);
 		
 		JPanel panlAjoutIng = new JPanel();
-		panlAjoutIng.setBounds(0, 0, 10, 10);
+		panlAjoutIng.setBounds(800, 800, 10, 10);
 		getContentPane().add(panlAjoutIng);
 		
 		nomIng = new JTextField();
