@@ -1,5 +1,6 @@
 package fr.tse.fise2.info4;
 
+import Classes.Allergen;
 import Classes.Fridge;
 import Classes.Ingredient;
 import Classes.User;
@@ -38,7 +39,9 @@ class DatabaseTest {
     @Test
     void testGetUser() {
         Database.getUser("Boris");
-        User testUser = new User(1,"Boris",new ArrayList<>(),new ArrayList<>());
+        List<Allergen> l_allergen = new ArrayList<>();
+        l_allergen.add(new Allergen("Dairy"));
+        User testUser = new User(1,"Boris",l_allergen,new ArrayList<>());
         Ingredient testIngredient = new Ingredient("29-11-2024", "eggs", 1.0,"gram");
         List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
         l_testIngredients.add(testIngredient);
@@ -88,4 +91,40 @@ class DatabaseTest {
                 .isNotNull()
                 .isEqualTo(testUser.getFridge().getInventory());
     }
+
+    @Test
+    void testGetAllergensbyUser(){
+        Allergen Dairy = new Allergen("Dairy");
+        List<Allergen> testList = new ArrayList<>();
+        testList.add(Dairy);
+        assertThat(Database.getAllergensbyUser(1))
+                .isNotNull()
+                .isEqualTo(testList);
+    }
+    @Test
+    void testAddAllergen(){
+        Allergen egg = new Allergen("Egg");
+        User testUser = Database.getUser("Boris");
+        testUser.addAllergy(egg);
+        Database.AddAllergen(1, egg);
+        assertThat(Database.getUser("Boris").getAllergies())
+                .isNotNull()
+                .isEqualTo(testUser.getAllergies());
+        Database.RemoveAllergen(1, egg);
+
+    }
+    @Test
+    void testRemoveAllergen(){
+        Allergen egg = new Allergen("Egg");
+        User testUser = Database.getUser("Boris");
+        testUser.addAllergy(egg);
+        Database.AddAllergen(1, egg);
+        Database.RemoveAllergen(1, egg);
+        testUser.RemoveAllergy(egg);
+        assertThat(Database.getUser("Boris").getAllergies())
+                .isNotNull()
+                .isEqualTo(testUser.getAllergies());
+
+    }
+
 }

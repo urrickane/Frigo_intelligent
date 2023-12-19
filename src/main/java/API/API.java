@@ -101,6 +101,26 @@ public class API {
         }
     }
 
+    public List<Recipe> SortRecipies(List<Recipe> recipesToSort, String sortby){
+        switch(sortby){
+            case "max-used-ingredients":
+                recipesToSort.sort((Recipe r1, Recipe r2) -> r2.getL_usedIngredients().size() - r1.getL_usedIngredients().size());
+                break;
+            case "max-missing-ingredients":
+                recipesToSort.sort((Recipe r1, Recipe r2) -> r2.getL_missingIngredients().size() - r1.getL_missingIngredients().size());
+                break;
+            case "max-time":
+                recipesToSort.sort((Recipe r1, Recipe r2) -> r2.getCookingTime() - r1.getCookingTime());
+                break;
+            case "healty":
+                //TODO
+                break;
+            default:
+                break;
+        }
+        return recipesToSort;
+    }
+
     private static List<Recipe> getRecipeList(HttpResponse<String> response) throws JsonProcessingException, NullPointerException {
         System.out.println(response.body());
         ObjectMapper objectMapper = new ObjectMapper();
@@ -141,10 +161,12 @@ public class API {
             }
             int cookingTime = aRecipe.get("readyInMinutes").asInt();
             int nbPeople = aRecipe.get("servings").asInt();
+            int id = aRecipe.get("id").asInt();
             String srcImg = aRecipe.get("image").asText();
             String summary = aRecipe.get("summary").asText();
             String title = aRecipe.get("title").asText();
-            Recipe recipe = new Recipe(srcImg,title,l_ing,summary,nbPeople,l_steps,l_usedIng,l_missIng,cookingTime);
+            int healthScore = aRecipe.get("healthScore").asInt();
+            Recipe recipe = new Recipe(id,srcImg,title,l_ing,summary,nbPeople,l_steps,l_usedIng,l_missIng,cookingTime,healthScore);
             recipes.add(recipe);
         }
         return recipes;

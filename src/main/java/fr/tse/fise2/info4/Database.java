@@ -35,6 +35,8 @@ public class Database {
         }
     }
 
+
+
     public static Integer getAnIngredientID(String ingredientName) {
     	Integer id = null;
     	try (Connection connection = connect()) {
@@ -114,21 +116,7 @@ public class Database {
                     // Go through the results and display them on console
                 }
                 
-                //Preping all allergens of user
-                query = "SELECT NAME FROM Allergen WHERE USER_ID = ?";
-                
-                try (PreparedStatement statement = connection.prepareStatement(query)) {
-                	statement.setInt(1, id);
-                    // Execute request
-                    ResultSet resultSet = statement.executeQuery();
-                    
-                    // Go through the results and display them on console
-                    while (resultSet.next()) {
-                        String name = resultSet.getString("NAME");
-                        Allergen t_allergen = new Allergen(name);
-                        l_allergies.add(t_allergen);
-                    }
-                }
+                l_allergies = getAllergensbyUser(id);
                 
                 // Preping fridge of user
                 query = "SELECT i.ingredient, f.EXPDATE, f.AMOUNT, u.UNIT_NAME FROM Fridge AS f JOIN Unit AS u ON f.UNITID = u.ID JOIN ingredients AS i ON f.INGREDIENTID=i.ID   WHERE USERID = ?";
@@ -230,6 +218,122 @@ public class Database {
             e.printStackTrace();
         }
     }
+
+    public static void AddAllergen(Integer userID, Allergen allergen){
+        int id;
+        // Establish connection to db
+        try(Connection connection = connect()){
+            if(connection!=null){
+                id = getAnAllergenID(allergen.getaName());
+                String query = "INSERT INTO Allergens (USER_ID, ID_NAME) VALUES (?, ?)";
+                try(PreparedStatement statement = connection.prepareStatement(query)){
+                    statement.setInt(1, userID);
+                    statement.setInt(2, id);
+                    // Execute request
+                    statement.executeUpdate();
+                }
+
+            } else {
+                System.out.println("Failed to connect to db");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static Integer getAnAllergenID(String AllergenName) {
+        Integer id = null;
+        try (Connection connection = connect()) {
+            if (connection != null) {
+                // Request all users from table User
+                String query = "SELECT ID FROM Allergen_Types WHERE NAME = ?";
+
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setString(1, AllergenName);
+                    // Execute request
+                    ResultSet resultSet = statement.executeQuery();
+
+                    // Go through the results and display them on console
+                    while (resultSet.next()) {
+                        id = resultSet.getInt("ID");
+                    }
+                }
+            } else {
+                System.out.println("Failed to connect to db");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return id;
+    }
+
+    public static void AddFavoriteRecipe(Integer userID, Recipe recipe){
+        int id;
+        // Establish connection to db
+        try(Connection connection = connect()){
+            if(connection!=null){
+                id = recipe.getId();
+                String query = "INSERT INTO Favorite_Recipes (USER_ID, RECIPE_ID) VALUES (?, ?)";
+                try(PreparedStatement statement = connection.prepareStatement(query)){
+                    statement.setInt(1, userID);
+                    statement.setInt(2, id);
+                    // Execute request
+                    statement.executeUpdate();
+                }
+
+            } else {
+                System.out.println("Failed to connect to db");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void RemoveFavoriteRecipe(Integer userID, Recipe recipe){
+        int id;
+        // Establish connection to db
+        try(Connection connection = connect()){
+            if(connection!=null){
+                id = recipe.getId();
+                String query = "DELETE FROM Favorite_Recipes WHERE USER_ID = ? AND RECIPE_ID = ?";
+                try(PreparedStatement statement = connection.prepareStatement(query)){
+                    statement.setInt(1, userID);
+                    statement.setInt(2, id);
+                    // Execute request
+                    statement.executeUpdate();
+                }
+
+            } else {
+                System.out.println("Failed to connect to db");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void RemoveAllergen(Integer userID, Allergen allergen){
+        int id;
+        // Establish connection to db
+        try(Connection connection = connect()){
+            if(connection!=null){
+                id = getAnAllergenID(allergen.getaName());
+                String query = "DELETE FROM Allergens WHERE USER_ID = ? AND ID_NAME = ?";
+                try(PreparedStatement statement = connection.prepareStatement(query)){
+                    statement.setInt(1, userID);
+                    statement.setInt(2, id);
+                    // Execute request
+                    statement.executeUpdate();
+                }
+
+            } else {
+                System.out.println("Failed to connect to db");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void SupressIngredient(Integer userID, Ingredient ingredient){
         int id;
         Double amount = null;
@@ -260,7 +364,7 @@ public class Database {
                         statement.executeUpdate();
                     }
                 }
-                else {
+                else if(amount != null){
                 	query = "DELETE FROM Fridge WHERE INGREDIENTID = ? AND USERID = ?";
 
                 	try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -297,5 +401,35 @@ public class Database {
             }
 
 	}
+
+    public static List<Allergen> getAllergensbyUser(Integer User_Id){
+        List<Allergen> l_allergies = new ArrayList<>();
+        try (Connection connection = connect()) {
+            if (connection != null) {
+                // Request all users from table User
+                String query = "SELECT a.ID_NAME,at.NAME FROM Allergens as a  JOIN Allergen_Types as at  ON ID_NAME = at.ID WHERE USER_ID = ?";
+
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setInt(1, User_Id);
+                    // Execute request
+                    ResultSet resultSet = statement.executeQuery();
+
+                    // Go through the results and display them on console
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("ID_NAME");
+                        String name = resultSet.getString("NAME");
+                        Allergen t_allergen = new Allergen(name);
+                        l_allergies.add(t_allergen);
+                    }
+                }
+            } else {
+                System.out.println("Failed to connect to db");
+            }
+            return l_allergies;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return l_allergies;
+        }
+    }
 
 }

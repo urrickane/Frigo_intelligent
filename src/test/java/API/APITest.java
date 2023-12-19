@@ -7,6 +7,7 @@ import Classes.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,7 @@ class APITest {
 
         List<Recipe> testRecipies = new ArrayList<>();
         testRecipies.add(new Recipe(
+                633852,
                 "https://spoonacular.com/recipeImages/633852-312x231.jpg",
                 "baked tomatoes",
                 l_testIngredients,
@@ -68,7 +70,9 @@ class APITest {
                 4,
                 l_steps,
                 l_testUsedIngredients,
-                l_testMissingIngredients,45));
+                l_testMissingIngredients,45,6));
+
+
         try {
             List<Recipe> response = api.ComplexSearch(user,1,"max-used-ingredients",true,true,false);
             assertThat(response).isNotNull();
@@ -107,6 +111,7 @@ class APITest {
 
         List<Recipe> testRecipies = new ArrayList<>();
         testRecipies.add(new Recipe(
+                715538,
                 "https://spoonacular.com/recipeImages/715538-556x370.jpg",
                 "What to make for dinner tonight?? Bruschetta Style Pork & Pasta",
                 l_testIngredients,
@@ -114,7 +119,7 @@ class APITest {
                 5,
                 l_steps,
                 l_testUsedIngredients,
-                l_testMissingIngredients,35));
+                l_testMissingIngredients,35,27));
         try {
             List<Recipe> response = api.GetRecipeInformation(user,false);
             System.out.println(response);
@@ -125,6 +130,11 @@ class APITest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    @org.junit.jupiter.api.Test
+    void testSort(){
 
     }
 }

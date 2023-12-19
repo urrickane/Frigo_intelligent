@@ -77,6 +77,10 @@ public class User {
     // Méthode pour définir le réfrigérateur de l'utilisateur
     public void setFridge(Fridge fridge) { this.fridge = fridge;}
 
+    public void  RemoveAllergy(Allergen allergen) {
+        this.l_allergies.remove(allergen);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

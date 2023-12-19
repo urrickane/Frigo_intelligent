@@ -56,8 +56,41 @@ public class Recipe {
 
     private int cookingTime;
 
+    private int id;
+
+    public void setL_steps(List<String> l_steps) {
+        this.l_steps = l_steps;
+    }
+
+    public void setNbPeople(Integer nbPeople) {
+        this.nbPeople = nbPeople;
+    }
+
+    public void setL_missingIngredients(List<Ingredient> l_missingIngredients) {
+        this.l_missingIngredients = l_missingIngredients;
+    }
+
+    public void setL_usedIngredients(List<Ingredient> l_usedIngredients) {
+        this.l_usedIngredients = l_usedIngredients;
+    }
+
+    public void setCookingTime(int cookingTime) {
+        this.cookingTime = cookingTime;
+    }
+
+    public int getHealthScore() {
+        return healthScore;
+    }
+
+    public void setHealthScore(int healthScore) {
+        this.healthScore = healthScore;
+    }
+
+    private int healthScore;
+
     // Constructeur avec paramètres
-    public Recipe(String linkToImage, String title, List<Ingredient> l_ingredients,String summary,int nbPeople,List<String> l_steps,List<Ingredient> l_usedIngredients,List<Ingredient> l_missingIngredients, int cookingTime) {
+    public Recipe(int id,String linkToImage, String title, List<Ingredient> l_ingredients,String summary,int nbPeople,List<String> l_steps,List<Ingredient> l_usedIngredients,List<Ingredient> l_missingIngredients, int cookingTime,int healthScore) {
+        this.id = id;
         this.linkToImage = linkToImage;
         this.title = title;
         this.summary = summary;
@@ -67,6 +100,7 @@ public class Recipe {
         this.l_usedIngredients = l_usedIngredients;
         this.l_ingredients = l_ingredients;
         this.cookingTime = cookingTime;
+        this.healthScore = healthScore;
     }
 
     @Override
@@ -74,8 +108,15 @@ public class Recipe {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
-        return cookingTime == recipe.cookingTime && Objects.equals(linkToImage, recipe.linkToImage) && Objects.equals(title, recipe.title) && Objects.equals(l_ingredients, recipe.l_ingredients) && Objects.equals(summary, recipe.summary) && Objects.equals(l_steps, recipe.l_steps) && Objects.equals(nbPeople, recipe.nbPeople) && Objects.equals(l_missingIngredients, recipe.l_missingIngredients) && Objects.equals(l_usedIngredients, recipe.l_usedIngredients);
+        return Objects.equals(healthScore, recipe.healthScore) && Objects.equals(cookingTime, recipe.cookingTime) && Objects.equals(linkToImage, recipe.linkToImage) && Objects.equals(title, recipe.title) && Objects.equals(l_ingredients, recipe.l_ingredients) && Objects.equals(summary, recipe.summary) && Objects.equals(l_steps, recipe.l_steps) && Objects.equals(nbPeople, recipe.nbPeople) && Objects.equals(l_missingIngredients, recipe.l_missingIngredients) && Objects.equals(l_usedIngredients, recipe.l_usedIngredients);
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
 
