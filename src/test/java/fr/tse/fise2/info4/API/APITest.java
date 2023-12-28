@@ -1,13 +1,11 @@
-package API;
+package fr.tse.fise2.info4.API;
 
-import Classes.Fridge;
-import Classes.Ingredient;
-import Classes.Recipe;
-import Classes.User;
+import fr.tse.fise2.info4.API.API;
+import fr.tse.fise2.info4.Classes.Fridge;
+import fr.tse.fise2.info4.Classes.Ingredient;
+import fr.tse.fise2.info4.Classes.Recipe;
+import fr.tse.fise2.info4.Classes.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +23,7 @@ class APITest {
         l_ingredients.add(ingredient1);
         l_ingredients.add(ingredient2);
         Fridge fridge = new Fridge(l_ingredients);
-        User user = new User(0,"test",null,null);
+        User user = new User(0,"test",null,null,null);
         user.setFridge(fridge);
         List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
         List<Ingredient> l_testUsedIngredients = new ArrayList<Ingredient>();
@@ -92,7 +90,7 @@ class APITest {
         Ingredient ingredient2 = new Ingredient("2023-02-15", "Milk", null,null);
         List<Integer> l_id = new ArrayList<Integer>();
         l_id.add(715538);
-        User user = new User(0,"test",null,l_id);
+        User user = new User(0,"test",null,l_id,null);
         List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
         List<Ingredient> l_testUsedIngredients = new ArrayList<Ingredient>();
         List<Ingredient> l_testMissingIngredients = new ArrayList<Ingredient>();

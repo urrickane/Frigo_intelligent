@@ -1,4 +1,4 @@
-package Classes;
+package fr.tse.fise2.info4.Classes;
 
 import java.util.Objects;
 

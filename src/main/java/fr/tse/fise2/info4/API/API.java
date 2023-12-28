@@ -1,10 +1,8 @@
-package API;
-
-import Classes.*;
+package fr.tse.fise2.info4.API;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.tse.fise2.info4.Classes.*;
 
 import java.io.IOException;
 import java.net.URI;

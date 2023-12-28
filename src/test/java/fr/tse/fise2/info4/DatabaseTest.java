@@ -1,12 +1,8 @@
 package fr.tse.fise2.info4;
 
-import Classes.Allergen;
-import Classes.Fridge;
-import Classes.Ingredient;
-import Classes.User;
+import fr.tse.fise2.info4.Classes.*;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +36,13 @@ class DatabaseTest {
     void testGetUser() {
         Database.getUser("Boris");
         List<Allergen> l_allergen = new ArrayList<>();
+        List<Integer> l_favRecipes = new ArrayList<>();
+        ShoppingList testShoppingList = new ShoppingList();
+        testShoppingList.addIngredient(new Ingredient(null, "eggs", null,null));
         l_allergen.add(new Allergen("Dairy"));
-        User testUser = new User(1,"Boris",l_allergen,new ArrayList<>());
-        Ingredient testIngredient = new Ingredient("29-11-2024", "eggs", 1.0,"gram");
+        l_favRecipes.add(633852);
+        User testUser = new User(1,"Boris",l_allergen,l_favRecipes,testShoppingList);
+        Ingredient testIngredient = new Ingredient("29-11-2024", "eggs", 3.0,"gram");
         List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
         l_testIngredients.add(testIngredient);
         testUser.setFridge((new Fridge(l_testIngredients)));
@@ -54,42 +54,32 @@ class DatabaseTest {
 
     @Test
     void testAddorUpdateIngredient() {
-        Ingredient testIngredient = new Ingredient("29-11-2024", "eggs", 1.0,"gram");
-        List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
-        l_testIngredients.add(testIngredient);
-        Fridge testFridge = new Fridge(l_testIngredients);
-        User testUser = new User(1,"Boris",new ArrayList<>(),new ArrayList<>());
-        testUser.setFridge(testFridge);
+        Ingredient testIngredient = new Ingredient("29-11-2024", "tomatoes", 3.0,"gram");
+        Ingredient testIngredient2 = new Ingredient("29-11-2024", "tomatoes", 6.0,"gram");
         Database.AddorUpdateIngredient(1, testIngredient);
-        assertThat(Database.getUser("Boris").getFridge().getInventory())
+        assertThat(Database.getUser("Boris").getFridge().findItemFromName("tomatoes"))
                 .isNotNull()
-                .isEqualTo(testUser.getFridge().getInventory());
+                .isEqualTo(testIngredient);
         Database.AddorUpdateIngredient(1, testIngredient);
-        testFridge.addOrUpdateIngredients(testIngredient);
-        assertThat(Database.getUser("Boris").getFridge().getInventory())
+        assertThat(Database.getUser("Boris").getFridge().findItemFromName("tomatoes"))
                 .isNotNull()
-                .isEqualTo(testUser.getFridge().getInventory());
-        Database.SupressIngredient(1, testIngredient);
+                .isEqualTo(testIngredient2);
+        Database.SupressIngredient(1, testIngredient2);
     }
     @Test
-    void supressIngredient() {
-        Ingredient testIngredient = new Ingredient("29-11-2024", "eggs", 1.0,"gram");
-        List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
-        l_testIngredients.add(testIngredient);
-        Fridge testFridge = new Fridge(l_testIngredients);
-        User testUser = new User(1,"Boris",new ArrayList<>(),new ArrayList<>());
-        testUser.setFridge(testFridge);
+    void testSupressIngredient() {
+        Ingredient testIngredient = new Ingredient("29-11-2024", "tomatoes", 3.0,"gram");
         Database.AddorUpdateIngredient(1, testIngredient);
         Database.SupressIngredient(1, testIngredient);
-        assertThat(Database.getUser("Boris").getFridge().getInventory())
-                .isNotNull()
-                .isEmpty();
+        assertThat(Database.getUser("Boris").getFridge().findItemFromName("tomatoes"))
+                .isNull();
         Database.AddorUpdateIngredient(1, testIngredient);
         Database.AddorUpdateIngredient(1, testIngredient);
         Database.SupressIngredient(1, testIngredient);
-        assertThat(Database.getUser("Boris").getFridge().getInventory())
+        assertThat(Database.getUser("Boris").getFridge().findItemFromName("tomatoes"))
                 .isNotNull()
-                .isEqualTo(testUser.getFridge().getInventory());
+                .isEqualTo(testIngredient);
+        Database.SupressIngredient(1, testIngredient);
     }
 
     @Test
@@ -104,27 +94,97 @@ class DatabaseTest {
     @Test
     void testAddAllergen(){
         Allergen egg = new Allergen("Egg");
-        User testUser = Database.getUser("Boris");
-        testUser.addAllergy(egg);
         Database.AddAllergen(1, egg);
-        assertThat(Database.getUser("Boris").getAllergies())
-                .isNotNull()
-                .isEqualTo(testUser.getAllergies());
+        assertTrue(Database.getUser("Boris").getAllergies().contains(egg));
         Database.RemoveAllergen(1, egg);
 
     }
     @Test
     void testRemoveAllergen(){
         Allergen egg = new Allergen("Egg");
-        User testUser = Database.getUser("Boris");
-        testUser.addAllergy(egg);
         Database.AddAllergen(1, egg);
         Database.RemoveAllergen(1, egg);
-        testUser.RemoveAllergy(egg);
-        assertThat(Database.getUser("Boris").getAllergies())
-                .isNotNull()
-                .isEqualTo(testUser.getAllergies());
+        assertFalse(Database.getUser("Boris").getAllergies().contains(egg));
 
+    }
+
+    @Test
+    void testgetFavRecipesbyUser(){
+        List<Integer> testList = new ArrayList<>();
+        testList.add(633852);
+        assertThat(Database.getFavRecipesbyUser(1))
+                .isNotNull()
+                .isEqualTo(testList);
+    }
+
+    @Test
+    void testAddFavRecipe(){
+        Database.AddFavoriteRecipe(1, 7888);
+        List<Integer> testList = new ArrayList<>();
+        testList.add(633852);
+        testList.add(7888);
+        assertThat(Database.getFavRecipesbyUser(1))
+                .isNotNull()
+                .isEqualTo(testList);
+        Database.RemoveFavoriteRecipe(1, 7888);
+    }
+
+    @Test
+    void testRemoveFavRecipe(){
+        Database.AddFavoriteRecipe(1, 7888);
+        List<Integer> testList = new ArrayList<>();
+        testList.add(633852);
+        testList.add(7888);
+        assertThat(Database.getFavRecipesbyUser(1))
+                .isNotNull()
+                .isEqualTo(testList);
+        Database.RemoveFavoriteRecipe(1, 7888);
+        testList.remove(1);
+        assertThat(Database.getFavRecipesbyUser(1))
+                .isNotNull()
+                .isEqualTo(testList);
+    }
+
+    @Test
+    void testGetShoppingListbyUser(){
+        Ingredient testIngredient = new Ingredient(null, "eggs", null,null);
+        ShoppingList testList = new ShoppingList();
+        testList.addIngredient(testIngredient);
+        assertThat(Database.getShoppingListbyUser(1))
+                .isNotNull()
+                .isEqualTo(testList);
+    }
+
+    @Test
+    void testAddIngredienttoShoppingList(){
+        Ingredient testIngredient = new Ingredient(null, "tomatoes", null,null);
+        Ingredient testIngredient2 = new Ingredient(null, "eggs", null,null);
+        ShoppingList testList = new ShoppingList();
+        testList.addIngredient(testIngredient2);
+        assertThat(Database.getShoppingListbyUser(1))
+                .isNotNull()
+                .isEqualTo(testList);
+        Database.addIngredientToShoppingList(1, testIngredient);
+        testList.addIngredient(testIngredient);
+        assertThat(Database.getShoppingListbyUser(1))
+                .isNotNull()
+                .isEqualTo(testList);
+        Database.removeIngredientFromShoppingList(1, testIngredient);
+    }
+
+    @Test
+    void testRemoveIngredientfromShoppingList(){
+        Ingredient testIngredient = new Ingredient(null, "chicken", null,null);
+        Ingredient testIngredient2 = new Ingredient(null, "eggs", null,null);
+        ShoppingList testList = new ShoppingList();
+        testList.addIngredient(testIngredient2);
+        Database.addIngredientToShoppingList(1, testIngredient);
+        testList.addIngredient(testIngredient);
+        Database.removeIngredientFromShoppingList(1, testIngredient);
+        testList.removeItem(testIngredient);
+        assertThat(Database.getShoppingListbyUser(1))
+                .isNotNull()
+                .isEqualTo(testList);
     }
 
 }

@@ -1,6 +1,9 @@
 package org.example;
-import API.API;
-import Classes.*;
+import fr.tse.fise2.info4.API.API;
+import fr.tse.fise2.info4.Classes.Fridge;
+import fr.tse.fise2.info4.Classes.Ingredient;
+import fr.tse.fise2.info4.Classes.Recipe;
+import fr.tse.fise2.info4.Classes.User;
 
 
 import java.io.IOException;
@@ -42,7 +45,7 @@ public class Main {
         l_ingredients.add(milk);
         l_ingredients.add(flour);
         Fridge fridge = new Fridge(l_ingredients);
-        User user = new User(0,"Alice", null, null);
+        User user = new User(0,"Alice", null, null,null);
         user.setFridge(fridge);
         List<Recipe> l_recipe = api.ComplexSearch(user, 10, "max-used-ingredients", true, true, true);
         for (Recipe recipe : l_recipe) {
