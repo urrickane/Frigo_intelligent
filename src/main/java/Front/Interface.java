@@ -232,12 +232,13 @@ public class Interface extends JFrame {
 		lblMainConnexion.setBounds(1110, 500, 300, 50);
 		pnlMain.add(lblMainConnexion);
 		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(0, 0, 1920, 1060);
+		pnlMain.add(lblNewLabel);
+		
 		
         String cheminImage = "imgFrigo/frigoferme.png";
         ImageIcon iconeFrigoFerme = new ImageIcon(getClass().getClassLoader().getResource(cheminImage));
-        JLabel lblNewLabel = new JLabel(iconeFrigoFerme);
-		lblNewLabel.setBounds(0, 0, 1920, 1080);
-		pnlMain.add(lblNewLabel);
 		
 		//Panel Inscription (1850;20)
 		
