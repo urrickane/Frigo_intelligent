@@ -35,6 +35,8 @@ import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
 
 public class Interface extends JFrame {
 
@@ -132,6 +134,26 @@ public class Interface extends JFrame {
                 l_steps,
                 l_testUsedIngredients,
                 l_testMissingIngredients,45);
+		
+		JPanel pnlListeCourse = new JPanel();
+		pnlListeCourse.setBounds(0, 0, 1920, 1060);
+		getContentPane().add(pnlListeCourse);
+		pnlListeCourse.setLayout(null);
+		
+		JList list = new JList();
+		list.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		list.setBounds(44, 38, 853, 581);
+		list.setModel(new AbstractListModel() {
+			String[] values = new String[] {"- ", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		list.setBackground(new Color(238, 232, 170));
+		pnlListeCourse.add(list);
 		
 		JPanel pnlRecettesFav = new JPanel();
 		pnlRecettesFav.setBounds(1850, 800, 1920, 1060);
@@ -540,7 +562,7 @@ public class Interface extends JFrame {
 		pnlAllergenesRetourAdd.add(btnAllergenesAdd);
 		
 		JPanel pnlAjoutIng = new JPanel();
-		pnlAjoutIng.setBounds(0, 0, 10, 10);
+		pnlAjoutIng.setBounds(1850, 800, 10, 10);
 		getContentPane().add(pnlAjoutIng);
 		pnlAjoutIng.setLayout(null);
 		
