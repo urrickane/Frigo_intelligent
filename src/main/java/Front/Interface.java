@@ -31,6 +31,10 @@ import java.net.*;
 import Classes.Ingredient;
 import Classes.Recipe;
 import Classes.InteractionBackFront;
+import javax.swing.JTable;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFormattedTextField;
 
 public class Interface extends JFrame {
 
@@ -62,6 +66,8 @@ public class Interface extends JFrame {
 	private JPasswordField pswdInscription;
 	private JPasswordField pswdInscriptionConfirm;
 	private JTextField nomIng;
+	private JTable recettes;
+	private JTable recettesFav;
 
 	/**
 	 * Create the frame.
@@ -127,10 +133,27 @@ public class Interface extends JFrame {
                 l_testUsedIngredients,
                 l_testMissingIngredients,45);
 		
+		JPanel pnlRecettesFav = new JPanel();
+		pnlRecettesFav.setBounds(1850, 800, 1920, 1060);
+		getContentPane().add(pnlRecettesFav);
+		
+		recettesFav = new JTable();
+		pnlRecettesFav.add(recettesFav);
+		
+		JPanel pnlChercherRecette = new JPanel();
+		pnlChercherRecette.setBounds(1850, 800, 1920, 1060);
+		getContentPane().add(pnlChercherRecette);
+		pnlChercherRecette.setLayout(null);
+		
+		recettes = new JTable();
+		recettes.setBackground(Color.RED);
+		recettes.setBounds(67, 54, 1126, 575);
+		pnlChercherRecette.add(recettes);
+		
 		//Panels
 		
 		JPanel pnlMain = new JPanel();
-		pnlMain.setBounds(0, 0, 1920, 1080);
+		pnlMain.setBounds(800, 800, 1920, 1080);
 		getContentPane().add(pnlMain);
 		pnlMain.setLayout(null);
 								
@@ -237,8 +260,8 @@ public class Interface extends JFrame {
 		pnlMain.add(lblNewLabel);
 		
 		
-        String cheminImage = "imgFrigo/frigoferme.png";
-        ImageIcon iconeFrigoFerme = new ImageIcon(getClass().getClassLoader().getResource(cheminImage));
+       // String cheminImage = "imgFrigo/frigoferme.png";
+       // ImageIcon iconeFrigoFerme = new ImageIcon(getClass().getClassLoader().getResource(cheminImage));
 		
 		//Panel Inscription (1850;20)
 		
@@ -516,26 +539,65 @@ public class Interface extends JFrame {
 		btnAllergenesAdd.setBounds(1720, 50, 100, 100);
 		pnlAllergenesRetourAdd.add(btnAllergenesAdd);
 		
-		JPanel panlAjoutIng = new JPanel();
-		panlAjoutIng.setBounds(800, 800, 10, 10);
-		getContentPane().add(panlAjoutIng);
+		JPanel pnlAjoutIng = new JPanel();
+		pnlAjoutIng.setBounds(0, 0, 10, 10);
+		getContentPane().add(pnlAjoutIng);
+		pnlAjoutIng.setLayout(null);
 		
 		nomIng = new JTextField();
 		nomIng.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		nomIng.setBounds(750, 500, 325, 55);
+		nomIng.setBounds(750, 440, 325, 55);
 		getContentPane().add(nomIng);
 		nomIng.setColumns(10);
+		
+		JComboBox choixUnite = new JComboBox();
+		choixUnite.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		choixUnite.setModel(new DefaultComboBoxModel(new String[] {"Grammes", "Litres", "Unités"}));
+		choixUnite.setBounds(750, 540, 325, 55);
+		getContentPane().add(choixUnite);
+		
+		JFormattedTextField qttIng = new JFormattedTextField();
+		qttIng.setBounds(1000, 500, 50, 30);
+		getContentPane().add(qttIng);
+		
+		JLabel saisirQtt = new JLabel("Saisir la quantité: ");
+		saisirQtt.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		saisirQtt.setBounds(750, 505, 500, 20);
+		getContentPane().add(saisirQtt);
+		
+		JLabel labelAjouterMsg = new JLabel("");
+		labelAjouterMsg.setBackground(new Color(127, 255, 0));
+		labelAjouterMsg.setForeground(new Color(0, 0, 0));
+		labelAjouterMsg.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		labelAjouterMsg.setBounds(750, 650, 1000, 50);
+		labelAjouterMsg.setVisible(false);
+		getContentPane().add(labelAjouterMsg);
 		
 		JButton btnAjIng = new JButton("Ajouter");
 		btnAjIng.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String ajouterMsg="Ingrédient ajouté";
 				String nomIngStr=nomIng.getText();
 				nomIng.setText("");
-			}
+				String qttIngStr=qttIng.getText();
+				int qttIngInt;
+				try {
+					qttIngInt=Integer.parseInt(qttIngStr);
+				}catch(Exception ee) {
+					ajouterMsg="Erreur. Saisir un entier.";
+				}
+				labelAjouterMsg.setText(ajouterMsg);
+				labelAjouterMsg.setVisible(true);
+				
+		}
 		});
 		btnAjIng.setForeground(new Color(255, 255, 255));
 		btnAjIng.setBackground(new Color(111, 221, 0));
-		btnAjIng.setBounds(750, 570, 325, 38);
+		btnAjIng.setBounds(750, 610, 325, 38);
 		getContentPane().add(btnAjIng);
+		
+
+		
+
 	}
 }
