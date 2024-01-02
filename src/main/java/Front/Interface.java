@@ -70,6 +70,9 @@ public class Interface extends JFrame {
 	private JTextField nomIng;
 	private JTable recettes;
 	private JTable recettesFav;
+	private JTextField dateJour;
+	private JTextField dateMois;
+	private JTextField dateAnnee;
 
 	/**
 	 * Create the frame.
@@ -136,7 +139,7 @@ public class Interface extends JFrame {
                 l_testMissingIngredients,45);
 		
 		JPanel pnlListeCourse = new JPanel();
-		pnlListeCourse.setBounds(0, 0, 1920, 1060);
+		pnlListeCourse.setBounds(1850, 800, 1920, 1060);
 		getContentPane().add(pnlListeCourse);
 		pnlListeCourse.setLayout(null);
 		
@@ -591,9 +594,27 @@ public class Interface extends JFrame {
 		labelAjouterMsg.setBackground(new Color(127, 255, 0));
 		labelAjouterMsg.setForeground(new Color(0, 0, 0));
 		labelAjouterMsg.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		labelAjouterMsg.setBounds(750, 650, 1000, 50);
+		labelAjouterMsg.setBounds(750, 750, 1000, 50);
 		labelAjouterMsg.setVisible(false);
 		getContentPane().add(labelAjouterMsg);
+		
+		dateJour = new JTextField();
+		dateJour.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		dateJour.setBounds(750, 635, 96, 19);
+		getContentPane().add(dateJour);
+		dateJour.setColumns(10);
+		
+		dateMois = new JTextField();
+		dateMois.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		dateMois.setBounds(856, 635, 96, 19);
+		getContentPane().add(dateMois);
+		dateMois.setColumns(10);
+		
+		dateAnnee = new JTextField();
+		dateAnnee.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		dateAnnee.setBounds(962, 635, 96, 19);
+		getContentPane().add(dateAnnee);
+		dateAnnee.setColumns(10);
 		
 		JButton btnAjIng = new JButton("Ajouter");
 		btnAjIng.addActionListener(new ActionListener() {
@@ -603,20 +624,58 @@ public class Interface extends JFrame {
 				nomIng.setText("");
 				String qttIngStr=qttIng.getText();
 				int qttIngInt;
+				int dateJourInt;
+				int dateMoisInt;
+				int dateAnneeInt;
 				try {
 					qttIngInt=Integer.parseInt(qttIngStr);
 				}catch(Exception ee) {
-					ajouterMsg="Erreur. Saisir un entier.";
+					ajouterMsg="Erreur. Saisir un entier pour la quantité.";
+				}
+				try {
+					dateJourInt=Integer.parseInt(dateJour.getText());
+					dateMoisInt=Integer.parseInt(dateMois.getText());
+					dateAnneeInt=Integer.parseInt(dateAnnee.getText());
+					
+					if(((dateJourInt<=0)&& (dateJourInt>31)) ) {
+						ajouterMsg= "Jour invalide.";
+					}
+					else if(((dateMoisInt<=0)&& (dateJourInt>12)) ) {
+						ajouterMsg= "Mois invalide.";
+					}
+					
+					else if(((dateAnneeInt<2024)) ) {
+						ajouterMsg= "Annee invalide.";
+					}
+					else {
+						
+					}
+				}catch(Exception ee) {
+					if(ajouterMsg.equals("Erreur. Saisir un entier pour la quantité.")) {
+						ajouterMsg=ajouterMsg+" Date non valide.";
+					}
+					else {
+						ajouterMsg=" Date non valide";
+					}
+					
 				}
 				labelAjouterMsg.setText(ajouterMsg);
 				labelAjouterMsg.setVisible(true);
+				
 				
 		}
 		});
 		btnAjIng.setForeground(new Color(255, 255, 255));
 		btnAjIng.setBackground(new Color(111, 221, 0));
-		btnAjIng.setBounds(750, 610, 325, 38);
+		btnAjIng.setBounds(750, 700, 325, 38);
 		getContentPane().add(btnAjIng);
+		
+		JLabel labelDatePeremption = new JLabel("Date limite de consommation: ");
+		labelDatePeremption.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		labelDatePeremption.setBounds(750, 605, 300, 20);
+		getContentPane().add(labelDatePeremption);
+		
+		
 		
 
 		
