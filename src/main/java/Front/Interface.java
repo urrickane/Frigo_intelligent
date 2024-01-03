@@ -34,6 +34,7 @@ import Classes.InteractionBackFront;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
@@ -42,6 +43,8 @@ public class Interface extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtInscriptionUserName;
+	private DefaultListModel<Ingredient> listModelIng = new DefaultListModel<>();
+	private DefaultListModel<String> listModel = new DefaultListModel<>();
 
 	/**
 	 * Launch the application.
@@ -138,6 +141,35 @@ public class Interface extends JFrame {
                 l_testUsedIngredients,
                 l_testMissingIngredients,45);
 		
+		JPanel pnlVoirFrigo = new JPanel();
+		pnlVoirFrigo.setBounds(0, 0, 1920, 1060);
+		getContentPane().add(pnlVoirFrigo);
+		pnlVoirFrigo.setLayout(null);
+		
+		
+		JList ingredients = new JList();
+		ingredients.setBounds(50, 15, 800, 800);
+		ingredients.setModel(listModelIng);
+		listModelIng.addElement(new Ingredient("12122024","chocolat",8.2,"grammes"));
+		listModelIng.addElement(testIngredient1);
+		pnlVoirFrigo.add(ingredients);
+		
+		JButton btnSupprIng = new JButton("Supprimer l' ingrédient selectionné");
+		btnSupprIng.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int selectedIndex = ingredients.getSelectedIndex();
+
+			    if (selectedIndex != -1) {
+			    	listModelIng.removeElementAt(selectedIndex);
+			    }
+			}
+		});
+		btnSupprIng.setBackground(new Color(178, 34, 34));
+		btnSupprIng.setForeground(new Color(255, 255, 255));
+		btnSupprIng.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnSupprIng.setBounds(900, 20, 400, 80);
+		pnlVoirFrigo.add(btnSupprIng);
+		
 		JPanel pnlListeCourse = new JPanel();
 		pnlListeCourse.setBounds(1850, 800, 1920, 1060);
 		getContentPane().add(pnlListeCourse);
@@ -146,15 +178,7 @@ public class Interface extends JFrame {
 		JList list = new JList();
 		list.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		list.setBounds(44, 38, 853, 581);
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {"- ", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
+		list.setModel(listModel);
 		list.setBackground(new Color(238, 232, 170));
 		pnlListeCourse.add(list);
 		

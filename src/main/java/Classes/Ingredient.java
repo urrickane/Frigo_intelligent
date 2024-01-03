@@ -63,6 +63,11 @@ public class Ingredient {
         Ingredient that = (Ingredient) o;
         return Objects.equals(expDate, that.expDate) && Objects.equals(name, that.name) && Objects.equals(quantity, that.quantity) && Objects.equals(unit, that.unit);
     }
+    
+    @Override
+    public String toString() {
+        return name + " " + quantity + " "+ unit;
+    }
 
 }
 	
