@@ -142,7 +142,7 @@ public class Interface extends JFrame {
                 l_testMissingIngredients,45);
 		
 		JPanel pnlVoirFrigo = new JPanel();
-		pnlVoirFrigo.setBounds(0, 0, 1920, 1060);
+		pnlVoirFrigo.setBounds(1850, 800, 1920, 1060);
 		getContentPane().add(pnlVoirFrigo);
 		pnlVoirFrigo.setLayout(null);
 		
@@ -647,14 +647,14 @@ public class Interface extends JFrame {
 				String nomIngStr=nomIng.getText();
 				nomIng.setText("");
 				String qttIngStr=qttIng.getText();
-				int qttIngInt;
+				double qttIngDouble = 0;
 				int dateJourInt;
 				int dateMoisInt;
 				int dateAnneeInt;
 				try {
-					qttIngInt=Integer.parseInt(qttIngStr);
+					qttIngDouble=Double.parseDouble(qttIngStr);
 				}catch(Exception ee) {
-					ajouterMsg="Erreur. Saisir un entier pour la quantité.";
+					ajouterMsg="Erreur. Saisir un nombre.";
 				}
 				try {
 					dateJourInt=Integer.parseInt(dateJour.getText());
@@ -685,7 +685,10 @@ public class Interface extends JFrame {
 				}
 				labelAjouterMsg.setText(ajouterMsg);
 				labelAjouterMsg.setVisible(true);
-				
+				if(ajouterMsg.equals("Ingrédient ajouté")) {
+					Ingredient newIng= new Ingredient(dateJour.getText()+dateMois.getText()+dateAnnee.getText(),nomIngStr, qttIngDouble,choixUnite.getSelectedItem().toString());
+					listModelIng.addElement(newIng);
+				}
 				
 		}
 		});
