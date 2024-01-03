@@ -44,8 +44,10 @@ public class Interface extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtInscriptionUserName;
 	private DefaultListModel<Ingredient> listModelIng = new DefaultListModel<>();
-	private DefaultListModel<String> listModel = new DefaultListModel<>();
-
+	private DefaultListModel<Ingredient> listModelShopping = new DefaultListModel<>();
+	private DefaultListModel<Recipe> listModelRecipe = new DefaultListModel<>();
+	private DefaultListModel<Recipe> listModelRecipeFav = new DefaultListModel<>();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -71,8 +73,6 @@ public class Interface extends JFrame {
 	private JPasswordField pswdInscription;
 	private JPasswordField pswdInscriptionConfirm;
 	private JTextField nomIng;
-	private JTable recettes;
-	private JTable recettesFav;
 	private JTextField dateJour;
 	private JTextField dateMois;
 	private JTextField dateAnnee;
@@ -175,29 +175,35 @@ public class Interface extends JFrame {
 		getContentPane().add(pnlListeCourse);
 		pnlListeCourse.setLayout(null);
 		
-		JList list = new JList();
-		list.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		list.setBounds(44, 38, 853, 581);
-		list.setModel(listModel);
-		list.setBackground(new Color(238, 232, 170));
-		pnlListeCourse.add(list);
+		JList listCourse = new JList();
+		listCourse.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		listCourse.setBounds(44, 38, 853, 581);
+		listCourse.setModel(listModelShopping);
+		listCourse.setBackground(new Color(238, 232, 170));
+		pnlListeCourse.add(listCourse);
 		
 		JPanel pnlRecettesFav = new JPanel();
-		pnlRecettesFav.setBounds(1850, 800, 1920, 1060);
+		pnlRecettesFav.setBounds(1920, 1060, 1920, 1060);
 		getContentPane().add(pnlRecettesFav);
+		pnlRecettesFav.setLayout(null);
 		
-		recettesFav = new JTable();
-		pnlRecettesFav.add(recettesFav);
+		JList listRecettesFav = new JList();
+		listRecettesFav.setBounds(15, 15, 800, 800);
+		listRecettesFav.setModel(listModelRecipeFav);
+		listRecettesFav.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		listRecettesFav.setBackground(new Color(240, 230, 140));
+		pnlRecettesFav.add(listRecettesFav);
 		
 		JPanel pnlChercherRecette = new JPanel();
-		pnlChercherRecette.setBounds(1850, 800, 1920, 1060);
+		pnlChercherRecette.setBounds(0, 0, 1920, 1060);
 		getContentPane().add(pnlChercherRecette);
 		pnlChercherRecette.setLayout(null);
 		
-		recettes = new JTable();
-		recettes.setBackground(Color.RED);
-		recettes.setBounds(67, 54, 1126, 575);
-		pnlChercherRecette.add(recettes);
+		JList listRecettes = new JList();
+		listRecettes.setModel(listModelRecipe);
+		listRecettes.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		listRecettes.setBounds(15, 15, 800, 800);
+		pnlChercherRecette.add(listRecettes);
 		
 		//Panels
 		
