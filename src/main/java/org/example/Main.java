@@ -1,6 +1,9 @@
 package org.example;
-import API.API;
-import Classes.*;
+import fr.tse.fise2.info4.API.API;
+import fr.tse.fise2.info4.Classes.Fridge;
+import fr.tse.fise2.info4.Classes.Ingredient;
+import fr.tse.fise2.info4.Classes.Recipe;
+import fr.tse.fise2.info4.Classes.User;
 
 
 import java.io.IOException;
@@ -22,7 +25,6 @@ public class Main {
         }
     }
     public static void main(String[] args) throws IOException, InterruptedException {
-        System.out.println("Hello world!");
         API api = new API();
         List<Ingredient> l_ingredients = new ArrayList<Ingredient>();
         /*
@@ -43,14 +45,14 @@ public class Main {
         l_ingredients.add(milk);
         l_ingredients.add(flour);
         Fridge fridge = new Fridge(l_ingredients);
-        User user = new User("Alice", null, null);
+        User user = new User(0,"Alice", null, null,null);
         user.setFridge(fridge);
-        List<Recipe> l_recipe = api.ComplexSearch(user, 2, "max-used-ingredients", true, true, true);
+        List<Recipe> l_recipe = api.ComplexSearch(user, 10, "max-used-ingredients", true, true, true);
         for (Recipe recipe : l_recipe) {
             System.out.println(recipe.getTitle());
         }
 
-
+    /*
      // Ajoutez ces ingrédients à une liste de courses
         ShoppingList shoppingList = new ShoppingList();
         shoppingList.addIngredient(tomato);
@@ -74,7 +76,7 @@ public class Main {
 
         // Affichez la liste de courses après vidage
         System.out.println("\nCleared Shopping List:");
-        displayShoppingList(shoppingList.getShoppingList());
+        displayShoppingList(shoppingList.getShoppingList());*/
     }
 
 

@@ -1,12 +1,11 @@
-package API;
+package fr.tse.fise2.info4.API;
 
-import Classes.Fridge;
-import Classes.Ingredient;
-import Classes.Recipe;
-import Classes.User;
+import fr.tse.fise2.info4.API.API;
+import fr.tse.fise2.info4.Classes.Fridge;
+import fr.tse.fise2.info4.Classes.Ingredient;
+import fr.tse.fise2.info4.Classes.Recipe;
+import fr.tse.fise2.info4.Classes.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,7 @@ class APITest {
         l_ingredients.add(ingredient1);
         l_ingredients.add(ingredient2);
         Fridge fridge = new Fridge(l_ingredients);
-        User user = new User("test",null,null);
+        User user = new User(0,"test",null,null,null);
         user.setFridge(fridge);
         List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
         List<Ingredient> l_testUsedIngredients = new ArrayList<Ingredient>();
@@ -61,6 +60,7 @@ class APITest {
 
         List<Recipe> testRecipies = new ArrayList<>();
         testRecipies.add(new Recipe(
+                633852,
                 "https://spoonacular.com/recipeImages/633852-312x231.jpg",
                 "baked tomatoes",
                 l_testIngredients,
@@ -68,7 +68,9 @@ class APITest {
                 4,
                 l_steps,
                 l_testUsedIngredients,
-                l_testMissingIngredients,45));
+                l_testMissingIngredients,45,6));
+
+
         try {
             List<Recipe> response = api.ComplexSearch(user,1,"max-used-ingredients",true,true,false);
             assertThat(response).isNotNull();
@@ -88,7 +90,7 @@ class APITest {
         Ingredient ingredient2 = new Ingredient("2023-02-15", "Milk", null,null);
         List<Integer> l_id = new ArrayList<Integer>();
         l_id.add(715538);
-        User user = new User("test",null,l_id);
+        User user = new User(0,"test",null,l_id,null);
         List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
         List<Ingredient> l_testUsedIngredients = new ArrayList<Ingredient>();
         List<Ingredient> l_testMissingIngredients = new ArrayList<Ingredient>();
@@ -107,6 +109,7 @@ class APITest {
 
         List<Recipe> testRecipies = new ArrayList<>();
         testRecipies.add(new Recipe(
+                715538,
                 "https://spoonacular.com/recipeImages/715538-556x370.jpg",
                 "What to make for dinner tonight?? Bruschetta Style Pork & Pasta",
                 l_testIngredients,
@@ -114,7 +117,7 @@ class APITest {
                 5,
                 l_steps,
                 l_testUsedIngredients,
-                l_testMissingIngredients,35));
+                l_testMissingIngredients,35,27));
         try {
             List<Recipe> response = api.GetRecipeInformation(user,false);
             System.out.println(response);
@@ -125,6 +128,11 @@ class APITest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    @org.junit.jupiter.api.Test
+    void testSort(){
 
     }
 }

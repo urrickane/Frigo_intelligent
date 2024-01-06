@@ -1,4 +1,4 @@
-package Classes;
+package fr.tse.fise2.info4.Classes;
 
 import java.util.Objects;
 
@@ -29,7 +29,6 @@ public class Ingredient {
     public String getName() {
         return name;
     }
-
 
     // Méthodes setters
     public void setExpDate(String expDate) {
