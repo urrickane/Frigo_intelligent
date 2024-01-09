@@ -66,7 +66,18 @@ public class Ingredient {
     
     @Override
     public String toString() {
-        return name + " " + quantity + " "+ unit;
+    	if(expDate==null) {
+    		return name + " " + quantity + " "+ unit;
+    	}else {
+    		if(expDate.length()==8) {
+       			char[] expDateFormat=expDate.toCharArray();
+       			return name + " " + quantity + " "+ unit + " à consommer avant le "+ expDateFormat[0]+expDateFormat[1]+"/"+expDateFormat[2]+expDateFormat[3]+"/"+expDateFormat[4]+expDateFormat[5]+expDateFormat[6]+expDateFormat[7] +".";
+        	}else {
+        		return name + " " + quantity + " "+ unit + " à consommer avant le "+ expDate +".";
+        	}
+    	}
+    		
+        
     }
 
 }

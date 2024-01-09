@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JButton;
@@ -12,6 +14,8 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -43,6 +47,8 @@ public class Interface extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtInscriptionUserName;
+	
+	//Les modèles de listes d'affichage
 	private DefaultListModel<Ingredient> listModelIng = new DefaultListModel<>();
 	private DefaultListModel<Ingredient> listModelShopping = new DefaultListModel<>();
 	private DefaultListModel<Recipe> listModelRecipe = new DefaultListModel<>();
@@ -140,70 +146,7 @@ public class Interface extends JFrame {
                 l_steps,
                 l_testUsedIngredients,
                 l_testMissingIngredients,45);
-		
-		JPanel pnlVoirFrigo = new JPanel();
-		pnlVoirFrigo.setBounds(1850, 800, 1920, 1060);
-		getContentPane().add(pnlVoirFrigo);
-		pnlVoirFrigo.setLayout(null);
-		
-		
-		JList ingredients = new JList();
-		ingredients.setBounds(50, 15, 800, 800);
-		ingredients.setModel(listModelIng);
-		listModelIng.addElement(new Ingredient("12122024","chocolat",8.2,"grammes"));
-		listModelIng.addElement(testIngredient1);
-		pnlVoirFrigo.add(ingredients);
-		
-		JButton btnSupprIng = new JButton("Supprimer l' ingrédient selectionné");
-		btnSupprIng.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int selectedIndex = ingredients.getSelectedIndex();
 
-			    if (selectedIndex != -1) {
-			    	listModelIng.removeElementAt(selectedIndex);
-			    }
-			}
-		});
-		btnSupprIng.setBackground(new Color(178, 34, 34));
-		btnSupprIng.setForeground(new Color(255, 255, 255));
-		btnSupprIng.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnSupprIng.setBounds(900, 20, 400, 80);
-		pnlVoirFrigo.add(btnSupprIng);
-		
-		JPanel pnlListeCourse = new JPanel();
-		pnlListeCourse.setBounds(1850, 800, 1920, 1060);
-		getContentPane().add(pnlListeCourse);
-		pnlListeCourse.setLayout(null);
-		
-		JList listCourse = new JList();
-		listCourse.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		listCourse.setBounds(44, 38, 853, 581);
-		listCourse.setModel(listModelShopping);
-		listCourse.setBackground(new Color(238, 232, 170));
-		pnlListeCourse.add(listCourse);
-		
-		JPanel pnlRecettesFav = new JPanel();
-		pnlRecettesFav.setBounds(1920, 1060, 1920, 1060);
-		getContentPane().add(pnlRecettesFav);
-		pnlRecettesFav.setLayout(null);
-		
-		JList listRecettesFav = new JList();
-		listRecettesFav.setBounds(15, 15, 800, 800);
-		listRecettesFav.setModel(listModelRecipeFav);
-		listRecettesFav.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		listRecettesFav.setBackground(new Color(240, 230, 140));
-		pnlRecettesFav.add(listRecettesFav);
-		
-		JPanel pnlChercherRecette = new JPanel();
-		pnlChercherRecette.setBounds(0, 0, 1920, 1060);
-		getContentPane().add(pnlChercherRecette);
-		pnlChercherRecette.setLayout(null);
-		
-		JList listRecettes = new JList();
-		listRecettes.setModel(listModelRecipe);
-		listRecettes.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		listRecettes.setBounds(15, 15, 800, 800);
-		pnlChercherRecette.add(listRecettes);
 		
 		//Panels
 		
@@ -265,6 +208,61 @@ public class Interface extends JFrame {
 		pnlRecetteSteps.setBounds(50, 450, 1850, 570);
 		pnlRecette.add(pnlRecetteSteps);
 		pnlRecetteSteps.setLayout(new GridLayout(3, 0, 0, 0));
+		
+		JPanel pnlRecettesFav = new JPanel();
+		pnlRecettesFav.setBounds(1920, 1060, 1920, 1060);
+		getContentPane().add(pnlRecettesFav);
+		pnlRecettesFav.setLayout(null);
+		
+		JPanel pnlChercherRecette = new JPanel();
+		pnlChercherRecette.setBounds(800, 800, 1920, 1060);
+		getContentPane().add(pnlChercherRecette);
+		pnlChercherRecette.setLayout(null);
+		
+		JPanel pnlVoirFrigo = new JPanel();
+		pnlVoirFrigo.setBounds(1850, 800, 1920, 1060);
+		getContentPane().add(pnlVoirFrigo);
+		pnlVoirFrigo.setLayout(null);
+		
+		JPanel pnlListeCourse = new JPanel();
+		pnlListeCourse.setBounds(1850, 800, 1920, 1060);
+		getContentPane().add(pnlListeCourse);
+		pnlListeCourse.setLayout(null);
+		
+		JPanel pnlAjoutIng = new JPanel();
+		pnlAjoutIng.setBounds(1850, 800, 10, 10);
+		getContentPane().add(pnlAjoutIng);
+		pnlAjoutIng.setLayout(null);
+		
+		
+		// Listes d'affichage
+		
+		JList listCourse = new JList();
+		listCourse.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		listCourse.setBounds(44, 38, 853, 581);
+		listCourse.setModel(listModelShopping);
+		listCourse.setBackground(new Color(238, 232, 170));
+		pnlListeCourse.add(listCourse);
+
+		JList listRecettes = new JList();
+		listRecettes.setModel(listModelRecipe);
+		listRecettes.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		listRecettes.setBounds(15, 15, 800, 800);
+		pnlChercherRecette.add(listRecettes);
+		
+		JList listRecettesFav = new JList();
+		listRecettesFav.setBounds(15, 15, 800, 800);
+		listRecettesFav.setModel(listModelRecipeFav);
+		listRecettesFav.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		listRecettesFav.setBackground(new Color(240, 230, 140));
+		pnlRecettesFav.add(listRecettesFav);
+		
+		JList ingredients = new JList();
+		ingredients.setBounds(50, 15, 800, 800);
+		ingredients.setModel(listModelIng);
+		listModelIng.addElement(new Ingredient("12122024","chocolat",8.2,"grammes"));
+		listModelIng.addElement(testIngredient1);
+		pnlVoirFrigo.add(ingredients);
 		
 		//Panel Main (1850;0)
 		
@@ -594,10 +592,27 @@ public class Interface extends JFrame {
 		btnAllergenesAdd.setBounds(1720, 50, 100, 100);
 		pnlAllergenesRetourAdd.add(btnAllergenesAdd);
 		
-		JPanel pnlAjoutIng = new JPanel();
-		pnlAjoutIng.setBounds(1850, 800, 10, 10);
-		getContentPane().add(pnlAjoutIng);
-		pnlAjoutIng.setLayout(null);
+		// Panel chercherRecettes
+		JButton btnSupprIng = new JButton("Supprimer l'ingrédient selectionné");
+		btnSupprIng.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int selectedIndex = ingredients.getSelectedIndex();
+
+			    if (selectedIndex != -1) {
+			    	listModelIng.removeElementAt(selectedIndex);
+			    }
+			}
+		});
+		btnSupprIng.setBackground(new Color(178, 34, 34));
+		btnSupprIng.setForeground(new Color(255, 255, 255));
+		btnSupprIng.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnSupprIng.setBounds(900, 20, 400, 80);
+		pnlVoirFrigo.add(btnSupprIng);
+		
+		
+		
+		
+		//Panel ajoutIng
 		
 		nomIng = new JTextField();
 		nomIng.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -651,7 +666,6 @@ public class Interface extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String ajouterMsg="Ingrédient ajouté";
 				String nomIngStr=nomIng.getText();
-				nomIng.setText("");
 				String qttIngStr=qttIng.getText();
 				double qttIngDouble = 0;
 				int dateJourInt;
@@ -663,6 +677,12 @@ public class Interface extends JFrame {
 					ajouterMsg="Erreur. Saisir un nombre.";
 				}
 				try {
+					if(dateJour.getText().length()<2) {
+						dateJour.setText("0"+dateJour.getText());
+					}
+					if(dateMois.getText().length()<2) {
+						dateMois.setText("0"+dateMois.getText());
+					}
 					dateJourInt=Integer.parseInt(dateJour.getText());
 					dateMoisInt=Integer.parseInt(dateMois.getText());
 					dateAnneeInt=Integer.parseInt(dateAnnee.getText());
@@ -694,6 +714,12 @@ public class Interface extends JFrame {
 				if(ajouterMsg.equals("Ingrédient ajouté")) {
 					Ingredient newIng= new Ingredient(dateJour.getText()+dateMois.getText()+dateAnnee.getText(),nomIngStr, qttIngDouble,choixUnite.getSelectedItem().toString());
 					listModelIng.addElement(newIng);
+					System.out.print(listModelIng.lastElement());
+					nomIng.setText("");
+					dateAnnee.setText("");
+					dateMois.setText("");
+					dateJour.setText("");
+					qttIng.setText("");
 				}
 				
 		}
@@ -707,11 +733,6 @@ public class Interface extends JFrame {
 		labelDatePeremption.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		labelDatePeremption.setBounds(750, 605, 300, 20);
 		getContentPane().add(labelDatePeremption);
-		
-		
-		
-
-		
 
 	}
 }
