@@ -78,7 +78,7 @@ public class Interface extends JFrame {
 	private JPasswordField pswdConnexion;
 	private JPasswordField pswdInscription;
 	private JPasswordField pswdInscriptionConfirm;
-	private JTextField nomIng;
+	private JTextField txtAjoutIngNomIng;
 	private JTextField dateJour;
 	private JTextField dateMois;
 	private JTextField dateAnnee;
@@ -151,7 +151,7 @@ public class Interface extends JFrame {
 		//Panels
 		
 		JPanel pnlMain = new JPanel();
-		pnlMain.setBounds(800, 800, 1920, 1080);
+		pnlMain.setBounds(1850, 800, 1920, 1080);
 		getContentPane().add(pnlMain);
 		pnlMain.setLayout(null);
 								
@@ -168,7 +168,7 @@ public class Interface extends JFrame {
 		pnlConnexion.setLayout(null);
 						
 		JPanel pnlAccueil = new JPanel();
-		pnlAccueil.setBounds(1850, 60, 1920, 1080);
+		pnlAccueil.setBounds(0, 0, 1920, 1080);
 		getContentPane().add(pnlAccueil);
 		pnlAccueil.setLayout(null);
 				
@@ -237,18 +237,18 @@ public class Interface extends JFrame {
 		
 		// Listes d'affichage
 		
-		JList listCourse = new JList();
-		listCourse.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		listCourse.setBounds(44, 38, 853, 581);
-		listCourse.setModel(listModelShopping);
-		listCourse.setBackground(new Color(238, 232, 170));
-		pnlListeCourse.add(listCourse);
+		JList listListeCourse = new JList();
+		listListeCourse.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		listListeCourse.setBounds(44, 38, 853, 581);
+		listListeCourse.setModel(listModelShopping);
+		listListeCourse.setBackground(new Color(238, 232, 170));
+		pnlListeCourse.add(listListeCourse);
 
-		JList listRecettes = new JList();
-		listRecettes.setModel(listModelRecipe);
-		listRecettes.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		listRecettes.setBounds(15, 15, 800, 800);
-		pnlChercherRecette.add(listRecettes);
+		JList listChercherRecette = new JList();
+		listChercherRecette.setModel(listModelRecipe);
+		listChercherRecette.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		listChercherRecette.setBounds(15, 15, 800, 800);
+		pnlChercherRecette.add(listChercherRecette);
 		
 		JList listRecettesFav = new JList();
 		listRecettesFav.setBounds(15, 15, 800, 800);
@@ -257,12 +257,12 @@ public class Interface extends JFrame {
 		listRecettesFav.setBackground(new Color(240, 230, 140));
 		pnlRecettesFav.add(listRecettesFav);
 		
-		JList ingredients = new JList();
-		ingredients.setBounds(50, 15, 800, 800);
-		ingredients.setModel(listModelIng);
+		JList listVoirFrigoIngredients = new JList();
+		listVoirFrigoIngredients.setBounds(50, 15, 800, 800);
+		listVoirFrigoIngredients.setModel(listModelIng);
 		listModelIng.addElement(new Ingredient("12122024","chocolat",8.2,"grammes"));
 		listModelIng.addElement(testIngredient1);
-		pnlVoirFrigo.add(ingredients);
+		pnlVoirFrigo.add(listVoirFrigoIngredients);
 		
 		//Panel Main (1850;0)
 		
@@ -308,13 +308,11 @@ public class Interface extends JFrame {
 		lblMainConnexion.setBounds(1110, 500, 300, 50);
 		pnlMain.add(lblMainConnexion);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(0, 0, 1920, 1060);
-		pnlMain.add(lblNewLabel);
+		JLabel imageBgFrigoFerme = new JLabel("");
+		imageBgFrigoFerme.setIcon(new ImageIcon(Interface.class.getResource("/Front/frigoferme.png")));
+		imageBgFrigoFerme.setBounds(0, 0, 1920, 1060);
+		pnlMain.add(imageBgFrigoFerme);
 		
-		
-       // String cheminImage = "imgFrigo/frigoferme.png";
-       // ImageIcon iconeFrigoFerme = new ImageIcon(getClass().getClassLoader().getResource(cheminImage));
 		
 		//Panel Inscription (1850;20)
 		
@@ -575,6 +573,11 @@ public class Interface extends JFrame {
 		btnAccueilDeconnexion.setBounds(280, 700, 400, 100);
 		pnlAccueil.add(btnAccueilDeconnexion);
 		
+		JLabel lblImgFrigoOuvert = new JLabel("");
+		lblImgFrigoOuvert.setIcon(new ImageIcon(Interface.class.getResource("/Front/frigoouverrs.png")));
+		lblImgFrigoOuvert.setBounds(0, 0, 1920, 1060);
+		pnlAccueil.add(lblImgFrigoOuvert);
+		
 		//Panel Allergenes (1850;80)
 		
 		JLabel lblAllergenesMain = new JLabel("Vos allergènes :");
@@ -593,55 +596,55 @@ public class Interface extends JFrame {
 		pnlAllergenesRetourAdd.add(btnAllergenesAdd);
 		
 		// Panel chercherRecettes
-		JButton btnSupprIng = new JButton("Supprimer l'ingrédient selectionné");
-		btnSupprIng.addActionListener(new ActionListener() {
+		JButton btnVoirFrigoSupprIng = new JButton("Supprimer l'ingrédient selectionné");
+		btnVoirFrigoSupprIng.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int selectedIndex = ingredients.getSelectedIndex();
+				int selectedIndex = listVoirFrigoIngredients.getSelectedIndex();
 
 			    if (selectedIndex != -1) {
 			    	listModelIng.removeElementAt(selectedIndex);
 			    }
 			}
 		});
-		btnSupprIng.setBackground(new Color(178, 34, 34));
-		btnSupprIng.setForeground(new Color(255, 255, 255));
-		btnSupprIng.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnSupprIng.setBounds(900, 20, 400, 80);
-		pnlVoirFrigo.add(btnSupprIng);
+		btnVoirFrigoSupprIng.setBackground(new Color(178, 34, 34));
+		btnVoirFrigoSupprIng.setForeground(new Color(255, 255, 255));
+		btnVoirFrigoSupprIng.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnVoirFrigoSupprIng.setBounds(900, 20, 400, 80);
+		pnlVoirFrigo.add(btnVoirFrigoSupprIng);
 		
 		
 		
 		
 		//Panel ajoutIng
 		
-		nomIng = new JTextField();
-		nomIng.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		nomIng.setBounds(750, 440, 325, 55);
-		getContentPane().add(nomIng);
-		nomIng.setColumns(10);
+		txtAjoutIngNomIng = new JTextField();
+		txtAjoutIngNomIng.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		txtAjoutIngNomIng.setBounds(750, 440, 325, 55);
+		getContentPane().add(txtAjoutIngNomIng);
+		txtAjoutIngNomIng.setColumns(10);
 		
-		JComboBox choixUnite = new JComboBox();
-		choixUnite.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		choixUnite.setModel(new DefaultComboBoxModel(new String[] {"Grammes", "Litres", "Unités"}));
-		choixUnite.setBounds(750, 540, 325, 55);
-		getContentPane().add(choixUnite);
+		JComboBox cbBoxAjoutIngChoixUnite = new JComboBox();
+		cbBoxAjoutIngChoixUnite.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		cbBoxAjoutIngChoixUnite.setModel(new DefaultComboBoxModel(new String[] {"Grammes", "Litres", "Unités"}));
+		cbBoxAjoutIngChoixUnite.setBounds(750, 540, 325, 55);
+		getContentPane().add(cbBoxAjoutIngChoixUnite);
 		
-		JFormattedTextField qttIng = new JFormattedTextField();
-		qttIng.setBounds(1000, 500, 50, 30);
-		getContentPane().add(qttIng);
+		JFormattedTextField txtAjoutIngQtt = new JFormattedTextField();
+		txtAjoutIngQtt.setBounds(1000, 500, 50, 30);
+		getContentPane().add(txtAjoutIngQtt);
 		
-		JLabel saisirQtt = new JLabel("Saisir la quantité: ");
-		saisirQtt.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		saisirQtt.setBounds(750, 505, 500, 20);
-		getContentPane().add(saisirQtt);
+		JLabel lblAjoutIngSaisirQtt = new JLabel("Saisir la quantité: ");
+		lblAjoutIngSaisirQtt.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblAjoutIngSaisirQtt.setBounds(750, 505, 500, 20);
+		getContentPane().add(lblAjoutIngSaisirQtt);
 		
-		JLabel labelAjouterMsg = new JLabel("");
-		labelAjouterMsg.setBackground(new Color(127, 255, 0));
-		labelAjouterMsg.setForeground(new Color(0, 0, 0));
-		labelAjouterMsg.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		labelAjouterMsg.setBounds(750, 750, 1000, 50);
-		labelAjouterMsg.setVisible(false);
-		getContentPane().add(labelAjouterMsg);
+		JLabel lblAjoutIngMsg = new JLabel("");
+		lblAjoutIngMsg.setBackground(new Color(127, 255, 0));
+		lblAjoutIngMsg.setForeground(new Color(0, 0, 0));
+		lblAjoutIngMsg.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblAjoutIngMsg.setBounds(750, 750, 1000, 50);
+		lblAjoutIngMsg.setVisible(false);
+		getContentPane().add(lblAjoutIngMsg);
 		
 		dateJour = new JTextField();
 		dateJour.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -661,12 +664,12 @@ public class Interface extends JFrame {
 		getContentPane().add(dateAnnee);
 		dateAnnee.setColumns(10);
 		
-		JButton btnAjIng = new JButton("Ajouter");
-		btnAjIng.addActionListener(new ActionListener() {
+		JButton btnAjoutIng = new JButton("Ajouter");
+		btnAjoutIng.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String ajouterMsg="Ingrédient ajouté";
-				String nomIngStr=nomIng.getText();
-				String qttIngStr=qttIng.getText();
+				String nomIngStr=txtAjoutIngNomIng.getText();
+				String qttIngStr=txtAjoutIngQtt.getText();
 				double qttIngDouble = 0;
 				int dateJourInt;
 				int dateMoisInt;
@@ -709,30 +712,30 @@ public class Interface extends JFrame {
 					}
 					
 				}
-				labelAjouterMsg.setText(ajouterMsg);
-				labelAjouterMsg.setVisible(true);
+				lblAjoutIngMsg.setText(ajouterMsg);
+				lblAjoutIngMsg.setVisible(true);
 				if(ajouterMsg.equals("Ingrédient ajouté")) {
-					Ingredient newIng= new Ingredient(dateJour.getText()+dateMois.getText()+dateAnnee.getText(),nomIngStr, qttIngDouble,choixUnite.getSelectedItem().toString());
+					Ingredient newIng= new Ingredient(dateJour.getText()+dateMois.getText()+dateAnnee.getText(),nomIngStr, qttIngDouble,cbBoxAjoutIngChoixUnite.getSelectedItem().toString());
 					listModelIng.addElement(newIng);
 					System.out.print(listModelIng.lastElement());
-					nomIng.setText("");
+					txtAjoutIngNomIng.setText("");
 					dateAnnee.setText("");
 					dateMois.setText("");
 					dateJour.setText("");
-					qttIng.setText("");
+					txtAjoutIngQtt.setText("");
 				}
 				
 		}
 		});
-		btnAjIng.setForeground(new Color(255, 255, 255));
-		btnAjIng.setBackground(new Color(111, 221, 0));
-		btnAjIng.setBounds(750, 700, 325, 38);
-		getContentPane().add(btnAjIng);
+		btnAjoutIng.setForeground(new Color(255, 255, 255));
+		btnAjoutIng.setBackground(new Color(111, 221, 0));
+		btnAjoutIng.setBounds(750, 700, 325, 38);
+		getContentPane().add(btnAjoutIng);
 		
-		JLabel labelDatePeremption = new JLabel("Date limite de consommation: ");
-		labelDatePeremption.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		labelDatePeremption.setBounds(750, 605, 300, 20);
-		getContentPane().add(labelDatePeremption);
+		JLabel labelAjoutIngDatePeremption = new JLabel("Date limite de consommation: ");
+		labelAjoutIngDatePeremption.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		labelAjoutIngDatePeremption.setBounds(750, 605, 300, 20);
+		getContentPane().add(labelAjoutIngDatePeremption);
 
 	}
 }
