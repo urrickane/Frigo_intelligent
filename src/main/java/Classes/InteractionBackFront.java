@@ -4,13 +4,15 @@ import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class InteractionBackFront {
-	public static void actualisationRecette(JLabel recipeImage, JLabel recipeTitle, JLabel recipeSummary, JLabel recipeTime, JPanel recipeIngredients, JPanel recipeSteps, Recipe recipe)
+	public static void actualisationRecette(JLabel recipeImage, JLabel recipeTitle, JLabel recipeTime, JPanel recipeIngredients, JPanel recipeSteps, Recipe recipe)
 	{
 		// Affichage de l'image
         try {
@@ -24,10 +26,6 @@ public class InteractionBackFront {
         // Affichage du titre
         recipeTitle.setText(recipe.getTitle());
         recipeTitle.setFont(new Font("Calibri", Font.BOLD, 40));
-        
-        // Affichage du résumé
-        recipeSummary.setText("<html>" + recipe.getSummary() + "</html>");
-        recipeSummary.setFont(new Font("Calibri", Font.PLAIN, 30));
         
         // Affichage du temps
         recipeTime.setText("Cooking time: " + Integer.toString(recipe.getCookingTime()) + " min");
@@ -54,5 +52,18 @@ public class InteractionBackFront {
             recipeSteps.add(label);
             i++;
         }
+	}
+	
+	public static void remplissagePanelConnexionComptes(JPanel pnl, List<User> comptes)
+	{
+		int i = 0;
+		while(i < comptes.size())
+		{
+			JButton button = new JButton();
+			button.setText(comptes.get(i).getName());
+			button.setFont(new Font("Calibri", Font.PLAIN, 30));
+			pnl.add(button);
+			i++;
+		}
 	}
 }

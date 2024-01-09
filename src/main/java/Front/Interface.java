@@ -31,11 +31,15 @@ import java.net.*;
 import Classes.Ingredient;
 import Classes.Recipe;
 import Classes.InteractionBackFront;
+import net.miginfocom.swing.MigLayout;
+import java.awt.CardLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class Interface extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField txtInscriptionUserName;
 
 	/**
 	 * Launch the application.
@@ -56,20 +60,14 @@ public class Interface extends JFrame {
 	//Variables
 	
 	String username = "abc";
-	String password = "123";
-	private JTextField txtConnexionUsername;
-	private JPasswordField pswdConnexion;
-	private JPasswordField pswdInscription;
-	private JPasswordField pswdInscriptionConfirm;
+	private JTextField txtboxInscription;
 
 	/**
 	 * Create the frame.
 	 */
 	public Interface() {
-		setResizable(false);
-		setMinimumSize(new Dimension(1920, 1060));
-		getContentPane().setMinimumSize(new Dimension(1920, 1080));
-		getContentPane().setLayout(null);
+		setMinimumSize(new Dimension(800, 600));
+		pack();
 		
 		// Variables
 		
@@ -125,35 +123,68 @@ public class Interface extends JFrame {
                 l_steps,
                 l_testUsedIngredients,
                 l_testMissingIngredients,45);
+		getContentPane().setLayout(new CardLayout(0, 0));
 		
 		//Panels
 		
 		JPanel pnlMain = new JPanel();
-		pnlMain.setBounds(0, 0, 1920, 1080);
-		getContentPane().add(pnlMain);
-		pnlMain.setLayout(null);
+		getContentPane().add(pnlMain, "name_1742971366120500");
 								
 		JPanel pnlInscription = new JPanel();
 		pnlInscription.setVisible(false);
-		pnlInscription.setBounds(1850, 20, 1920, 1080);
-		getContentPane().add(pnlInscription);
-		pnlInscription.setLayout(null);
+		getContentPane().add(pnlInscription, "name_1742971381735700");
+		pnlInscription.setLayout(new MigLayout("flowx, wrap 2", "[10%,grow][300px][5px][50%,grow][5px][300px][10%,grow]", "[:10%:100px,grow][100px][20%,grow][50px][25%,grow][100px][5%,grow]"));
+		
+		JLabel lblInscriptionMain = new JLabel("Quel bonheur d'accueillir un nouveau chef ! Entrez votre nom.");
+		lblInscriptionMain.setFont(new Font("Calibri", Font.BOLD, 30));
+		lblInscriptionMain.setHorizontalAlignment(SwingConstants.CENTER);
+		pnlInscription.add(lblInscriptionMain, "cell 1 1 5 1,grow");
+		
+		JLabel lblInscriptionUsername = new JLabel("Nom d'utilisateur :");
+		lblInscriptionUsername.setFont(new Font("Calibri", Font.PLAIN, 25));
+		lblInscriptionUsername.setHorizontalAlignment(SwingConstants.CENTER);
+		pnlInscription.add(lblInscriptionUsername, "cell 1 3,grow");
+		
+		txtboxInscription = new JTextField();
+		txtboxInscription.setFont(new Font("Calibri", Font.PLAIN, 25));
+		pnlInscription.add(txtboxInscription, "cell 3 3 3 1,grow");
+		txtboxInscription.setColumns(10);
+		
+		JButton btnInscriptionRetour = new JButton("Retour");
+		btnInscriptionRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtboxInscription.setText("");
+				pnlInscription.setVisible(false);
+				pnlMain.setVisible(true);
+			}
+		});
+		btnInscriptionRetour.setFont(new Font("Calibri", Font.BOLD, 30));
+		pnlInscription.add(btnInscriptionRetour, "cell 1 5,grow");
+		
+		JButton btnInscriptionValider = new JButton("Valider");
+		btnInscriptionValider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(txtboxInscription.getText().compareTo("") != 0)
+				{
+					//Méthode pour créer un utilisateur
+					pnlInscription.setVisible(false);
+					pnlMain.setVisible(true);
+				}
+			}
+		});
+		btnInscriptionValider.setFont(new Font("Calibri", Font.BOLD, 30));
+		pnlInscription.add(btnInscriptionValider, "cell 5 5,grow");
 						
 		JPanel pnlConnexion = new JPanel();
 		pnlConnexion.setVisible(false);
-		pnlConnexion.setBounds(1850, 40, 1920, 1080);
-		getContentPane().add(pnlConnexion);
-		pnlConnexion.setLayout(null);
+		getContentPane().add(pnlConnexion, "name_1742971397572300");
 						
 		JPanel pnlAccueil = new JPanel();
-		pnlAccueil.setBounds(1850, 60, 1920, 1080);
-		getContentPane().add(pnlAccueil);
-		pnlAccueil.setLayout(null);
+		getContentPane().add(pnlAccueil, "name_1742971413657900");
 				
 		JPanel pnlAllergenes = new JPanel();
 		pnlAllergenes.setVisible(false);
-		pnlAllergenes.setBounds(1850, 80, 1920, 1080);
-		getContentPane().add(pnlAllergenes);
+		getContentPane().add(pnlAllergenes, "name_1742971429427900");
 		pnlAllergenes.setLayout(null);
 				
 		JPanel pnlAllergenesTitle = new JPanel();
@@ -173,244 +204,107 @@ public class Interface extends JFrame {
 		
 		JPanel pnlRecette = new JPanel();
 		pnlRecette.setVisible(false);
-		pnlRecette.setBounds(1850, 100, 1920, 1080);
-		getContentPane().add(pnlRecette);
-		pnlRecette.setLayout(null);
-		
-		JPanel pnlRecetteIngredients = new JPanel();
-		pnlRecetteIngredients.setBounds(520, 250, 1380, 200);
-		pnlRecette.add(pnlRecetteIngredients);
-		pnlRecetteIngredients.setLayout(new GridLayout(2, 0, 0, 0));
-		
-		JPanel pnlRecetteSteps = new JPanel();
-		pnlRecetteSteps.setBounds(50, 450, 1850, 570);
-		pnlRecette.add(pnlRecetteSteps);
-		pnlRecetteSteps.setLayout(new GridLayout(3, 0, 0, 0));
-		
-		//Panel Main (1850;0)
-		
-		JButton btnMainInscription = new JButton("Inscription");
-		btnMainInscription.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pnlInscription.setLocation(0, 0);
-				pnlMain.setVisible(false);
-				pnlInscription.setVisible(true);
-			}
-		});
-		btnMainInscription.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnMainInscription.setBounds(510, 550, 300, 150);
-		pnlMain.add(btnMainInscription);
-				
-		JButton btnMainConnexion = new JButton("Connexion");
-		btnMainConnexion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pnlConnexion.setLocation(0,0);
-				pnlConnexion.setVisible(true);
-				pnlMain.setVisible(false);
-			}
-		});
-		btnMainConnexion.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnMainConnexion.setBounds(1110, 550, 300, 150);
-		pnlMain.add(btnMainConnexion);
-				
-		JLabel lblMainBienvenue = new JLabel("Bienvenue dans la meilleure application de recherche de recette à cuisiner !");
-		lblMainBienvenue.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMainBienvenue.setFont(new Font("Calibri", Font.BOLD, 40));
-		lblMainBienvenue.setBounds(310, 250, 1300, 50);
-		pnlMain.add(lblMainBienvenue);
-				
-		JLabel lblMainInscription = new JLabel("Nouvel utilisateur ?");
-		lblMainInscription.setFont(new Font("Calibri", Font.BOLD, 30));
-		lblMainInscription.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMainInscription.setBounds(510, 500, 300, 50);
-		pnlMain.add(lblMainInscription);
-				
-		JLabel lblMainConnexion = new JLabel("Déjà inscrit ?");
-		lblMainConnexion.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMainConnexion.setFont(new Font("Calibri", Font.BOLD, 30));
-		lblMainConnexion.setBounds(1110, 500, 300, 50);
-		pnlMain.add(lblMainConnexion);
-		
-		//Panel Inscription (1850;20)
-		
-		JLabel lblInscripitionMain = new JLabel("Quel bonheur d'accueillir un nouveau chef ! Entrez vos informations ci-dessous puis cliquez sur \"Valider\".");
-		lblInscripitionMain.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInscripitionMain.setFont(new Font("Calibri", Font.BOLD, 30));
-		lblInscripitionMain.setBounds(260, 200, 1400, 50);
-		pnlInscription.add(lblInscripitionMain);
-				
-		txtInscriptionUserName = new JTextField();
-		txtInscriptionUserName.setFont(new Font("Calibri", Font.PLAIN, 30));
-		txtInscriptionUserName.setHorizontalAlignment(SwingConstants.LEFT);
-		txtInscriptionUserName.setBounds(810, 400, 700, 50);
-		pnlInscription.add(txtInscriptionUserName);
-		txtInscriptionUserName.setColumns(10);
-		
-		JLabel lblInscriptionUserName = new JLabel("Nom d'utilisateur :");
-		lblInscriptionUserName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInscriptionUserName.setFont(new Font("Calibri", Font.BOLD, 30));
-		lblInscriptionUserName.setBounds(410, 400, 400, 50);
-		pnlInscription.add(lblInscriptionUserName);
-				
-		JLabel lblInscriptionPassword = new JLabel("Mot de passe :");
-		lblInscriptionPassword.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInscriptionPassword.setFont(new Font("Calibri", Font.BOLD, 30));
-		lblInscriptionPassword.setBounds(410, 500, 400, 50);
-		pnlInscription.add(lblInscriptionPassword);
-				
-		JLabel lblInscriptionPasswordConfirm = new JLabel("Confirmer mot de passe :");
-		lblInscriptionPasswordConfirm.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInscriptionPasswordConfirm.setFont(new Font("Calibri", Font.BOLD, 30));
-		lblInscriptionPasswordConfirm.setBounds(410, 600, 400, 50);
-		pnlInscription.add(lblInscriptionPasswordConfirm);
-				
-		JButton btnInscriptionValider = new JButton("Valider");
-		btnInscriptionValider.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(txtInscriptionUserName.getText().compareTo("") != 0 && pswdInscription.getText().compareTo("") != 0 && pswdInscriptionConfirm.getText().compareTo("") != 0)
-				{
-					if(pswdInscription.getText().compareTo(pswdInscriptionConfirm.getText()) == 0)
-					{
-						username = txtInscriptionUserName.getText();
-						password = pswdInscription.getText();
-						txtInscriptionUserName.setText("");
-						pswdInscription.setText("");
-						pswdInscriptionConfirm.setText("");
-						pnlInscription.setVisible(false);
-						pnlMain.setVisible(true);
-					}
-				}
-			}
-		});
-		btnInscriptionValider.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnInscriptionValider.setBounds(1520, 830, 300, 150);
-		pnlInscription.add(btnInscriptionValider);
-				
-		JButton btnInscriptionRetour = new JButton("Retour");
-		btnInscriptionRetour.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-				pnlInscription.setVisible(false);
-				pnlMain.setVisible(true);
-				txtInscriptionUserName.setText("");
-				pswdInscription.setText("");
-				pswdInscriptionConfirm.setText("");
-			}
-		});
-		btnInscriptionRetour.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnInscriptionRetour.setBounds(100, 830, 300, 150);
-		pnlInscription.add(btnInscriptionRetour);		
-				
-		pswdInscription = new JPasswordField();
-		pswdInscription.setHorizontalAlignment(SwingConstants.LEFT);
-		pswdInscription.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pswdInscription.setBounds(810, 500, 700, 50);
-		pnlInscription.add(pswdInscription);
-				
-		pswdInscriptionConfirm = new JPasswordField();
-		pswdInscriptionConfirm.setHorizontalAlignment(SwingConstants.LEFT);
-		pswdInscriptionConfirm.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pswdInscriptionConfirm.setBounds(810, 600, 700, 50);
-		pnlInscription.add(pswdInscriptionConfirm);
-				
-		//Panel Connexion (1850;40)
-		
-		JLabel lblConnexionMain = new JLabel("Heureux de vous revoir ! Entrez vos paramètres de connexion ci-dessous.");
-		lblConnexionMain.setHorizontalAlignment(SwingConstants.CENTER);
-		lblConnexionMain.setFont(new Font("Calibri", Font.BOLD, 30));
-		lblConnexionMain.setBounds(460, 200, 1000, 50);
-		pnlConnexion.add(lblConnexionMain);
-		
-		JLabel lblConnexionUsername = new JLabel("Nom d'utilisateur :");
-		lblConnexionUsername.setFont(new Font("Calibri", Font.BOLD, 30));
-		lblConnexionUsername.setHorizontalAlignment(SwingConstants.CENTER);
-		lblConnexionUsername.setBounds(460, 400, 300, 50);
-		pnlConnexion.add(lblConnexionUsername);
-		
-		txtConnexionUsername = new JTextField();
-		txtConnexionUsername.setFont(new Font("Calibri", Font.PLAIN, 30));
-		txtConnexionUsername.setHorizontalAlignment(SwingConstants.LEFT);
-		txtConnexionUsername.setBounds(760, 400, 700, 50);
-		pnlConnexion.add(txtConnexionUsername);
-		txtConnexionUsername.setColumns(10);
-		
-		JLabel lblConnexionPassword = new JLabel("Mot de passe :");
-		lblConnexionPassword.setHorizontalAlignment(SwingConstants.CENTER);
-		lblConnexionPassword.setFont(new Font("Calibri", Font.BOLD, 30));
-		lblConnexionPassword.setBounds(460, 500, 300, 50);
-		pnlConnexion.add(lblConnexionPassword);
-		
-		pswdConnexion = new JPasswordField();
-		pswdConnexion.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pswdConnexion.setHorizontalAlignment(SwingConstants.LEFT);
-		pswdConnexion.setBounds(760, 500, 700, 50);
-		pnlConnexion.add(pswdConnexion);
-		
-		JButton btnConnexionRetour = new JButton("Retour");
-		btnConnexionRetour.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				txtConnexionUsername.setText("");
-				pswdConnexion.setText("");
-				pnlMain.setVisible(true);
-				pnlConnexion.setVisible(false);
-			}
-		});
-		btnConnexionRetour.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnConnexionRetour.setBounds(100, 830, 300, 150);
-		pnlConnexion.add(btnConnexionRetour);
-		
-		JLabel lblAccueilMain = new JLabel("Bienvenue dans votre cuisine, ... ! Que souhaitez-vous faire ?");
-		lblAccueilMain.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAccueilMain.setFont(new Font("Calibri", Font.BOLD, 30));
-		lblAccueilMain.setBounds(60, 100, 1800, 50);
-		pnlAccueil.add(lblAccueilMain);
-		
-		JButton btnConnexionValider = new JButton("Valider");
-		btnConnexionValider.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(txtConnexionUsername.getText().compareTo(username) == 0 && pswdConnexion.getText().compareTo(password) == 0)
-				{
-					txtConnexionUsername.setText("");
-					pswdConnexion.setText("");
-					lblAccueilMain.setText("Bienvenue dans votre cuisine, " + username + "! Que souhaitez-vous faire ?");
-					pnlAccueil.setLocation(0,0);
-					pnlAccueil.setVisible(true);
-					pnlConnexion.setVisible(false);
-				}
-			}
-		});
-		btnConnexionValider.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnConnexionValider.setBounds(1520, 830, 300, 150);
-		pnlConnexion.add(btnConnexionValider);
+		getContentPane().add(pnlRecette, "name_1742971446209000");
+		pnlRecette.setLayout(new MigLayout("", "[34%][33%,grow][33%]", "[50px][50px][8%,grow][8%,grow][30%,grow][50%,grow]"));
 		
 		//Panel Recette (1850;120)
 		
 		JLabel lblRecetteTitre = new JLabel("\"Titre recette\"");
 		lblRecetteTitre.setFont(new Font("Calibri", Font.BOLD, 30));
 		lblRecetteTitre.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRecetteTitre.setBounds(500, 0, 1400, 50);
-		pnlRecette.add(lblRecetteTitre);
-				
+		pnlRecette.add(lblRecetteTitre, "cell 1 0 2 1,grow");
+		
 		JLabel lblRecetteCookTime = new JLabel("\"Temps\"");
 		lblRecetteCookTime.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRecetteCookTime.setFont(new Font("Calibri", Font.PLAIN, 25));
-		lblRecetteCookTime.setBounds(500, 110, 1400, 50);
-		pnlRecette.add(lblRecetteCookTime);
-				
-		JLabel lblRecetteSummary = new JLabel("\"Résumé\"");
-		lblRecetteSummary.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRecetteSummary.setFont(new Font("Calibri", Font.PLAIN, 25));
-		lblRecetteSummary.setBounds(500, 30, 1400, 100);
-		pnlRecette.add(lblRecetteSummary);
-				
-		JLabel lblRecetteImage = new JLabel("\"Image\"");
-		lblRecetteImage.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRecetteImage.setBounds(0, 0, 500, 450);
-		pnlRecette.add(lblRecetteImage);
-				
+		pnlRecette.add(lblRecetteCookTime, "cell 1 1 2 1,grow");
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		pnlRecette.add(btnNewButton_1, "flowy,cell 1 3");
+		
 		JLabel lblRecetteIngredients = new JLabel("Ingredients :");
 		lblRecetteIngredients.setFont(new Font("Calibri", Font.BOLD, 30));
-		lblRecetteIngredients.setBounds(520, 200, 1380, 50);
-		pnlRecette.add(lblRecetteIngredients);
+		pnlRecette.add(lblRecetteIngredients, "cell 1 3,grow");
+		
+		JPanel pnlRecetteIngredients = new JPanel();
+		pnlRecette.add(pnlRecetteIngredients, "cell 2 4,grow");
+		pnlRecetteIngredients.setLayout(new GridLayout(2, 0, 0, 0));
+		
+		JPanel pnlRecetteSteps = new JPanel();
+		pnlRecette.add(pnlRecetteSteps, "cell 0 5 3 1,grow");
+		pnlRecetteSteps.setLayout(new GridLayout(3, 0, 0, 0));
+		pnlMain.setLayout(new MigLayout("", "[50px:10%,grow][300px][30%,grow][300px][50px:10%,grow]", "[5%,grow][80px][20%,grow][80px][150px][20%,grow]"));
+		
+		JLabel lblMainBienvenue = new JLabel("Bienvenue dans la meilleure application de recherche de recette à cuisiner !");
+		lblMainBienvenue.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMainBienvenue.setFont(new Font("Calibri", Font.BOLD, 35));
+		pnlMain.add(lblMainBienvenue, "cell 1 1 3 1,grow");
+		
+		JLabel lblMainInscription = new JLabel("Nouvel utilisateur ?");
+		lblMainInscription.setFont(new Font("Calibri", Font.BOLD, 30));
+		lblMainInscription.setHorizontalAlignment(SwingConstants.CENTER);
+		pnlMain.add(lblMainInscription, "cell 1 3,grow");
+		
+		JLabel lblMainConnexion = new JLabel("Déjà inscrit ?");
+		lblMainConnexion.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMainConnexion.setFont(new Font("Calibri", Font.BOLD, 30));
+		pnlMain.add(lblMainConnexion, "cell 3 3,grow");
+		
+		//Panel Connexion (1850;40)
+		
+		JLabel lblConnexionMain = new JLabel("Heureux de vous revoir ! Cliquez sur votre compte ci-dessous.");
+		lblConnexionMain.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConnexionMain.setFont(new Font("Calibri", Font.BOLD, 30));
+		pnlConnexion.add(lblConnexionMain, "cell 2 1,grow");
+				
+		JButton btnConnexionRetour = new JButton("Retour");
+		btnConnexionRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pnlMain.setVisible(true);
+				pnlConnexion.setVisible(false);
+			}
+		});
+				
+		JPanel pnlConnexionComptes = new JPanel();
+		pnlConnexion.add(pnlConnexionComptes, "cell 2 3,grow");
+		pnlConnexionComptes.setLayout(new GridLayout(1, 0, 0, 0));
+		btnConnexionRetour.setFont(new Font("Calibri", Font.BOLD, 30));
+		pnlConnexion.add(btnConnexionRetour, "cell 1 5,grow");
+		pnlAccueil.setLayout(new MigLayout("", "[10%,grow][25%,grow][30%,grow][25%,grow][10%,grow]", "[5%,grow][50px][10%,grow][15%,grow][15%,grow][15%,grow][15%,grow][15%,grow]"));
+				
+		JLabel lblAccueilMain = new JLabel("Bienvenue dans votre cuisine, ... ! Que souhaitez-vous faire ?");
+		lblAccueilMain.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAccueilMain.setFont(new Font("Calibri", Font.BOLD, 30));
+		pnlAccueil.add(lblAccueilMain, "cell 1 1 3 1,grow");
+						
+		JLabel lblRecetteImage = new JLabel("\"Image\"");
+		lblRecetteImage.setHorizontalAlignment(SwingConstants.CENTER);
+		pnlRecette.add(lblRecetteImage, "cell 0 1 1 4,grow");
+		
+		//Panel Main (1850;0)
+		
+		JButton btnMainInscription = new JButton("Inscription");
+		btnMainInscription.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pnlMain.setVisible(false);
+				pnlInscription.setVisible(true);
+			}
+		});
+		btnMainInscription.setFont(new Font("Calibri", Font.BOLD, 30));
+		pnlMain.add(btnMainInscription, "cell 1 4,grow");
+		
+		JButton btnMainConnexion = new JButton("Connexion");
+		btnMainConnexion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Méthode pour récupérer les User
+				//InteractionBackFront.remplissagePanelConnexionComptes(pnlConnexionComptes, ); /!\ Ajouter le champ contenant la liste de User
+				pnlConnexion.setVisible(true);
+				pnlMain.setVisible(false);
+			}
+		});
+		btnMainConnexion.setFont(new Font("Calibri", Font.BOLD, 30));
+		pnlMain.add(btnMainConnexion, "cell 3 4,grow");
+		pnlConnexion.setLayout(new MigLayout("", "[10%,grow][300px][50%,grow][20%,grow]", "[5%,grow][50px][10%,grow][grow][10%,grow][150px][5%,grow]"));
 		
 		//Panel Accueil (1850;60)
 		
@@ -420,17 +314,19 @@ public class Interface extends JFrame {
 			}
 		});
 		btnAccueilAddIngredient.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnAccueilAddIngredient.setBounds(1240, 250, 400, 100);
-		pnlAccueil.add(btnAccueilAddIngredient);
+		pnlAccueil.add(btnAccueilAddIngredient, "cell 3 3,grow");
 		
 		JButton btnAccueilContentFrigo = new JButton("Voir le contenu du frigo");
 		btnAccueilContentFrigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
+		
+		JButton btnAccueilListeCourses = new JButton("Voir Liste de courses");
+		btnAccueilListeCourses.setFont(new Font("Calibri", Font.BOLD, 30));
+		pnlAccueil.add(btnAccueilListeCourses, "cell 1 4,grow");
 		btnAccueilContentFrigo.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnAccueilContentFrigo.setBounds(1240, 400, 400, 100);
-		pnlAccueil.add(btnAccueilContentFrigo);
+		pnlAccueil.add(btnAccueilContentFrigo, "cell 3 4,grow");
 		
 		JButton btnAccueilCheckFavorite = new JButton("Voir vos recettes favorites");
 		btnAccueilCheckFavorite.addActionListener(new ActionListener() {
@@ -438,8 +334,7 @@ public class Interface extends JFrame {
 			}
 		});
 		btnAccueilCheckFavorite.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnAccueilCheckFavorite.setBounds(1240, 550, 400, 100);
-		pnlAccueil.add(btnAccueilCheckFavorite);
+		pnlAccueil.add(btnAccueilCheckFavorite, "cell 3 5,grow");
 		
 		JButton btnAccueilSearchRecipes = new JButton("Chercher une recette");
 		btnAccueilSearchRecipes.addActionListener(new ActionListener() {
@@ -448,12 +343,11 @@ public class Interface extends JFrame {
 				pnlRecette.setVisible(true);
 				pnlAccueil.setVisible(false);
 				
-				InteractionBackFront.actualisationRecette(lblRecetteImage, lblRecetteTitre, lblRecetteSummary, lblRecetteCookTime, pnlRecetteIngredients, pnlRecetteSteps, recette);
+				InteractionBackFront.actualisationRecette(lblRecetteImage, lblRecetteTitre, lblRecetteCookTime, pnlRecetteIngredients, pnlRecetteSteps, recette);
 			}
 		});
 		btnAccueilSearchRecipes.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnAccueilSearchRecipes.setBounds(1240, 700, 400, 100);
-		pnlAccueil.add(btnAccueilSearchRecipes);
+		pnlAccueil.add(btnAccueilSearchRecipes, "cell 3 6,grow");
 		
 		JButton btnAccueilAllergenes = new JButton("Voir/Modifier vos allergènes");
 		btnAccueilAllergenes.addActionListener(new ActionListener() {
@@ -461,23 +355,12 @@ public class Interface extends JFrame {
 			}
 		});
 		btnAccueilAllergenes.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnAccueilAllergenes.setBounds(280, 250, 400, 100);
-		pnlAccueil.add(btnAccueilAllergenes);
+		pnlAccueil.add(btnAccueilAllergenes, "cell 1 3,grow");
 		
 		JLabel lblAccueilExpired = new JLabel("");
 		lblAccueilExpired.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAccueilExpired.setFont(new Font("Calibri", Font.BOLD, 30));
-		lblAccueilExpired.setBounds(460, 880, 1000, 50);
-		pnlAccueil.add(lblAccueilExpired);
-		
-		JButton btnAccueilSettings = new JButton("Modifer les paramètres");
-		btnAccueilSettings.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnAccueilSettings.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnAccueilSettings.setBounds(280, 550, 400, 100);
-		pnlAccueil.add(btnAccueilSettings);
+		pnlAccueil.add(lblAccueilExpired, "cell 1 7 3 1,grow");
 		
 		JButton btnAccueilDeconnexion = new JButton("Déconnexion");
 		btnAccueilDeconnexion.addActionListener(new ActionListener() {
@@ -487,8 +370,7 @@ public class Interface extends JFrame {
 			}
 		});
 		btnAccueilDeconnexion.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnAccueilDeconnexion.setBounds(280, 700, 400, 100);
-		pnlAccueil.add(btnAccueilDeconnexion);
+		pnlAccueil.add(btnAccueilDeconnexion, "cell 1 6,grow");
 		
 		//Panel Allergenes (1850;80)
 		
