@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JButton;
@@ -12,6 +14,9 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -360,6 +365,26 @@ public class Interface extends JFrame {
 				for (Ingredient ingredient : liste) {
 		            System.out.println(ingredient.getName());
 		        }
+				
+				JPanel ingredientDisplay = new JPanel();
+				getContentPane().add(ingredientDisplay);
+				
+				//ingredientDisplay.setLayout(new GridLayout(l_testIngredients.size(), 1));
+				DefaultTableModel tableModel = new DefaultTableModel();
+			    tableModel.addColumn("Ingredient Name");
+			    
+				for (Ingredient ingredient :  l_testIngredients) {
+		            // Create a JLabel for each ingredient and add it to the panel
+		            //JLabel label = new JLabel(ingredient.getName());
+		            tableModel.addRow(new Object[]{ingredient.getName()});
+		            //ingredientDisplay.add(label);
+		        }
+				
+				JTable ingredientTable = new JTable(tableModel);
+				ingredientDisplay.add(new JScrollPane(ingredientTable));
+				ingredientDisplay.setVisible(true);
+				pnlAccueil.setVisible(false);
+				
 			}
 		});
 		
