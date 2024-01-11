@@ -7,11 +7,16 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import fr.tse.fise2.info4.Database;
+import fr.tse.fise2.info4.Classes.*;
+import fr.tse.fise2.info4.*;
 
 public class InteractionBackFront {
 	public static void actualisationRecette(JLabel recipeImage, JLabel recipeTitle, JLabel recipeTime, JPanel recipeIngredients, JPanel recipeSteps, Recipe recipe)
@@ -69,7 +74,9 @@ public class InteractionBackFront {
 		}
 	}
 	
-	public static void remplissagePanelConnexionComptes2(JPanel pnl, List<String> comptes)
+	
+	
+	public static void remplissagePanelConnexionComptes2(JPanel pnl, List<String> comptes ,JPanel pnlConnexion,JPanel pnlAccueil)
 	{
 		int i = 0;
 		while(i < comptes.size())
@@ -84,9 +91,44 @@ public class InteractionBackFront {
 				public void actionPerformed(ActionEvent e) {
 					
 					System.out.println("L'utilisateur choisit est : "+name);
-					//User userSelected = getName();
+					pnlConnexion.setVisible(false);
+					pnlAccueil.setVisible(true);
+					
+					
+					//userSelected = Database.getUser(name);
 				}
 			});
 		}
+	}
+
+	public static void remplissagePanelConnexionComptes3(JPanel pnl, List<String> comptes,
+			JPanel pnlConnexion, JPanel pnlAccueil, AtomicReference<String> usernameRef) {
+		// TODO Auto-generated method stub
+		int i = 0;
+		while(i < comptes.size())
+		{
+			JButton button = new JButton();
+			String name =comptes.get(i);
+			button.setText(name);
+			button.setFont(new Font("Calibri", Font.PLAIN, 30));
+			pnl.add(button);
+			i++;
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					System.out.println("L'utilisateur choisit est : "+name);
+					//username=name;
+					usernameRef.set(name);
+					pnlConnexion.setVisible(false);
+					pnlAccueil.setVisible(true);
+					
+					
+					
+					
+					//userSelected = Database.getUser(name);
+				}
+			});
+		}
+		
 	}
 }

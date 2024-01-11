@@ -24,6 +24,7 @@ import javax.swing.JPasswordField;
 import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.ArrayList;
 
 import java.net.*;
@@ -66,7 +67,9 @@ public class Interface extends JFrame {
 	
 	String username = "abc";
 	private JTextField txtboxInscription;
-
+	AtomicReference<String> usernameRef = new AtomicReference<>();
+	String selectedUsername="";
+	User mon_user=new User(1,"testName",null,null,new ShoppingList());
 	/**
 	 * Create the frame.
 	 */
@@ -76,8 +79,8 @@ public class Interface extends JFrame {
 		
 		// Variables
 		
-		Ingredient ingredient1 = new Ingredient("2023-01-01", "Tomato", null,null);
-        Ingredient ingredient2 = new Ingredient("2023-02-15", "Milk", null,null);
+		Ingredient ingredient1 = new Ingredient("2023-01-01", "Tomato", 1.0,null);
+        Ingredient ingredient2 = new Ingredient("2023-02-15", "Milk", 1.0,null);
         
         List<Ingredient> l_ingredients = new ArrayList<Ingredient>();
         List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
@@ -98,6 +101,7 @@ public class Interface extends JFrame {
         Ingredient testIngredient5 = new Ingredient(null, "basil", 1.0,"Tbsp");
         Ingredient testIngredient6 = new Ingredient(null, "salt & pepper", 1.0,"pinch");
         Ingredient testIngredient7 = new Ingredient(null, "olive oil", 4.0,"servings");
+        Ingredient testIngredient8 = new Ingredient(null, "pineapples", 1.0,"piece" );
         
         Ingredient testUsedIngredient1 = new Ingredient(null, "tomatoes", 2.0,"");
         Ingredient testUsedIngredient2 = new Ingredient(null, "unripened goat's milk cheese", 0.25,"cup");
@@ -142,7 +146,7 @@ public class Interface extends JFrame {
 		
 		JPanel pnlMain = new JPanel();
 		getContentPane().add(pnlMain, "name_1742971366120500");
-								
+		
 		JPanel pnlInscription = new JPanel();
 		pnlInscription.setVisible(false);
 		getContentPane().add(pnlInscription, "name_1742971381735700");
@@ -182,7 +186,7 @@ public class Interface extends JFrame {
 					//Méthode pour créer un utilisateur
 					String username_input=txtboxInscription.getText();
 					System.out.println("username input is : "+username_input);
-					Database.addUser(username_input); // cela donne des erreurs à corriger
+					Database.addUser(username_input); 
 					//User newUser = Database.getUser(username_input);
 					// On récupère içi l'utilisateur
 					
@@ -275,7 +279,7 @@ public class Interface extends JFrame {
 		JLabel lblConnexionMain = new JLabel("Heureux de vous revoir ! Cliquez sur votre compte ci-dessous.");
 		lblConnexionMain.setHorizontalAlignment(SwingConstants.CENTER);
 		lblConnexionMain.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlConnexion.add(lblConnexionMain, "cell 2 1,grow");
+		pnlConnexion.add(lblConnexionMain, "cell 0 0");
 				
 		JButton btnConnexionRetour = new JButton("Retour");
 		btnConnexionRetour.addActionListener(new ActionListener() {
@@ -286,13 +290,13 @@ public class Interface extends JFrame {
 		});
 				
 		JPanel pnlConnexionComptes = new JPanel();
-		pnlConnexion.add(pnlConnexionComptes, "cell 2 3,grow");
+		pnlConnexion.add(pnlConnexionComptes, "alignx center,aligny center");
 		pnlConnexionComptes.setLayout(new GridLayout(1, 0, 0, 0));
 		btnConnexionRetour.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlConnexion.add(btnConnexionRetour, "cell 1 5,grow");
+		pnlConnexion.add(btnConnexionRetour, "cell 2 0");
 		pnlAccueil.setLayout(new MigLayout("", "[10%,grow][25%,grow][30%,grow][25%,grow][10%,grow]", "[5%,grow][50px][10%,grow][15%,grow][15%,grow][15%,grow][15%,grow][15%,grow]"));
 				
-		JLabel lblAccueilMain = new JLabel("Bienvenue dans votre cuisine, ... ! Que souhaitez-vous faire ?");
+		JLabel lblAccueilMain = new JLabel("Bienvenue dans votre cuisine,"+selectedUsername+" ! Que souhaitez-vous faire ?");
 		lblAccueilMain.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAccueilMain.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlAccueil.add(lblAccueilMain, "cell 1 1 3 1,grow");
@@ -318,9 +322,10 @@ public class Interface extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//Méthode pour récupérer les User
 				//InteractionBackFront.remplissagePanelConnexionComptes(pnlConnexionComptes, ); /!\ Ajouter le champ contenant la liste de User
-				InteractionBackFront.remplissagePanelConnexionComptes2(pnlConnexionComptes, allUsers);
+				InteractionBackFront.remplissagePanelConnexionComptes3(pnlConnexionComptes, allUsers,pnlConnexion,pnlAccueil,usernameRef);
 				pnlConnexion.setVisible(true);
 				pnlMain.setVisible(false);
+				
 			}
 		});
 		btnMainConnexion.setFont(new Font("Calibri", Font.BOLD, 30));
@@ -332,6 +337,16 @@ public class Interface extends JFrame {
 		JButton btnAccueilAddIngredient = new JButton("Ajouter un ingrédient");
 		btnAccueilAddIngredient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				selectedUsername = usernameRef.get();
+				System.out.println("Nom d'utilisateur sélectionné : " + selectedUsername);
+				mon_user=Database.getUser(selectedUsername);
+				//mon_user.AddIngredient(testIngredient1);
+				mon_user.AddIngredient(testIngredient8);
+				//mon_user.AddIngredient(testIngredient3);
+				//pnlAccueil.setVisible(false);
+				
+				
+				
 			}
 		});
 		btnAccueilAddIngredient.setFont(new Font("Calibri", Font.BOLD, 30));
@@ -340,6 +355,11 @@ public class Interface extends JFrame {
 		JButton btnAccueilContentFrigo = new JButton("Voir le contenu du frigo");
 		btnAccueilContentFrigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Fridge fridge=mon_user.getFridge();
+				List<Ingredient> liste = fridge.getInventory();
+				for (Ingredient ingredient : liste) {
+		            System.out.println(ingredient.getName());
+		        }
 			}
 		});
 		
