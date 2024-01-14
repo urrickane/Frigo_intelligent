@@ -13,6 +13,12 @@ public class Recipe {
     private List<String> l_steps;
 
     private Integer nbPeople;
+    
+    private boolean isFav=false;
+    
+    public boolean getIsFav() {
+    	return isFav;
+    }
 
     public String getSummary() {
         return summary;
@@ -55,8 +61,13 @@ public class Recipe {
         return cookingTime;
     }
 
+    public void setIsFav(boolean a) {
+    	isFav=a;
+    }
+    
     private int cookingTime;
 
+    
     // Constructeur avec paramètres
     public Recipe(String linkToImage, String title, List<Ingredient> l_ingredients,String summary,int nbPeople,List<String> l_steps,List<Ingredient> l_usedIngredients,List<Ingredient> l_missingIngredients, int cookingTime) {
         this.linkToImage = linkToImage;
