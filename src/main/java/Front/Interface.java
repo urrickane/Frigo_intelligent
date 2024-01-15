@@ -168,7 +168,7 @@ public class Interface extends JFrame {
 		pnlConnexion.setVisible(false);
 						
 		JPanel pnlAccueil = new JPanel();
-		pnlAccueil.setBounds(1850, 800, 1920, 1080);
+		pnlAccueil.setBounds(0, 0, 1920, 1080);
 		getContentPane().add(pnlAccueil);
 		pnlAccueil.setLayout(null);
 		//pnlAccueil.setVisible(false);
@@ -218,7 +218,7 @@ public class Interface extends JFrame {
 		pnlRecettesFav.setVisible(false);
 		
 		JPanel pnlChercherRecette = new JPanel();
-		pnlChercherRecette.setBounds(0, 0, 1920, 1060);
+		pnlChercherRecette.setBounds(1850, 800, 1920, 1060);
 		getContentPane().add(pnlChercherRecette);
 		pnlChercherRecette.setLayout(null);
 		pnlChercherRecette.setVisible(false);
@@ -258,13 +258,14 @@ public class Interface extends JFrame {
 		pnlChercherRecette.add(listChercherRecette);
 		
 		JButton btnFavRecette = new JButton("Mettre la recette sélectionnée en favori");
+		btnFavRecette.setForeground(new Color(255, 255, 255));
 		btnFavRecette.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int selectedIndex = listChercherRecette.getSelectedIndex();
 				Recipe selectedRecipe;
 			    if (selectedIndex != -1) {
 			    	selectedRecipe=listModelRecipeFav.get(selectedIndex);
-			    	
+			    	selectedRecipe.setIsFav(true);
 			    }
 			}
 		});
