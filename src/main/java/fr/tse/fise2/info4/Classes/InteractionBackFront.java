@@ -95,7 +95,7 @@ public class InteractionBackFront {
 					pnlAccueil.setVisible(true);
 					
 					
-					//userSelected = Database.getUser(name);
+					//userSelected = Database.setUser(name);
 				}
 			});
 		}

@@ -10,6 +10,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -43,6 +45,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import fr.tse.fise2.info4.*;
+import fr.tse.fise2.info4.API.API;
 public class Interface extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -100,13 +103,13 @@ public class Interface extends JFrame {
         l_steps.add("Bake the tomatoes for about 20 minutes, or until softened and slightly browned.");
         l_steps.add("Serve hot or at room temperature.");
         
-        Ingredient testIngredient1 = new Ingredient(null, "tomatoes", 2.0,"");
-        Ingredient testIngredient2 = new Ingredient(null, "unripened goat's milk cheese", 61.0,"ml");
-        Ingredient testIngredient3 = new Ingredient(null, "parmesan", 2.0,"Tbsps");
-        Ingredient testIngredient5 = new Ingredient(null, "basil", 1.0,"Tbsp");
-        Ingredient testIngredient6 = new Ingredient(null, "salt & pepper", 1.0,"pinch");
-        Ingredient testIngredient7 = new Ingredient(null, "olive oil", 4.0,"servings");
-        Ingredient testIngredient8 = new Ingredient(null, "pineapples", 1.0,"piece" );
+        Ingredient testIngredient1 = new Ingredient("", "tomatoes", 2.0,"");
+        Ingredient testIngredient2 = new Ingredient("", "unripened goat's milk cheese", 61.0,"ml");
+        Ingredient testIngredient3 = new Ingredient("", "parmesan", 2.0,"Tbsps");
+        Ingredient testIngredient5 = new Ingredient("", "basil", 1.0,"Tbsp");
+        Ingredient testIngredient6 = new Ingredient("", "salt & pepper", 1.0,"pinch");
+        Ingredient testIngredient7 = new Ingredient("", "olive oil", 4.0,"servings");
+        Ingredient testIngredient8 = new Ingredient("", "pineapples", 1.0,"piece" );
         
         Ingredient testUsedIngredient1 = new Ingredient(null, "tomatoes", 2.0,"");
         Ingredient testUsedIngredient2 = new Ingredient(null, "unripened goat's milk cheese", 0.25,"cup");
@@ -192,7 +195,7 @@ public class Interface extends JFrame {
 					String username_input=txtboxInscription.getText();
 					System.out.println("username input is : "+username_input);
 					Database.addUser(username_input); 
-					//User newUser = Database.getUser(username_input);
+					// User newUser = Database.getUser(username_input);
 					// On récupère içi l'utilisateur
 					
 					
@@ -345,7 +348,7 @@ public class Interface extends JFrame {
 				selectedUsername = usernameRef.get();
 				System.out.println("Nom d'utilisateur sélectionné : " + selectedUsername);
 				mon_user=Database.getUser(selectedUsername);
-				//mon_user.AddIngredient(testIngredient1);
+				mon_user.AddIngredient(testIngredient1);
 				mon_user.AddIngredient(testIngredient8);
 				//mon_user.AddIngredient(testIngredient3);
 				//pnlAccueil.setVisible(false);
@@ -373,7 +376,7 @@ public class Interface extends JFrame {
 				DefaultTableModel tableModel = new DefaultTableModel();
 			    tableModel.addColumn("Ingredient Name");
 			    
-				for (Ingredient ingredient :  l_testIngredients) {
+				for (Ingredient ingredient :  liste) {
 		            // Create a JLabel for each ingredient and add it to the panel
 		            //JLabel label = new JLabel(ingredient.getName());
 		            tableModel.addRow(new Object[]{ingredient.getName()});
@@ -405,6 +408,17 @@ public class Interface extends JFrame {
 		JButton btnAccueilSearchRecipes = new JButton("Chercher une recette");
 		btnAccueilSearchRecipes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				User user = new User(99,"mr",null, null, null);
+				API instance=new API();
+				List<Recipe> recipes = instance.ComplexSearch(user, 10, "popularity", true, true, true);
+				
+				 JComboBox<String> recipeComboBox = new JComboBox<>();
+			        if (recipes != null) {
+			            for (Recipe recipe : recipes) {
+			                recipeComboBox.addItem(recipe.getTitle());
+			            }
+			        }
+				
 				pnlRecette.setLocation(0,0);
 				pnlRecette.setVisible(true);
 				pnlAccueil.setVisible(false);
