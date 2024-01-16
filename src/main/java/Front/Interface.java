@@ -42,6 +42,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+import net.miginfocom.swing.MigLayout;
+import java.awt.CardLayout;
 
 public class Interface extends JFrame {
 
@@ -90,7 +92,6 @@ public class Interface extends JFrame {
 		setResizable(false);
 		setMinimumSize(new Dimension(1920, 1060));
 		getContentPane().setMinimumSize(new Dimension(1920, 1080));
-		getContentPane().setLayout(null);
 		
 		// Variables
 		
@@ -146,36 +147,31 @@ public class Interface extends JFrame {
                 l_steps,
                 l_testUsedIngredients,
                 l_testMissingIngredients,45);
+		getContentPane().setLayout(new CardLayout(0, 0));
 
 		
 		//Panels
 		
 		JPanel pnlMain = new JPanel();
-		pnlMain.setBounds(1850, 800, 1920, 1080);
-		getContentPane().add(pnlMain);
-		pnlMain.setLayout(null);
+		getContentPane().add(pnlMain, "name_1260978277190400");
 								
 		JPanel pnlInscription = new JPanel();
-		pnlInscription.setBounds(1850, 800, 1920, 1080);
-		getContentPane().add(pnlInscription);
+		getContentPane().add(pnlInscription, "name_1260978321775600");
 		pnlInscription.setLayout(null);
 		pnlInscription.setVisible(false);
 						
 		JPanel pnlConnexion = new JPanel();
-		pnlConnexion.setBounds(1850, 40, 1920, 1080);
-		getContentPane().add(pnlConnexion);
+		getContentPane().add(pnlConnexion, "name_1260978362757500");
 		pnlConnexion.setLayout(null);
 		pnlConnexion.setVisible(false);
 						
 		JPanel pnlAccueil = new JPanel();
-		pnlAccueil.setBounds(0, 0, 1920, 1080);
-		getContentPane().add(pnlAccueil);
+		getContentPane().add(pnlAccueil, "name_1260978407053000");
 		pnlAccueil.setLayout(null);
 		//pnlAccueil.setVisible(false);
 				
 		JPanel pnlAllergenes = new JPanel();
-		pnlAllergenes.setBounds(1850, 80, 1920, 1080);
-		getContentPane().add(pnlAllergenes);
+		getContentPane().add(pnlAllergenes, "name_1260978451111300");
 		pnlAllergenes.setLayout(null);
 		pnlAllergenes.setVisible(false);
 				
@@ -196,8 +192,7 @@ public class Interface extends JFrame {
 		
 		JPanel pnlRecette = new JPanel();
 		pnlRecette.setVisible(false);
-		pnlRecette.setBounds(1850, 800, 1920, 1080);
-		getContentPane().add(pnlRecette);
+		getContentPane().add(pnlRecette, "name_1260978495132100");
 		pnlRecette.setLayout(null);
 		
 		JPanel pnlRecetteIngredients = new JPanel();
@@ -212,32 +207,27 @@ public class Interface extends JFrame {
 		pnlRecetteSteps.setLayout(new GridLayout(3, 0, 0, 0));
 		
 		JPanel pnlRecettesFav = new JPanel();
-		pnlRecettesFav.setBounds(1920, 1060, 1920, 1060);
-		getContentPane().add(pnlRecettesFav);
+		getContentPane().add(pnlRecettesFav, "name_1260978536942300");
 		pnlRecettesFav.setLayout(null);
 		pnlRecettesFav.setVisible(false);
 		
 		JPanel pnlChercherRecette = new JPanel();
-		pnlChercherRecette.setBounds(1850, 800, 1920, 1060);
-		getContentPane().add(pnlChercherRecette);
+		getContentPane().add(pnlChercherRecette, "name_1260978577235600");
 		pnlChercherRecette.setLayout(null);
 		pnlChercherRecette.setVisible(false);
 		
 		JPanel pnlVoirFrigo = new JPanel();
-		pnlVoirFrigo.setBounds(1850, 800, 1920, 1060);
-		getContentPane().add(pnlVoirFrigo);
+		getContentPane().add(pnlVoirFrigo, "name_1260978616199300");
 		pnlVoirFrigo.setLayout(null);
 		pnlVoirFrigo.setVisible(false);
 		
 		JPanel pnlListeCourse = new JPanel();
-		pnlListeCourse.setBounds(1850, 800, 1920, 1060);
-		getContentPane().add(pnlListeCourse);
+		getContentPane().add(pnlListeCourse, "name_1260978656552900");
 		pnlListeCourse.setLayout(null);
 		pnlListeCourse.setVisible(false);
 		
 		JPanel pnlAjoutIng = new JPanel();
-		pnlAjoutIng.setBounds(1850, 800, 10, 10);
-		getContentPane().add(pnlAjoutIng);
+		getContentPane().add(pnlAjoutIng, "name_1260978699163300");
 		pnlAjoutIng.setLayout(null);
 		pnlAjoutIng.setVisible(false);
 		
@@ -298,9 +288,9 @@ public class Interface extends JFrame {
 				pnlInscription.setVisible(true);
 			}
 		});
+		pnlMain.setLayout(new MigLayout("", "[810px][300px][810px]", "[300px][200px][50px][510px]"));
 		btnMainInscription.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnMainInscription.setBounds(510, 550, 300, 150);
-		pnlMain.add(btnMainInscription);
+		pnlMain.add(btnMainInscription, "cell 0 3,alignx right,aligny top");
 				
 		JButton btnMainConnexion = new JButton("Connexion");
 		btnMainConnexion.addActionListener(new ActionListener() {
@@ -311,31 +301,26 @@ public class Interface extends JFrame {
 			}
 		});
 		btnMainConnexion.setFont(new Font("Calibri", Font.BOLD, 30));
-		btnMainConnexion.setBounds(1110, 550, 300, 150);
-		pnlMain.add(btnMainConnexion);
+		pnlMain.add(btnMainConnexion, "cell 2 3,alignx left,aligny top");
 				
 		JLabel lblMainBienvenue = new JLabel("Bienvenue dans la meilleure application de recherche de recette à cuisiner !");
 		lblMainBienvenue.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMainBienvenue.setFont(new Font("Calibri", Font.BOLD, 40));
-		lblMainBienvenue.setBounds(310, 250, 1300, 50);
-		pnlMain.add(lblMainBienvenue);
+		pnlMain.add(lblMainBienvenue, "cell 0 0 3 1,alignx center,aligny bottom");
 				
 		JLabel lblMainInscription = new JLabel("Nouvel utilisateur ?");
 		lblMainInscription.setFont(new Font("Calibri", Font.BOLD, 30));
 		lblMainInscription.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMainInscription.setBounds(510, 500, 300, 50);
-		pnlMain.add(lblMainInscription);
+		pnlMain.add(lblMainInscription, "cell 0 2,alignx right,growy");
 				
 		JLabel lblMainConnexion = new JLabel("Déjà inscrit ?");
 		lblMainConnexion.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMainConnexion.setFont(new Font("Calibri", Font.BOLD, 30));
-		lblMainConnexion.setBounds(1110, 500, 300, 50);
-		pnlMain.add(lblMainConnexion);
+		pnlMain.add(lblMainConnexion, "cell 2 2,alignx left,growy");
 		
 		JLabel imageBgFrigoFerme = new JLabel("");
 		imageBgFrigoFerme.setIcon(new ImageIcon(Interface.class.getResource("/Front/frigoferme.png")));
-		imageBgFrigoFerme.setBounds(0, 0, 1920, 1060);
-		pnlMain.add(imageBgFrigoFerme);
+		pnlMain.add(imageBgFrigoFerme, "cell 0 0 3 4,grow");
 		
 		
 		//Panel Inscription (1850;20)
