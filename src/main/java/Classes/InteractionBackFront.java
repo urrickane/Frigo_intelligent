@@ -274,4 +274,55 @@ public class InteractionBackFront {
 			i++;
 		}
 	}
+	
+	public static void remplissagePanelFavoris(List<Recipe> l_favoris, JPanel pnlFavorisRecettes) {
+		int i = 0;
+		RecipeButton btnRecipe;
+		
+		//On supprime les éléments déjà présents.
+		pnlFavorisRecettes.removeAll();
+		pnlFavorisRecettes.revalidate();
+		pnlFavorisRecettes.repaint();
+		
+		//On crée et on ajoute les allergènes au panel tant que la liste n'est pas vide.
+		while(i < l_favoris.size())
+		{
+			btnRecipe = new RecipeButton(l_favoris.get(i));
+			
+			// Créer un Box pour chaque paire JLabel et JButton
+            Box box = Box.createHorizontalBox();
+            box.add(btnRecipe.getLblImageRecette());
+            box.add(btnRecipe.getBtnNomRecette());
+            box.add(btnRecipe.getBtnSuppr());
+
+            // Ajouter le Box au panneau principal
+            pnlFavorisRecettes.add(box);
+			i++;
+		}
+	}
+	
+	public static void remplissagePanelRecherche(List<Recipe> l_recipe, JPanel pnlChercherRecettes) {
+		int i = 0;
+		RecipeButton btnRecipe;
+		
+		//On supprime les éléments déjà présents.
+		pnlChercherRecettes.removeAll();
+		pnlChercherRecettes.revalidate();
+		pnlChercherRecettes.repaint();
+		
+		//On crée et on ajoute les allergènes au panel tant que la liste n'est pas vide.
+		while(i < l_recipe.size())
+		{
+			btnRecipe = new RecipeButton(l_recipe.get(i));
+			
+			// Créer un Box pour chaque paire JLabel et JButton
+            Box box = Box.createHorizontalBox();
+            box.add(btnRecipe.getLblImageRecette());
+            box.add(btnRecipe.getBtnNomRecette());
+
+            // Ajouter le Box au panneau principal
+            pnlChercherRecettes.add(box);
+			i++;
+		}
+	}
 }

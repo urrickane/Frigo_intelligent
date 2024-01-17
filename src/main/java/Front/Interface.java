@@ -155,6 +155,9 @@ public class Interface extends JFrame {
                 l_testMissingIngredients,45);
 		getContentPane().setLayout(new CardLayout(0, 0));
 		
+		List<Recipe> l_recipe = new ArrayList<Recipe>();
+		l_recipe.add(recette);
+		
 		Allergen allergene1 = new Allergen("Gluten");
 		Allergen allergene2 = new Allergen("Sucre");
 		
@@ -456,6 +459,8 @@ public class Interface extends JFrame {
 		JButton btnAccueilSearchRecipes = new JButton("Chercher une recette");
 		btnAccueilSearchRecipes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// *** Appeler une méthode qui trie les recettes qu'il faut récupérer qui renvoie une liste de Recipe
+				InteractionBackFront.remplissagePanelRecherche(l_recipe, pnlChercherRecetteResultats);
 				pnlChercherRecette.setVisible(true);
 				pnlAccueil.setVisible(false);
 			}
@@ -464,6 +469,7 @@ public class Interface extends JFrame {
 		JButton btnAccueilCheckFavorite = new JButton("Voir vos recettes favorites");
 		btnAccueilCheckFavorite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				InteractionBackFront.remplissagePanelFavoris(l_recipe, pnlFavorisRecettes);
 				pnlAccueil.setVisible(false);
 				pnlFavoris.setVisible(true);
 			}
@@ -577,6 +583,14 @@ public class Interface extends JFrame {
 		pnlFavoris.add(btnFavorisRetour, "cell 0 2,grow");		
 		
 		JButton btnFavorisEffectuer = new JButton("Effectuer");
+		btnFavorisEffectuer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// *** Récupérer je sais pas trop comment le champs recipeClicked de RecipeButton et le mettre dans la classe en-dessous.
+				InteractionBackFront.actualisationRecettePresentation(lblRecetteImage, lblRecetteTitre, pnlRecetteIngredients, recette);
+				pnlFavoris.setVisible(false);
+				pnlRecetteInfos.setVisible(true);
+			}
+		});
 		btnFavorisEffectuer.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlFavoris.add(btnFavorisEffectuer, "cell 2 2,grow");
 		
@@ -599,7 +613,7 @@ public class Interface extends JFrame {
 		JButton btnChercherValider = new JButton("Valider");
 		btnChercherValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// *** Ajouter méthode pour récupérer la recette sur laquelle on va cliquer dans la liste pour la mettre dans la fonction suivante.
+				// *** Récupérer je sais pas trop comment le champs recipeClicked de RecipeButton et le mettre dans la classe en-dessous.
 				InteractionBackFront.actualisationRecettePresentation(lblRecetteImage, lblRecetteTitre, pnlRecetteIngredients, recette);
 				pnlChercherRecette.setVisible(false);
 				pnlRecetteInfos.setVisible(true);
