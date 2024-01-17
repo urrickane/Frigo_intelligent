@@ -161,7 +161,6 @@ public class InteractionBackFront {
         		btnTerminerRecette.addActionListener(new ActionListener() {
         			public void actionPerformed(ActionEvent e) {
         				// *** Enlever les ingrédients utilisés dans la recette au frigo
-        				// *** Afficher le panel après l'affichage de la recette
         				pnlRecetteSteps.setVisible(false);
         				pnlAccueil.setVisible(true);
         				pnlRecetteSteps.removeAll();
@@ -244,6 +243,34 @@ public class InteractionBackFront {
 
             // Ajouter le Box au panneau principal
             pnlAllergenes.add(box);
+			i++;
+		}
+	}
+	
+	/*
+	 * Méthode qui affiche tous les ingrédients créés dans les panels pnlListeCourse et pnlVoirFrigo
+	 */
+	public static void remplissagePanelIngredientButton(List<Ingredient> l_ingredients, JPanel pnlIngredientButton) {
+		int i = 0;
+		IngredientButton btnIngredient;
+		
+		//On supprime les éléments déjà présents.
+		pnlIngredientButton.removeAll();
+		pnlIngredientButton.revalidate();
+		pnlIngredientButton.repaint();
+		
+		//On crée et on ajoute les allergènes au panel tant que la liste n'est pas vide.
+		while(i < l_ingredients.size())
+		{
+			btnIngredient = new IngredientButton(l_ingredients.get(i), pnlIngredientButton);
+			
+			// Créer un Box pour chaque paire JLabel et JButton
+            Box box = Box.createHorizontalBox();
+            box.add(btnIngredient.getLblIngredient());
+            box.add(btnIngredient.getBtnModif());
+
+            // Ajouter le Box au panneau principal
+            pnlIngredientButton.add(box);
 			i++;
 		}
 	}

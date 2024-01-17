@@ -14,6 +14,8 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Window;
+
 import javax.swing.JRadioButton;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
@@ -22,6 +24,7 @@ import java.awt.ComponentOrientation;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -34,8 +37,11 @@ import java.util.ArrayList;
 import java.awt.image.ImageObserver;
 
 import java.net.*;
+import javax.swing.*;
+import java.awt.*;
 
 import Classes.Allergen;
+import Classes.CreationPnlAjoutIngr;
 import Classes.Ingredient;
 import Classes.Recipe;
 import Classes.InteractionBackFront;
@@ -48,15 +54,12 @@ import javax.swing.BoxLayout;
 import javax.swing.JList;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 
 public class Interface extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtboxInscription;
-	private JTextField txtboxAjoutIngrNom;
-	private JTextField txtboxAjoutIngrJour;
-	private JTextField txtboxAjoutIngrMois;
-	private JTextField txtboxAjoutIngrAnnee;
 
 	/**
 	 * Launch the application.
@@ -236,7 +239,7 @@ public class Interface extends JFrame {
 		
 		JPanel pnlFavoris = new JPanel();
 		getContentPane().add(pnlFavoris, "name_33645632673100");
-		pnlFavoris.setLayout(new MigLayout("", "[150px:30%:300px,grow][70%,grow]", "[50px][80%,grow][100px:15%:150px,grow]"));
+		pnlFavoris.setLayout(new MigLayout("", "[150px:30%:300px,grow][40%,grow][150px:30%:300px,grow]", "[50px][80%,grow][100px:15%:150px,grow]"));
 		
 		JPanel pnlChercherRecette = new JPanel();
 		getContentPane().add(pnlChercherRecette, "name_34762517307000");
@@ -250,9 +253,21 @@ public class Interface extends JFrame {
 		getContentPane().add(pnlListeCourse, "name_36666886837500");
 		pnlListeCourse.setLayout(new MigLayout("", "[150px:30%:300px,grow][55%,grow][100px:15%:150px,grow]", "[50px][80%,grow][100px:15%:150px,grow]"));
 		
-		JPanel pnlAjoutIngr = new JPanel();
-		getContentPane().add(pnlAjoutIngr, "name_37639865607000");
-		pnlAjoutIngr.setLayout(new MigLayout("", "[100px][100px][100px][100px][100px][100px]", "[50px][50px][50px][50px][50px][50px][50px][50px][50px][50px]"));
+		JPanel pnlFavorisRecettes = new JPanel();
+		pnlFavoris.add(pnlFavorisRecettes, "cell 1 1,grow");
+		pnlFavorisRecettes.setLayout(new BoxLayout(pnlFavorisRecettes, BoxLayout.Y_AXIS));
+		
+		JPanel pnlChercherRecetteResultats = new JPanel();
+		pnlChercherRecette.add(pnlChercherRecetteResultats, "cell 1 1,grow");
+		pnlChercherRecetteResultats.setLayout(new BoxLayout(pnlChercherRecetteResultats, BoxLayout.Y_AXIS));
+		
+		JPanel pnlVoirFrigoIngredients = new JPanel();
+		pnlVoirFrigo.add(pnlVoirFrigoIngredients, "cell 1 1,grow");
+		pnlVoirFrigoIngredients.setLayout(new BoxLayout(pnlVoirFrigoIngredients, BoxLayout.Y_AXIS));
+		
+		JPanel pnlListeCourseIngredients = new JPanel();
+		pnlListeCourse.add(pnlListeCourseIngredients, "cell 1 1,grow");
+		pnlListeCourseIngredients.setLayout(new BoxLayout(pnlListeCourseIngredients, BoxLayout.Y_AXIS));
 		
 		//Panel Inscription
 		
@@ -378,7 +393,7 @@ public class Interface extends JFrame {
 		lblMainConnexion.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMainConnexion.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlMain.add(lblMainConnexion, "cell 3 3,grow");
-		pnlAccueil.setLayout(new MigLayout("", "[10%,grow][25%,grow][30%,grow][25%,grow][10%,grow]", "[5%,grow][50px][10%,grow][15%,grow][15%,grow][15%,grow][15%,grow][15%,grow]"));
+		pnlAccueil.setLayout(new MigLayout("", "[10%,grow][25%,grow][30%,grow][25%,grow][10%,grow]", "[5%,grow][50px][10%,grow][20%,grow][20%,grow][20%,grow][15%,grow]"));
 		
 		JButton btnMainInscription = new JButton("Inscription");
 		btnMainInscription.addActionListener(new ActionListener() {
@@ -414,35 +429,37 @@ public class Interface extends JFrame {
 		lblAccueilTitre.setOpaque(true);
 		pnlAccueil.add(lblAccueilTitre, "cell 1 1 3 1,grow");
 		
-		JButton btnAccueilAddIngredient = new JButton("Ajouter un ingrédient");
-		btnAccueilAddIngredient.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pnlAccueil.setVisible(false);
-				pnlAjoutIngr.setVisible(true);
-			}
-		});
-		btnAccueilAddIngredient.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAccueil.add(btnAccueilAddIngredient, "cell 3 3,grow");
-		
-		JButton btnAccueilContentFrigo = new JButton("Voir le contenu du frigo");
-		btnAccueilContentFrigo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pnlAccueil.setVisible(false);
-				pnlVoirFrigo.setVisible(true);
-			}
-		});
-		
 		JButton btnAccueilListeCourses = new JButton("Voir Liste de courses");
 		btnAccueilListeCourses.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// *** Ajouter le bon champ pour avoir la liste des ingrédients de la liste de course de la BDD à la ligne suivante.
+				InteractionBackFront.remplissagePanelIngredientButton(l_testIngredients, pnlListeCourseIngredients);
 				pnlAccueil.setVisible(false);
 				pnlListeCourse.setVisible(true);
 			}
 		});
+		
+		JButton btnAccueilContentFrigo = new JButton("Voir le contenu du frigo");
+		btnAccueilContentFrigo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// *** Ajouter le bon champ pour avoir la liste des ingrédients du frigo de la BDD à la ligne suivante.
+				InteractionBackFront.remplissagePanelIngredientButton(l_testIngredients, pnlVoirFrigoIngredients);
+				pnlAccueil.setVisible(false);
+				pnlVoirFrigo.setVisible(true);
+			}
+		});
+		btnAccueilContentFrigo.setFont(new Font("Calibri", Font.BOLD, 30));
+		pnlAccueil.add(btnAccueilContentFrigo, "cell 3 3,grow");
 		btnAccueilListeCourses.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlAccueil.add(btnAccueilListeCourses, "cell 1 4,grow");
-		btnAccueilContentFrigo.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAccueil.add(btnAccueilContentFrigo, "cell 3 4,grow");
+		
+		JButton btnAccueilSearchRecipes = new JButton("Chercher une recette");
+		btnAccueilSearchRecipes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pnlChercherRecette.setVisible(true);
+				pnlAccueil.setVisible(false);
+			}
+		});
 		
 		JButton btnAccueilCheckFavorite = new JButton("Voir vos recettes favorites");
 		btnAccueilCheckFavorite.addActionListener(new ActionListener() {
@@ -452,17 +469,9 @@ public class Interface extends JFrame {
 			}
 		});
 		btnAccueilCheckFavorite.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAccueil.add(btnAccueilCheckFavorite, "cell 3 5,grow");
-		
-		JButton btnAccueilSearchRecipes = new JButton("Chercher une recette");
-		btnAccueilSearchRecipes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pnlChercherRecette.setVisible(true);
-				pnlAccueil.setVisible(false);
-			}
-		});
+		pnlAccueil.add(btnAccueilCheckFavorite, "cell 3 4,grow");
 		btnAccueilSearchRecipes.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAccueil.add(btnAccueilSearchRecipes, "cell 3 6,grow");
+		pnlAccueil.add(btnAccueilSearchRecipes, "cell 3 5,grow");
 		
 		JButton btnAccueilAllergenes = new JButton("Voir/Modifier vos allergènes");
 		btnAccueilAllergenes.addActionListener(new ActionListener() {
@@ -478,7 +487,7 @@ public class Interface extends JFrame {
 		JLabel lblAccueilExpired = new JLabel("");
 		lblAccueilExpired.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAccueilExpired.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAccueil.add(lblAccueilExpired, "cell 1 7 3 1,grow");
+		pnlAccueil.add(lblAccueilExpired, "cell 1 6 3 1,grow");
 		
 		JButton btnAccueilDeconnexion = new JButton("Déconnexion");
 		btnAccueilDeconnexion.addActionListener(new ActionListener() {
@@ -488,7 +497,7 @@ public class Interface extends JFrame {
 			}
 		});
 		btnAccueilDeconnexion.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAccueil.add(btnAccueilDeconnexion, "cell 1 6,grow");
+		pnlAccueil.add(btnAccueilDeconnexion, "cell 1 5,grow");
 		pnlAllergenesRetourAdd.setLayout(new MigLayout("", "[100px:30%:300px,grow][55%,grow][50px:15%:150px]", "[150px]"));
 		
 		//Panel Allergènes
@@ -557,11 +566,6 @@ public class Interface extends JFrame {
 		lblFavorisTitre.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlFavoris.add(lblFavorisTitre, "cell 1 0,alignx left,growy");
 		
-		JList listFavorisRecettes = new JList();
-		listFavorisRecettes.setFont(new Font("Calibri", Font.PLAIN, 18));
-		listFavorisRecettes.setBackground(new Color(255, 255, 128));
-		pnlFavoris.add(listFavorisRecettes, "cell 1 1,grow");
-		
 		JButton btnFavorisRetour = new JButton("Retour");
 		btnFavorisRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -570,17 +574,17 @@ public class Interface extends JFrame {
 			}
 		});
 		btnFavorisRetour.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlFavoris.add(btnFavorisRetour, "cell 0 2,grow");
+		pnlFavoris.add(btnFavorisRetour, "cell 0 2,grow");		
+		
+		JButton btnFavorisEffectuer = new JButton("Effectuer");
+		btnFavorisEffectuer.setFont(new Font("Calibri", Font.BOLD, 30));
+		pnlFavoris.add(btnFavorisEffectuer, "cell 2 2,grow");
 		
 		//Panel Chercher Recette
 		
 		JLabel lblChercherTitle = new JLabel("Sélectionnez une recette dans la liste ci-dessous :");
 		lblChercherTitle.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlChercherRecette.add(lblChercherTitle, "cell 1 0");
-		
-		JList listChercherRecettes = new JList();
-		listChercherRecettes.setFont(new Font("Calibri", Font.PLAIN, 18));
-		pnlChercherRecette.add(listChercherRecettes, "cell 1 1,grow");
 		
 		JButton btnChercherRetour = new JButton("Retour");
 		btnChercherRetour.addActionListener(new ActionListener() {
@@ -610,10 +614,6 @@ public class Interface extends JFrame {
 		lblVoirFrigoTitle.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlVoirFrigo.add(lblVoirFrigoTitle, "cell 1 0");
 		
-		JList listVoirFrigo = new JList();
-		listVoirFrigo.setFont(new Font("Calibri", Font.PLAIN, 18));
-		pnlVoirFrigo.add(listVoirFrigo, "cell 1 1,grow");
-		
 		JButton btnVoirFrigoRetour = new JButton("Retour");
 		btnVoirFrigoRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -626,9 +626,34 @@ public class Interface extends JFrame {
 		
 		JButton btnVoirFrigoAddIngr = new JButton("+");
 		btnVoirFrigoAddIngr.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				pnlAjoutIngr.setVisible(true);
-				pnlVoirFrigo.setVisible(false);
+				// Obtenir la source de l'événement (le bouton)
+			    JButton sourceButton = (JButton) e.getSource();
+
+			    // Obtenir l'ancêtre de type Window (la fenêtre parente)
+			       Window parentWindow = SwingUtilities.getWindowAncestor(sourceButton);
+
+			    // Créer un JDialog
+			    JDialog dialog = new JDialog(parentWindow, "Ajout d'un ingrédient", Dialog.ModalityType.APPLICATION_MODAL);
+				        
+			    // Ajouter votre JPanel personnalisé
+			    CreationPnlAjoutIngr pnl = new CreationPnlAjoutIngr(dialog);
+			    dialog.getContentPane().add(pnl.getPnlAjoutIngr());
+				        
+			    // Configurer la taille du JDialog
+			    dialog.setSize(600, 500);
+
+			    // Spécifier le positionnement du JDialog
+			    dialog.setLocationRelativeTo(parentWindow);
+
+			    // Rendre le JDialog visible
+			    dialog.setVisible(true);
+						
+			    //Actualise le contenu du panel avec les ingrédients créés
+				InteractionBackFront.remplissagePanelIngredientButton(l_testIngredients, pnlVoirFrigoIngredients);
+				pnlVoirFrigoIngredients.revalidate();
+				pnlVoirFrigoIngredients.repaint();
 			}
 		});
 		btnVoirFrigoAddIngr.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -643,12 +668,6 @@ public class Interface extends JFrame {
 		lblListeCourseTitle.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlListeCourse.add(lblListeCourseTitle, "cell 1 0");
 		
-		JList listListeCourse = new JList();
-		listListeCourse.setFont(new Font("Calibri", Font.PLAIN, 18));
-		listListeCourse.setBackground(new Color(255, 255, 128));
-		listListeCourse.setForeground(new Color(0, 0, 0));
-		pnlListeCourse.add(listListeCourse, "cell 1 1,grow");
-		
 		JButton btnListeCourseRetour = new JButton("Retour");
 		btnListeCourseRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -660,91 +679,41 @@ public class Interface extends JFrame {
 		pnlListeCourse.add(btnListeCourseRetour, "cell 0 2,grow");
 		
 		JButton btnListeCourseAdd = new JButton("+");
+		btnListeCourseAdd.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Obtenir la source de l'événement (le bouton)
+		        JButton sourceButton = (JButton) e.getSource();
+
+		        // Obtenir l'ancêtre de type Window (la fenêtre parente)
+		        Window parentWindow = SwingUtilities.getWindowAncestor(sourceButton);
+
+		        // Créer un JDialog
+		        JDialog dialog = new JDialog(parentWindow, "Ajout d'un ingrédient", Dialog.ModalityType.APPLICATION_MODAL);
+		        
+		        // Ajouter votre JPanel personnalisé
+		        CreationPnlAjoutIngr pnl = new CreationPnlAjoutIngr(dialog);
+		        dialog.getContentPane().add(pnl.getPnlAjoutIngr());
+		        
+		        // Configurer la taille du JDialog
+		        dialog.setSize(600, 500);
+
+		        // Spécifier le positionnement du JDialog
+		        dialog.setLocationRelativeTo(parentWindow);
+
+		        // Rendre le JDialog visible
+		        dialog.setVisible(true);
+				
+		        //Actualise le contenu du panel avec les ingrédients créés
+				InteractionBackFront.remplissagePanelIngredientButton(l_testIngredients, pnlListeCourseIngredients);
+				pnlListeCourseIngredients.revalidate();
+				pnlListeCourseIngredients.repaint();
+			}
+		});
 		btnListeCourseAdd.setVerticalAlignment(SwingConstants.BOTTOM);
 		btnListeCourseAdd.setFont(new Font("Calibri", Font.BOLD, 97));
 		btnListeCourseAdd.setForeground(Color.WHITE);
 		btnListeCourseAdd.setBackground(Color.GREEN);
 		pnlListeCourse.add(btnListeCourseAdd, "cell 2 2,grow");
-		
-		//Panel Ajout Ingrédient
-		
-		JLabel lblAjoutIngrTitle = new JLabel("Entrez le nom d'un ingrédient :");
-		lblAjoutIngrTitle.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(lblAjoutIngrTitle, "cell 0 0 6 1,grow");
-		
-		txtboxAjoutIngrNom = new JTextField();
-		txtboxAjoutIngrNom.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(txtboxAjoutIngrNom, "cell 0 1 6 1,grow");
-		txtboxAjoutIngrNom.setColumns(10);
-		
-		JLabel lblAjoutIngrQte = new JLabel("Saisir la quantité :");
-		lblAjoutIngrQte.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(lblAjoutIngrQte, "flowx,cell 0 3 3 1,grow");
-		
-		JComboBox cmbboxAjoutIngrUnites = new JComboBox();
-		cmbboxAjoutIngrUnites.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(cmbboxAjoutIngrUnites, "cell 5 3,grow");
-		
-		JLabel lblAjoutIngrDLdC = new JLabel("Saisissez la date limite de consommation :");
-		lblAjoutIngrDLdC.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(lblAjoutIngrDLdC, "cell 0 5 6 1,grow");
-		
-		JLabel lblAjoutIngrJour = new JLabel("Jour :");
-		lblAjoutIngrJour.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(lblAjoutIngrJour, "cell 0 6,alignx trailing");
-		
-		txtboxAjoutIngrJour = new JTextField();
-		txtboxAjoutIngrJour.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(txtboxAjoutIngrJour, "cell 1 6,grow");
-		txtboxAjoutIngrJour.setColumns(10);
-		
-		JLabel lblAjoutIngrMois = new JLabel("Mois :");
-		lblAjoutIngrMois.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(lblAjoutIngrMois, "cell 2 6,alignx trailing");
-		
-		txtboxAjoutIngrMois = new JTextField();
-		txtboxAjoutIngrMois.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(txtboxAjoutIngrMois, "cell 3 6,grow");
-		txtboxAjoutIngrMois.setColumns(10);
-		
-		JLabel lblAjoutIngrAnnee = new JLabel("Année :");
-		lblAjoutIngrAnnee.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(lblAjoutIngrAnnee, "cell 4 6,alignx trailing");
-		
-		txtboxAjoutIngrAnnee = new JTextField();
-		txtboxAjoutIngrAnnee.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(txtboxAjoutIngrAnnee, "cell 5 6,grow");
-		txtboxAjoutIngrAnnee.setColumns(10);
-		
-		JLabel lblAjoutIngrErreur = new JLabel("");
-		lblAjoutIngrErreur.setForeground(new Color(255, 0, 0));
-		lblAjoutIngrErreur.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAjoutIngrErreur.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(lblAjoutIngrErreur, "cell 0 8 6 1");
-		
-		JButton btnAjoutIngrRetour = new JButton("Retour");
-		btnAjoutIngrRetour.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pnlAjoutIngr.setVisible(false);
-				pnlVoirFrigo.setVisible(true);
-			}
-		});
-		btnAjoutIngrRetour.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAjoutIngr.add(btnAjoutIngrRetour, "cell 0 9 3 1,grow");
-		
-		JButton btnAjoutIngrValider = new JButton("Valider");
-		btnAjoutIngrValider.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// *** Ajouter une méthode pour récupérer les infos entrées et créer un ingrédient avec.
-				pnlAjoutIngr.setVisible(false);
-				pnlVoirFrigo.setVisible(true);
-			}
-		});
-		btnAjoutIngrValider.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAjoutIngr.add(btnAjoutIngrValider, "cell 3 9 3 1,grow");
-		
-		JFormattedTextField txtboxAjoutIngrQte = new JFormattedTextField();
-		txtboxAjoutIngrQte.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(txtboxAjoutIngrQte, "cell 3 3 2 1,grow");
 	}
 }
