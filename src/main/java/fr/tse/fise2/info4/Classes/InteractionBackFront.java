@@ -59,7 +59,7 @@ public class InteractionBackFront {
 	/*
 	 * Méthode qui affiche les différentes étapes de la recette sur différents panels que l'on peut parcourir avec des boutons Suivant et Précedent.
 	 */
-	public static void actualisationRecetteEtapes(JPanel pnlRecetteSteps, Recipe recipe, JPanel pnlRecetteInfos, JPanel pnlAccueil)
+	public static void actualisationRecetteEtapes(JPanel pnlRecetteSteps, Recipe recipe, JPanel pnlRecetteInfos, JPanel pnlAccueil,User user)
 	{
 		// Affichage des étapes
         int i = 0;
@@ -162,7 +162,11 @@ public class InteractionBackFront {
     			//Quand on clique sur le bouton
         		btnTerminerRecette.addActionListener(new ActionListener() {
         			public void actionPerformed(ActionEvent e) {
-        				// *** Enlever les ingrédients utilisés dans la recette au frigo
+
+						for (Ingredient ingredient : recipe.getL_usedIngredients()){
+							user.RemoveIngredient(ingredient);
+						}
+
         				// *** Afficher le panel après l'affichage de la recette
         				pnlRecetteSteps.setVisible(false);
         				pnlAccueil.setVisible(true);
@@ -201,7 +205,7 @@ public class InteractionBackFront {
 	/*
 	 * A supprimer
 	 */
-	public static void remplissagePanelConnexionComptes2(JPanel pnlConnexionComptes, List<String> comptes, JPanel pnlAccueil, JPanel pnlConnexion, AtomicReference<String> usernameRef)
+	public static void remplissagePanelConnexionComptes2(JPanel pnlConnexionComptes, List<String> comptes, JPanel pnlAccueil, JPanel pnlConnexion, User user)
 	{
 		int i = 0;
 		while(i < comptes.size())
@@ -215,7 +219,7 @@ public class InteractionBackFront {
     			public void actionPerformed(ActionEvent e) {
     				// *** Méthode pour récupérer un User à partir du champ Text du bouton qui contient le nom du User.
     				System.out.println("L'utilisateur choisit est : "+name);
-    				usernameRef.set(name);
+					user.copy(Database.getUser(name));
     				pnlAccueil.setVisible(true);
     				pnlConnexion.setVisible(false);
     				
@@ -229,7 +233,7 @@ public class InteractionBackFront {
 	/*
 	 * Méthode qui affiche tous les allergènes créés dans le panel pnlAllergenesDisplayAllergenes
 	 */
-	public static void remplissagePanelAllergenes(List<Allergen> l_allergen, JPanel pnlAllergenes) {
+	public static void remplissagePanelAllergenes(List<Allergen> l_allergen, JPanel pnlAllergenes,User user) {
 		int i = 0;
 		AllergenButton btnAllergen;
 		
@@ -241,7 +245,7 @@ public class InteractionBackFront {
 		//On crée et on ajoute les allergènes au panel tant que la liste n'est pas vide.
 		while(i < l_allergen.size())
 		{
-			btnAllergen = new AllergenButton(l_allergen.get(i).getaName());
+			btnAllergen = new AllergenButton(l_allergen.get(i).getaName(),user);
 			
 			// Créer un Box pour chaque paire JLabel et JButton
             Box box = Box.createHorizontalBox();

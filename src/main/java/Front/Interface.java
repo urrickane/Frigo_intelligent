@@ -36,6 +36,7 @@ import java.awt.image.ImageObserver;
 
 import java.net.*;
 
+import fr.tse.fise2.info4.API.API;
 import fr.tse.fise2.info4.Database;
 import fr.tse.fise2.info4.Classes.*;
 import net.miginfocom.swing.MigLayout;
@@ -93,7 +94,8 @@ public class Interface extends JFrame {
 		pack();
 		
 		// Variables
-		User user = null;
+		API api = new API();
+		User user = new User(1,"",null,null,null);
 		List<String> allUsers = Database.getAllUsers(); // liste contenant les noms de chaque user
 		AtomicReference<String> usernameRef = new AtomicReference<>();
 		
@@ -347,7 +349,7 @@ public class Interface extends JFrame {
 		JButton btnRecetteValider = new JButton("Valider");
 		btnRecetteValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InteractionBackFront.actualisationRecetteEtapes(pnlRecetteSteps, recette, pnlRecetteInfos, pnlAccueil);
+				InteractionBackFront.actualisationRecetteEtapes(pnlRecetteSteps, recette, pnlRecetteInfos, pnlAccueil, user);
 				pnlRecetteInfos.setVisible(false);
 				pnlRecetteSteps.setVisible(true);
 			}
@@ -391,7 +393,7 @@ public class Interface extends JFrame {
 				// *** Méthode pour récupérer les User
 				pnlConnexionComptes.removeAll();
 				// ***  Appeler InteractionBackFront.remplissagePanelConnexionComptes(pnlConnexionComptes, ); /!\ Ajouter le champ contenant la liste de User
-				InteractionBackFront.remplissagePanelConnexionComptes2(pnlConnexionComptes, allUsers, pnlAccueil, pnlConnexion,usernameRef);
+				InteractionBackFront.remplissagePanelConnexionComptes2(pnlConnexionComptes, allUsers, pnlAccueil, pnlConnexion,user);
 				pnlConnexion.setVisible(true);
 				pnlMain.setVisible(false);
 			}
@@ -422,6 +424,7 @@ public class Interface extends JFrame {
 		JButton btnAccueilContentFrigo = new JButton("Voir le contenu du frigo");
 		btnAccueilContentFrigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				pnlAccueil.setVisible(false);
 				pnlVoirFrigo.setVisible(true);
 			}
@@ -448,7 +451,11 @@ public class Interface extends JFrame {
 		});
 		btnAccueilCheckFavorite.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlAccueil.add(btnAccueilCheckFavorite, "cell 3 5,grow");
-		
+
+		JList listChercherRecettes = new JList();
+		listChercherRecettes.setFont(new Font("Calibri", Font.PLAIN, 18));
+		pnlChercherRecette.add(listChercherRecettes, "cell 1 1,grow");
+
 		JButton btnAccueilSearchRecipes = new JButton("Chercher une recette");
 		btnAccueilSearchRecipes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -464,7 +471,7 @@ public class Interface extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				pnlAccueil.setVisible(false);
 				pnlAllergenes.setVisible(true);
-				InteractionBackFront.remplissagePanelAllergenes(user.getAllergies(), pnlAllergenesDisplayAllergenes);
+				InteractionBackFront.remplissagePanelAllergenes(user.getAllergies(), pnlAllergenesDisplayAllergenes, user);
 			}
 		});
 		btnAccueilAllergenes.setFont(new Font("Calibri", Font.BOLD, 30));
@@ -478,6 +485,7 @@ public class Interface extends JFrame {
 		JButton btnAccueilDeconnexion = new JButton("Déconnexion");
 		btnAccueilDeconnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				user.copy(new User(1,"",null,null,null));
 				pnlAccueil.setVisible(false);
 				pnlMain.setVisible(true);
 			}
@@ -509,7 +517,7 @@ public class Interface extends JFrame {
                     user.addAllergy(newAllergen);
                 }
 				
-				InteractionBackFront.remplissagePanelAllergenes(user.getAllergies(), pnlAllergenesDisplayAllergenes);
+				InteractionBackFront.remplissagePanelAllergenes(user.getAllergies(), pnlAllergenesDisplayAllergenes, user);
 			}
 		});
 		
@@ -573,9 +581,7 @@ public class Interface extends JFrame {
 		lblChercherTitle.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlChercherRecette.add(lblChercherTitle, "cell 1 0");
 		
-		JList listChercherRecettes = new JList();
-		listChercherRecettes.setFont(new Font("Calibri", Font.PLAIN, 18));
-		pnlChercherRecette.add(listChercherRecettes, "cell 1 1,grow");
+
 		
 		JButton btnChercherRetour = new JButton("Retour");
 		btnChercherRetour.addActionListener(new ActionListener() {

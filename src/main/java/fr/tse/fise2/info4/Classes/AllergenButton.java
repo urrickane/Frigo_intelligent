@@ -21,7 +21,7 @@ public class AllergenButton {
 	/*
 	 * Constructeur qui crée la structure Bouton+Label pour afficher et supprimer un allergène.
 	 */
-	public AllergenButton(String allergenName)
+	public AllergenButton(String allergenName,User user)
 	{
 		//Cr&ation d'un label et d'un bouton. Le premier va contenir le nom de l'allergène et le second va permettre de le supprimer en appuyant dessus.
 		lblAllergen = new JLabel();
@@ -53,6 +53,7 @@ public class AllergenButton {
                 parentComponent.repaint();
                 
                 // *** Ajouter un moyen de supprimer l'allergène de la liste via le champ Text de lblAllergen qui contient le nom de l'allergène.
+				user.removeAllergy(new Allergen(allergenName));
             }
         });
 	}
