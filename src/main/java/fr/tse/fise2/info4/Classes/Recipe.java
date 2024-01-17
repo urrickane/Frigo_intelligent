@@ -8,15 +8,11 @@ public class Recipe {
     private final String title;
     private final List<Ingredient> l_ingredients;
 
-    private final String summary;
 
     private List<String> l_steps;
 
     private Integer nbPeople;
 
-    public String getSummary() {
-        return summary;
-    }
 
     public List<String> getL_steps() {
         return l_steps;
@@ -89,11 +85,10 @@ public class Recipe {
     private int healthScore;
 
     // Constructeur avec paramètres
-    public Recipe(int id,String linkToImage, String title, List<Ingredient> l_ingredients,String summary,int nbPeople,List<String> l_steps,List<Ingredient> l_usedIngredients,List<Ingredient> l_missingIngredients, int cookingTime,int healthScore) {
+    public Recipe(int id,String linkToImage, String title, List<Ingredient> l_ingredients,int nbPeople,List<String> l_steps,List<Ingredient> l_usedIngredients,List<Ingredient> l_missingIngredients, int cookingTime,int healthScore) {
         this.id = id;
         this.linkToImage = linkToImage;
         this.title = title;
-        this.summary = summary;
         this.nbPeople = nbPeople;
         this.l_steps = l_steps;
         this.l_missingIngredients = l_missingIngredients;

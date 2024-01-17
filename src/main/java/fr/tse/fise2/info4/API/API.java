@@ -161,10 +161,9 @@ public class API {
             int nbPeople = aRecipe.get("servings").asInt();
             int id = aRecipe.get("id").asInt();
             String srcImg = aRecipe.get("image").asText();
-            String summary = aRecipe.get("summary").asText();
             String title = aRecipe.get("title").asText();
             int healthScore = aRecipe.get("healthScore").asInt();
-            Recipe recipe = new Recipe(id,srcImg,title,l_ing,summary,nbPeople,l_steps,l_usedIng,l_missIng,cookingTime,healthScore);
+            Recipe recipe = new Recipe(id,srcImg,title,l_ing,nbPeople,l_steps,l_usedIng,l_missIng,cookingTime,healthScore);
             recipes.add(recipe);
         }
         return recipes;
