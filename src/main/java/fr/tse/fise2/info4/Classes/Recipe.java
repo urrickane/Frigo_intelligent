@@ -103,7 +103,7 @@ public class Recipe {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
-        return Objects.equals(healthScore, recipe.healthScore) && Objects.equals(cookingTime, recipe.cookingTime) && Objects.equals(linkToImage, recipe.linkToImage) && Objects.equals(title, recipe.title) && Objects.equals(l_ingredients, recipe.l_ingredients) && Objects.equals(summary, recipe.summary) && Objects.equals(l_steps, recipe.l_steps) && Objects.equals(nbPeople, recipe.nbPeople) && Objects.equals(l_missingIngredients, recipe.l_missingIngredients) && Objects.equals(l_usedIngredients, recipe.l_usedIngredients);
+        return Objects.equals(healthScore, recipe.healthScore) && Objects.equals(cookingTime, recipe.cookingTime) && Objects.equals(linkToImage, recipe.linkToImage) && Objects.equals(title, recipe.title) && Objects.equals(l_ingredients, recipe.l_ingredients)  && Objects.equals(l_steps, recipe.l_steps) && Objects.equals(nbPeople, recipe.nbPeople) && Objects.equals(l_missingIngredients, recipe.l_missingIngredients) && Objects.equals(l_usedIngredients, recipe.l_usedIngredients);
     }
 
     public int getId() {

@@ -158,10 +158,10 @@ public class Interface extends JFrame {
 		
 		//Panels
 		
-		ImageIcon imageIcon = new ImageIcon(Interface.class.getResource("/Front/frigoferme.png"));
+		ImageIcon imageIcon = new ImageIcon(Interface.class.getResource("/frigoferme.png"));
         Image backgroundImageFrigoFerme = imageIcon.getImage();
         
-        imageIcon = new ImageIcon(Interface.class.getResource("/Front/frigoouvert.png"));
+        imageIcon = new ImageIcon(Interface.class.getResource("/frigoouvert.png"));
         Image backgroundImageFrigoOuvert = imageIcon.getImage();
 		
 		JPanel pnlMain = new JPanel(){
