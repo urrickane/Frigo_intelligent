@@ -93,7 +93,7 @@ public class Interface extends JFrame {
 		// Variables
 		
 		List<String> users = new ArrayList();
-		users.add("ew");
+		User user = null;
 		
 		Ingredient ingredient1 = new Ingredient("2023-01-01", "Tomato", null,null);
         Ingredient ingredient2 = new Ingredient("2023-02-15", "Milk", null,null);
@@ -148,13 +148,7 @@ public class Interface extends JFrame {
                 l_testUsedIngredients,
                 l_testMissingIngredients,45,96);
 		getContentPane().setLayout(new CardLayout(0, 0));
-		
-		Allergen allergene1 = new Allergen("Gluten");
-		Allergen allergene2 = new Allergen("Sucre");
-		
-		List<Allergen> l_allergen = new ArrayList<>();
-		l_allergen.add(allergene1);
-		l_allergen.add(allergene2);
+
 		
 		//Panels
 		
@@ -466,7 +460,7 @@ public class Interface extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				pnlAccueil.setVisible(false);
 				pnlAllergenes.setVisible(true);
-				InteractionBackFront.remplissagePanelAllergenes(l_allergen, pnlAllergenesDisplayAllergenes);
+				InteractionBackFront.remplissagePanelAllergenes(user.getAllergies(), pnlAllergenesDisplayAllergenes);
 			}
 		});
 		btnAccueilAllergenes.setFont(new Font("Calibri", Font.BOLD, 30));
@@ -508,10 +502,10 @@ public class Interface extends JFrame {
                 // Vérifier si l'utilisateur a cliqué sur OK ou Annuler
                 if (input != null) {
                     Allergen newAllergen = new Allergen(input);
-                    l_allergen.add(newAllergen);
+                    user.addAllergy(newAllergen);
                 }
 				
-				InteractionBackFront.remplissagePanelAllergenes(l_allergen, pnlAllergenesDisplayAllergenes);
+				InteractionBackFront.remplissagePanelAllergenes(user.getAllergies(), pnlAllergenesDisplayAllergenes);
 			}
 		});
 		
