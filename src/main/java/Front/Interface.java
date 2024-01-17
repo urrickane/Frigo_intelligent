@@ -30,11 +30,13 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.ArrayList;
 import java.awt.image.ImageObserver;
 
 import java.net.*;
 
+import fr.tse.fise2.info4.Database;
 import fr.tse.fise2.info4.Classes.*;
 import net.miginfocom.swing.MigLayout;
 import java.awt.CardLayout;
@@ -91,9 +93,10 @@ public class Interface extends JFrame {
 		pack();
 		
 		// Variables
-		
-		List<String> users = new ArrayList();
 		User user = null;
+		List<String> allUsers = Database.getAllUsers(); // liste contenant les noms de chaque user
+		AtomicReference<String> usernameRef = new AtomicReference<>();
+		
 		
 		Ingredient ingredient1 = new Ingredient("2023-01-01", "Tomato", null,null);
         Ingredient ingredient2 = new Ingredient("2023-02-15", "Milk", null,null);
@@ -281,7 +284,8 @@ public class Interface extends JFrame {
 				if(txtboxInscription.getText().compareTo("") != 0)
 				{
 					// *** Méthode pour créer un utilisateur à partir du champ Text de txtboxInscription
-					users.add(txtboxInscription.getText());
+					Database.addUser(txtboxInscription.getText());
+					allUsers.add(txtboxInscription.getText());
 					
 					pnlInscription.setVisible(false);
 					pnlMain.setVisible(true);
@@ -387,7 +391,7 @@ public class Interface extends JFrame {
 				// *** Méthode pour récupérer les User
 				pnlConnexionComptes.removeAll();
 				// ***  Appeler InteractionBackFront.remplissagePanelConnexionComptes(pnlConnexionComptes, ); /!\ Ajouter le champ contenant la liste de User
-				InteractionBackFront.remplissagePanelConnexionComptes2(pnlConnexionComptes, users, pnlAccueil, pnlConnexion);
+				InteractionBackFront.remplissagePanelConnexionComptes2(pnlConnexionComptes, allUsers, pnlAccueil, pnlConnexion,usernameRef);
 				pnlConnexion.setVisible(true);
 				pnlMain.setVisible(false);
 			}

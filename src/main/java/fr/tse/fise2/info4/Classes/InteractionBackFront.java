@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -20,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import fr.tse.fise2.info4.Database;
 import net.miginfocom.swing.MigLayout;
 
 public class InteractionBackFront {
@@ -199,20 +201,24 @@ public class InteractionBackFront {
 	/*
 	 * A supprimer
 	 */
-	public static void remplissagePanelConnexionComptes2(JPanel pnlConnexionComptes, List<String> comptes, JPanel pnlAccueil, JPanel pnlConnexion)
+	public static void remplissagePanelConnexionComptes2(JPanel pnlConnexionComptes, List<String> comptes, JPanel pnlAccueil, JPanel pnlConnexion, AtomicReference<String> usernameRef)
 	{
 		int i = 0;
 		while(i < comptes.size())
 		{
 			JButton button = new JButton();
+			String name =comptes.get(i);
 			button.setText(comptes.get(i));
 			button.setFont(new Font("Calibri", Font.BOLD, 30));
 			button.setPreferredSize(new Dimension(300, 150));
 			button.addActionListener(new ActionListener() {
     			public void actionPerformed(ActionEvent e) {
     				// *** Méthode pour récupérer un User à partir du champ Text du bouton qui contient le nom du User.
+    				System.out.println("L'utilisateur choisit est : "+name);
+    				usernameRef.set(name);
     				pnlAccueil.setVisible(true);
     				pnlConnexion.setVisible(false);
+    				
     			}
 			});
 			pnlConnexionComptes.add(button);
