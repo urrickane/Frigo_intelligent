@@ -58,7 +58,7 @@ public class CreationPnlAjoutIngr {
 			cmbboxAjoutIngrUnites.setFont(new Font("Calibri", Font.PLAIN, 30));
 			pnlAjoutIngr.add(cmbboxAjoutIngrUnites, "cell 5 3,grow");
 			// *** Ajouter toutes les unités possibles (g, kg, L, ...) à la combobox.
-			cmbboxAjoutIngrUnites.setModel(new DefaultComboBoxModel(new String[] {"g", "kg", "L"}));
+			cmbboxAjoutIngrUnites.setModel(new DefaultComboBoxModel(new String[] {"","cup", "tbsp", "tsp", "servings",  "lb", "oz", "gal", "qt", "pinch", "pt"}));
 
 			JLabel lblAjoutIngrDLdC = new JLabel("Saisissez la date limite de consommation :");
 			lblAjoutIngrDLdC.setFont(new Font("Calibri", Font.PLAIN, 30));

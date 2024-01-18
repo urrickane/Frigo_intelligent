@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class Recipe {
-    private final String linkToImage;
-    private final String title;
-    private final List<Ingredient> l_ingredients;
+    private String linkToImage;
+    private String title;
+    private List<Ingredient> l_ingredients;
 
 
     private List<String> l_steps;
@@ -96,6 +96,19 @@ public class Recipe {
         this.l_ingredients = l_ingredients;
         this.cookingTime = cookingTime;
         this.healthScore = healthScore;
+    }
+
+    public void copy(Recipe recipe) {
+    	this.id = recipe.id;
+    	this.linkToImage = recipe.linkToImage;
+    	this.title = recipe.title;
+    	this.nbPeople = recipe.nbPeople;
+    	this.l_steps = recipe.l_steps;
+    	this.l_missingIngredients = recipe.l_missingIngredients;
+    	this.l_usedIngredients = recipe.l_usedIngredients;
+    	this.l_ingredients = recipe.l_ingredients;
+    	this.cookingTime = recipe.cookingTime;
+    	this.healthScore = recipe.healthScore;
     }
 
     @Override

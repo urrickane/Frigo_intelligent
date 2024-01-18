@@ -138,7 +138,7 @@ public class API {
             }
             else jsonSteps = aRecipe.get("instructions");
             for(JsonNode anIngredient :aRecipe.get("extendedIngredients")){
-                Ingredient ingredient = new Ingredient(null,anIngredient.get("name").asText(),anIngredient.get("measures").get("metric").get("amount").asDouble(),anIngredient.get("measures").get("metric").get("unitShort").asText());
+                Ingredient ingredient = new Ingredient(null,anIngredient.get("name").asText(),anIngredient.get("amount").asDouble(),anIngredient.get("unit").asText());
                 l_ing.add(ingredient);
             }
             if(aRecipe.get("usedIngredients") != null) {

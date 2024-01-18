@@ -12,9 +12,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 public class RecipeButton {
 	private JLabel lblImageRecette;
@@ -25,7 +23,7 @@ public class RecipeButton {
 	/*
 	 * Constructeur qui crée la structure Bouton+Label pour afficher et supprimer un allergène.
 	 */
-	public RecipeButton(Recipe recipe,User user)
+	public RecipeButton(Recipe recipe, User user, JLabel lblRecetteImage, JLabel lblRecetteTitre, JPanel pnlRecetteIngredients, JPanel pnlChercherRecette, JPanel pnlRecetteInfos,Recipe recipeToReturn)
 	{
 		//Cr&ation d'un label et d'un bouton. Le premier va contenir l'image de la recette et le second va permettre de la sélectionner en appuyant dessus.		
 		lblImageRecette = new JLabel();
@@ -55,7 +53,10 @@ public class RecipeButton {
 		
 		btnNomRecette.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				recipeClicked = recipe;
+				InteractionBackFront.actualisationRecettePresentation(lblRecetteImage, lblRecetteTitre, pnlRecetteIngredients, recipe);
+				recipeToReturn.copy(recipe);
+				pnlChercherRecette.setVisible(false);
+				pnlRecetteInfos.setVisible(true);
 			}
 		});
 		

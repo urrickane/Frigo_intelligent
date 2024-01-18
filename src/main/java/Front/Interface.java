@@ -69,60 +69,9 @@ public class Interface extends JFrame {
 		User user = new User(1, "", null, null, null);
 		List<String> allUsers = Database.getAllUsers(); // liste contenant les noms de chaque user
 		AtomicReference<String> usernameRef = new AtomicReference<>();
+		Recipe recette = new Recipe(0, null, null, null, 0, null, null, null, 0, 0);
 
 
-		Ingredient ingredient1 = new Ingredient("2023-01-01", "Tomato", null, null);
-		Ingredient ingredient2 = new Ingredient("2023-02-15", "Milk", null, null);
-
-		List<Ingredient> l_ingredients = new ArrayList<Ingredient>();
-		List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
-		List<Ingredient> l_testUsedIngredients = new ArrayList<Ingredient>();
-		List<Ingredient> l_testMissingIngredients = new ArrayList<Ingredient>();
-		List<String> l_steps = new ArrayList<String>();
-
-		l_steps.add("Preheat your oven to 450F.");
-		l_steps.add("Mix goat cheese, parmesan cheese and basil in a small bowl.");
-		l_steps.add("Cut tomatoes in half, drizzle each half with olive oil and sprinkle with salt & pepper.");
-		l_steps.add("Top each tomato half with the cheese mix, equally dividing the mixture between the four halves.");
-		l_steps.add("Bake the tomatoes for about 20 minutes, or until softened and slightly browned.");
-		l_steps.add("Serve hot or at room temperature.");
-
-		Ingredient testIngredient1 = new Ingredient(null, "tomatoes", 2.0, "");
-		Ingredient testIngredient2 = new Ingredient(null, "unripened goat's milk cheese", 61.0, "ml");
-		Ingredient testIngredient3 = new Ingredient(null, "parmesan", 2.0, "Tbsps");
-		Ingredient testIngredient5 = new Ingredient(null, "basil", 1.0, "Tbsp");
-		Ingredient testIngredient6 = new Ingredient(null, "salt & pepper", 1.0, "pinch");
-		Ingredient testIngredient7 = new Ingredient(null, "olive oil", 4.0, "servings");
-
-		Ingredient testUsedIngredient1 = new Ingredient(null, "tomatoes", 2.0, "");
-		Ingredient testUsedIngredient2 = new Ingredient(null, "unripened goat's milk cheese", 0.25, "cup");
-		Ingredient testMissingIngredient1 = new Ingredient(null, "parmesan", 2.0, "tbsp");
-		Ingredient testMissingIngredient2 = new Ingredient(null, "basil", 1.0, "tbsp");
-
-		l_ingredients.add(ingredient1);
-		l_ingredients.add(ingredient2);
-
-		l_testIngredients.add(testIngredient1);
-		l_testIngredients.add(testIngredient2);
-		l_testIngredients.add(testIngredient3);
-		l_testIngredients.add(testIngredient5);
-		l_testIngredients.add(testIngredient6);
-		l_testIngredients.add(testIngredient7);
-
-		l_testUsedIngredients.add(testUsedIngredient1);
-		l_testUsedIngredients.add(testUsedIngredient2);
-
-		l_testMissingIngredients.add(testMissingIngredient1);
-		l_testMissingIngredients.add(testMissingIngredient2);
-
-		Recipe recette = new Recipe(12,
-				"https://spoonacular.com/recipeImages/633852-312x231.jpg",
-				"baked tomatoes",
-				l_testIngredients,
-				4,
-				l_steps,
-				l_testUsedIngredients,
-				l_testMissingIngredients, 45, 96);
 		getContentPane().setLayout(new CardLayout(0, 0));
 
 
@@ -321,7 +270,7 @@ public class Interface extends JFrame {
 		JButton btnRecetteIngredientsManquants = new JButton("Acheter les ingrédients manquants");
 		btnRecetteIngredientsManquants.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// *** Méthode pour ajouter les ingrédients manquants à la liste de course
+				recette.getL_missingIngredients().forEach(user::addIngredientToShoppingList);
 			}
 		});
 		btnRecetteIngredientsManquants.setFont(new Font("Calibri", Font.BOLD, 30));
@@ -400,6 +349,7 @@ public class Interface extends JFrame {
 		btnAccueilListeCourses.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// *** Ajouter le bon champ pour avoir la liste des ingrédients de la liste de course de la BDD à la ligne suivante.
+				System.out.println(user.getShoppingList().getShoppingList().get(0).getQuantity());
 				InteractionBackFront.remplissagePanelIngredientButton(user.getShoppingList().getShoppingList(), pnlListeCourseIngredients);
 				pnlAccueil.setVisible(false);
 				pnlListeCourse.setVisible(true);
@@ -423,7 +373,7 @@ public class Interface extends JFrame {
 		btnAccueilSearchRecipes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// *** Appeler une méthode qui trie les recettes qu'il faut récupérer qui renvoie une liste de Recipe
-				InteractionBackFront.remplissagePanelRecherche(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false), pnlChercherRecetteResultats,user);
+				InteractionBackFront.remplissagePanelRecherche(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false), pnlChercherRecetteResultats,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,recette,user);
 				pnlChercherRecette.setVisible(true);
 				pnlAccueil.setVisible(false);
 			}
@@ -433,7 +383,7 @@ public class Interface extends JFrame {
 		btnAccueilCheckFavorite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					InteractionBackFront.remplissagePanelFavoris(api.GetRecipeInformation(user,false), pnlFavorisRecettes,user);
+					InteractionBackFront.remplissagePanelFavoris(api.GetRecipeInformation(user,false),pnlFavorisRecettes,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,recette,user);
 				} catch (IOException | InterruptedException ex) {
 					throw new RuntimeException(ex);
 				}
@@ -571,19 +521,6 @@ public class Interface extends JFrame {
 		});
 		btnChercherRetour.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlChercherRecette.add(btnChercherRetour, "cell 0 2,grow");
-
-		JButton btnChercherValider = new JButton("Valider");
-		btnChercherValider.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// *** Récupérer je sais pas trop comment le champs recipeClicked de RecipeButton et le mettre dans la classe en-dessous.
-
-				InteractionBackFront.actualisationRecettePresentation(lblRecetteImage, lblRecetteTitre, pnlRecetteIngredients, recette);
-				pnlChercherRecette.setVisible(false);
-				pnlRecetteInfos.setVisible(true);
-			}
-		});
-		btnChercherValider.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlChercherRecette.add(btnChercherValider, "cell 2 2,grow");
 
 
 		//Panel Voir Frigo

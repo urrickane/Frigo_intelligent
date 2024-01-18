@@ -285,7 +285,7 @@ public class InteractionBackFront {
 			i++;
 		}
 	}
-	public static void remplissagePanelFavoris(List<Recipe> l_favoris, JPanel pnlFavorisRecettes,User user) {
+	public static void remplissagePanelFavoris(List<Recipe> l_favoris, JPanel pnlFavorisRecettes, JLabel lblRecetteImage,JLabel lblRecetteTitre, JPanel pnlRecetteIngredients,JPanel pnlRecetteInfos,Recipe recipeToReturn,User user) {
 		int i = 0;
 		RecipeButton btnRecipe;
 
@@ -297,7 +297,7 @@ public class InteractionBackFront {
 		//On crée et on ajoute les allergènes au panel tant que la liste n'est pas vide.
 		while(i < l_favoris.size())
 		{
-			btnRecipe = new RecipeButton(l_favoris.get(i),user);
+			btnRecipe = new RecipeButton(l_favoris.get(i),user,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlFavorisRecettes,pnlRecetteInfos,recipeToReturn);
 
 			// Créer un Box pour chaque paire JLabel et JButton
 			Box box = Box.createHorizontalBox();
@@ -311,7 +311,7 @@ public class InteractionBackFront {
 		}
 	}
 
-	public static void remplissagePanelRecherche(List<Recipe> l_recipe, JPanel pnlChercherRecettes,User user) {
+	public static void remplissagePanelRecherche(List<Recipe> l_recipe, JPanel pnlChercherRecettes, JLabel lblRecetteImage,JLabel lblRecetteTitre, JPanel pnlRecetteIngredients,JPanel pnlRecetteInfos,Recipe recipeToReturn, User user) {
 		int i = 0;
 		RecipeButton btnRecipe;
 
@@ -323,7 +323,7 @@ public class InteractionBackFront {
 		//On crée et on ajoute les allergènes au panel tant que la liste n'est pas vide.
 		while(i < l_recipe.size())
 		{
-			btnRecipe = new RecipeButton(l_recipe.get(i),user);
+			btnRecipe = new RecipeButton(l_recipe.get(i),user,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlChercherRecettes,pnlRecetteInfos,recipeToReturn);
 
 			// Créer un Box pour chaque paire JLabel et JButton
 			Box box = Box.createHorizontalBox();
