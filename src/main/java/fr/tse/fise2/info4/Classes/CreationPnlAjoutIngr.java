@@ -30,8 +30,10 @@ public class CreationPnlAjoutIngr {
 	private JTextField txtboxAjoutIngrMois;
 	private JTextField txtboxAjoutIngrAnnee;
 	private JTextField txtboxAjoutIngrQte;
+
+	private JComboBox cmbboxAjoutIngrUnites;
 	
-	public CreationPnlAjoutIngr(JDialog dialog)
+	public CreationPnlAjoutIngr(JDialog dialog,User user, boolean fridge)
 	{
 		try {
 			List<String> ingredients = readIngredients("./src/main/resources/Ing.txt");
@@ -49,12 +51,12 @@ public class CreationPnlAjoutIngr {
 			AutoCompletion.setupAutoComplete(ingredients,txtboxAjoutIngrNom );
 
 			txtboxAjoutIngrNom.setColumns(10);
-
+			if(fridge){
 			JLabel lblAjoutIngrQte = new JLabel("Saisir la quantité :");
 			lblAjoutIngrQte.setFont(new Font("Calibri", Font.PLAIN, 30));
 			pnlAjoutIngr.add(lblAjoutIngrQte, "flowx,cell 0 3 3 1,grow");
 
-			JComboBox cmbboxAjoutIngrUnites = new JComboBox();
+			cmbboxAjoutIngrUnites = new JComboBox();
 			cmbboxAjoutIngrUnites.setFont(new Font("Calibri", Font.PLAIN, 30));
 			pnlAjoutIngr.add(cmbboxAjoutIngrUnites, "cell 5 3,grow");
 			// *** Ajouter toutes les unités possibles (g, kg, L, ...) à la combobox.
@@ -101,11 +103,12 @@ public class CreationPnlAjoutIngr {
 			txtboxAjoutIngrQte.setFont(new Font("Calibri", Font.PLAIN, 30));
 			pnlAjoutIngr.add(txtboxAjoutIngrQte, "cell 3 3 2 1,grow");
 			txtboxAjoutIngrQte.setColumns(10);
+			}
 
 			JButton btnAjoutIngrRetour = new JButton("Retour");
 			btnAjoutIngrRetour.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					cleanTxtbox();
+					cleanTxtbox(fridge);
 					dialog.dispose();
 				}
 			});
@@ -116,8 +119,13 @@ public class CreationPnlAjoutIngr {
 			btnAjoutIngrValider.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					// *** Ajouter une méthode pour ajouter l'ingrédient à la bonne liste (liste de course ou du frigo).
-					cleanTxtbox();
+					if(fridge){
+						user.AddIngredient(new Ingredient(txtboxAjoutIngrJour.getText()+"-"+txtboxAjoutIngrMois.getText()+"-"+txtboxAjoutIngrAnnee.getText(),txtboxAjoutIngrNom.getText(), Double.parseDouble(txtboxAjoutIngrQte.getText()), cmbboxAjoutIngrUnites.getSelectedItem().toString()));
+					}
+					else{
+						user.addIngredientToShoppingList(new Ingredient("",txtboxAjoutIngrNom.getText(), 0.0, ""));
+					}
+					cleanTxtbox(fridge);
 					dialog.dispose();
 				}
 			});
@@ -133,13 +141,18 @@ public class CreationPnlAjoutIngr {
 		return pnlAjoutIngr;
 	}
 	
-	public void cleanTxtbox()
+	public void cleanTxtbox(boolean fridge)
 	{
-		txtboxAjoutIngrAnnee.setText("");
-		txtboxAjoutIngrJour.setText("");
-		txtboxAjoutIngrMois.setText("");
-		txtboxAjoutIngrNom.setText("");
-		txtboxAjoutIngrQte.setText("");
+		if(fridge){
+			txtboxAjoutIngrAnnee.setText("");
+			txtboxAjoutIngrJour.setText("");
+			txtboxAjoutIngrMois.setText("");
+			txtboxAjoutIngrNom.setText("");
+			txtboxAjoutIngrQte.setText("");
+		}
+		else{
+			txtboxAjoutIngrNom.setText("");
+		}
 	}
 
 	private static List<String> readIngredients(String filePath) throws IOException {

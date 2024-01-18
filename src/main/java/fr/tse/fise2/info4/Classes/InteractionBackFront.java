@@ -205,7 +205,7 @@ public class InteractionBackFront {
 	/*
 	 * A supprimer
 	 */
-	public static void remplissagePanelConnexionComptes2(JPanel pnlConnexionComptes, List<String> comptes, JPanel pnlAccueil, JPanel pnlConnexion, User user)
+	public static void remplissagePanelConnexionComptes2(JPanel pnlConnexionComptes, List<String> comptes, JPanel pnlAccueil, JPanel pnlConnexion,JLabel lblAccueilTitre, User user)
 	{
 		int i = 0;
 		while(i < comptes.size())
@@ -220,6 +220,7 @@ public class InteractionBackFront {
     				// *** Méthode pour récupérer un User à partir du champ Text du bouton qui contient le nom du User.
     				System.out.println("L'utilisateur choisit est : "+name);
 					user.copy(Database.getUser(name));
+					lblAccueilTitre.setText("Bienvenue dans votre cuisine, "+ user.getName()+" ! Que souhaitez-vous faire ?");
     				pnlAccueil.setVisible(true);
     				pnlConnexion.setVisible(false);
     				
@@ -261,7 +262,7 @@ public class InteractionBackFront {
 	/*
 	 * Méthode qui affiche tous les ingrédients créés dans les panels pnlListeCourse et pnlVoirFrigo
 	 */
-	public static void remplissagePanelIngredientButton(List<Ingredient> l_ingredients, JPanel pnlIngredientButton) {
+	public static void remplissagePanelIngredientButton(List<Ingredient> l_ingredients, JPanel pnlIngredientButton, boolean isFromFridge, User user) {
 		int i = 0;
 		IngredientButton btnIngredient;
 
@@ -273,12 +274,18 @@ public class InteractionBackFront {
 		//On crée et on ajoute les allergènes au panel tant que la liste n'est pas vide.
 		while(i < l_ingredients.size())
 		{
-			btnIngredient = new IngredientButton(l_ingredients.get(i), pnlIngredientButton);
+			btnIngredient = new IngredientButton(l_ingredients.get(i), pnlIngredientButton,isFromFridge,user);
 
 			// Créer un Box pour chaque paire JLabel et JButton
 			Box box = Box.createHorizontalBox();
 			box.add(btnIngredient.getLblIngredient());
-			box.add(btnIngredient.getBtnModif());
+			if(isFromFridge){
+				box.add(btnIngredient.getBtnModif());
+			}
+			else{
+				box.add(btnIngredient.getBtnSuppr());
+			}
+
 
 			// Ajouter le Box au panneau principal
 			pnlIngredientButton.add(box);

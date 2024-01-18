@@ -318,13 +318,14 @@ public class Interface extends JFrame {
 		btnMainInscription.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlMain.add(btnMainInscription, "cell 1 4,grow");
 
+		JLabel lblAccueilTitre = new JLabel("Bienvenue dans votre cuisine, ... ! Que souhaitez-vous faire ?");
 		JButton btnMainConnexion = new JButton("Connexion");
 		btnMainConnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// *** Méthode pour récupérer les User
 				pnlConnexionComptes.removeAll();
 				// ***  Appeler InteractionBackFront.remplissagePanelConnexionComptes(pnlConnexionComptes, ); /!\ Ajouter le champ contenant la liste de User
-				InteractionBackFront.remplissagePanelConnexionComptes2(pnlConnexionComptes, allUsers, pnlAccueil, pnlConnexion, user);
+				InteractionBackFront.remplissagePanelConnexionComptes2(pnlConnexionComptes, allUsers, pnlAccueil, pnlConnexion,lblAccueilTitre, user);
 				pnlConnexion.setVisible(true);
 				pnlMain.setVisible(false);
 			}
@@ -335,7 +336,7 @@ public class Interface extends JFrame {
 
 		//Panel Accueil
 
-		JLabel lblAccueilTitre = new JLabel("Bienvenue dans votre cuisine, ... ! Que souhaitez-vous faire ?");
+
 		lblAccueilTitre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAccueilTitre.setFont(new Font("Calibri", Font.BOLD, 30));
 		lblAccueilTitre.setBackground(Color.LIGHT_GRAY);
@@ -350,7 +351,7 @@ public class Interface extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// *** Ajouter le bon champ pour avoir la liste des ingrédients de la liste de course de la BDD à la ligne suivante.
 				System.out.println(user.getShoppingList().getShoppingList().get(0).getQuantity());
-				InteractionBackFront.remplissagePanelIngredientButton(user.getShoppingList().getShoppingList(), pnlListeCourseIngredients);
+				InteractionBackFront.remplissagePanelIngredientButton(user.getShoppingList().getShoppingList(), pnlListeCourseIngredients,false,user);
 				pnlAccueil.setVisible(false);
 				pnlListeCourse.setVisible(true);
 			}
@@ -359,7 +360,7 @@ public class Interface extends JFrame {
 		JButton btnAccueilContentFrigo = new JButton("Voir le contenu du frigo");
 		btnAccueilContentFrigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InteractionBackFront.remplissagePanelIngredientButton(user.getFridge().getInventory(), pnlVoirFrigoIngredients);
+				InteractionBackFront.remplissagePanelIngredientButton(user.getFridge().getInventory(), pnlVoirFrigoIngredients,true,user);
 				pnlAccueil.setVisible(false);
 				pnlVoirFrigo.setVisible(true);
 			}
@@ -553,7 +554,7 @@ public class Interface extends JFrame {
 				JDialog dialog = new JDialog(parentWindow, "Ajout d'un ingrédient", Dialog.ModalityType.APPLICATION_MODAL);
 
 				// Ajouter votre JPanel personnalisé
-				CreationPnlAjoutIngr pnl = new CreationPnlAjoutIngr(dialog);
+				CreationPnlAjoutIngr pnl = new CreationPnlAjoutIngr(dialog,user,true);
 				dialog.getContentPane().add(pnl.getPnlAjoutIngr());
 
 				// Configurer la taille du JDialog
@@ -566,7 +567,7 @@ public class Interface extends JFrame {
 				dialog.setVisible(true);
 
 				//Actualise le contenu du panel avec les ingrédients créés
-				InteractionBackFront.remplissagePanelIngredientButton(user.getFridge().getInventory(), pnlVoirFrigoIngredients);
+				InteractionBackFront.remplissagePanelIngredientButton(user.getFridge().getInventory(), pnlVoirFrigoIngredients,true,user);
 				pnlVoirFrigoIngredients.revalidate();
 				pnlVoirFrigoIngredients.repaint();
 			}
@@ -607,7 +608,7 @@ public class Interface extends JFrame {
 				JDialog dialog = new JDialog(parentWindow, "Ajout d'un ingrédient", Dialog.ModalityType.APPLICATION_MODAL);
 
 				// Ajouter votre JPanel personnalisé
-				CreationPnlAjoutIngr pnl = new CreationPnlAjoutIngr(dialog);
+				CreationPnlAjoutIngr pnl = new CreationPnlAjoutIngr(dialog,user,false);
 				dialog.getContentPane().add(pnl.getPnlAjoutIngr());
 
 				// Configurer la taille du JDialog
@@ -620,7 +621,7 @@ public class Interface extends JFrame {
 				dialog.setVisible(true);
 
 				//Actualise le contenu du panel avec les ingrédients créés
-				InteractionBackFront.remplissagePanelIngredientButton(user.getShoppingList().getShoppingList(), pnlListeCourseIngredients);
+				InteractionBackFront.remplissagePanelIngredientButton(user.getShoppingList().getShoppingList(), pnlListeCourseIngredients,false,user);
 				pnlListeCourseIngredients.revalidate();
 				pnlListeCourseIngredients.repaint();
 			}
