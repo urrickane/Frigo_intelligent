@@ -257,4 +257,87 @@ public class InteractionBackFront {
 			i++;
 		}
 	}
+
+	/*
+	 * Méthode qui affiche tous les ingrédients créés dans les panels pnlListeCourse et pnlVoirFrigo
+	 */
+	public static void remplissagePanelIngredientButton(List<Ingredient> l_ingredients, JPanel pnlIngredientButton) {
+		int i = 0;
+		IngredientButton btnIngredient;
+
+		//On supprime les éléments déjà présents.
+		pnlIngredientButton.removeAll();
+		pnlIngredientButton.revalidate();
+		pnlIngredientButton.repaint();
+
+		//On crée et on ajoute les allergènes au panel tant que la liste n'est pas vide.
+		while(i < l_ingredients.size())
+		{
+			btnIngredient = new IngredientButton(l_ingredients.get(i), pnlIngredientButton);
+
+			// Créer un Box pour chaque paire JLabel et JButton
+			Box box = Box.createHorizontalBox();
+			box.add(btnIngredient.getLblIngredient());
+			box.add(btnIngredient.getBtnModif());
+
+			// Ajouter le Box au panneau principal
+			pnlIngredientButton.add(box);
+			i++;
+		}
+	}
+	public static void remplissagePanelFavoris(List<Recipe> l_favoris, JPanel pnlFavorisRecettes,User user) {
+		int i = 0;
+		RecipeButton btnRecipe;
+
+		//On supprime les éléments déjà présents.
+		pnlFavorisRecettes.removeAll();
+		pnlFavorisRecettes.revalidate();
+		pnlFavorisRecettes.repaint();
+
+		//On crée et on ajoute les allergènes au panel tant que la liste n'est pas vide.
+		while(i < l_favoris.size())
+		{
+			btnRecipe = new RecipeButton(l_favoris.get(i),user);
+
+			// Créer un Box pour chaque paire JLabel et JButton
+			Box box = Box.createHorizontalBox();
+			box.add(btnRecipe.getLblImageRecette());
+			box.add(btnRecipe.getBtnNomRecette());
+			box.add(btnRecipe.getBtnSuppr());
+
+			// Ajouter le Box au panneau principal
+			pnlFavorisRecettes.add(box);
+			i++;
+		}
+	}
+
+	public static void remplissagePanelRecherche(List<Recipe> l_recipe, JPanel pnlChercherRecettes,User user) {
+		int i = 0;
+		RecipeButton btnRecipe;
+
+		//On supprime les éléments déjà présents.
+		pnlChercherRecettes.removeAll();
+		pnlChercherRecettes.revalidate();
+		pnlChercherRecettes.repaint();
+
+		//On crée et on ajoute les allergènes au panel tant que la liste n'est pas vide.
+		while(i < l_recipe.size())
+		{
+			btnRecipe = new RecipeButton(l_recipe.get(i),user);
+
+			// Créer un Box pour chaque paire JLabel et JButton
+			Box box = Box.createHorizontalBox();
+			box.add(btnRecipe.getLblImageRecette());
+			box.add(btnRecipe.getBtnNomRecette());
+
+			// Ajouter le Box au panneau principal
+			pnlChercherRecettes.add(box);
+			i++;
+		}
+	}
 }
+
+
+
+
+

@@ -1,34 +1,13 @@
 package Front;
 
-import java.awt.EventQueue;
+import java.awt.*;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import java.awt.Dimension;
-import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.Rectangle;
-import javax.swing.JRadioButton;
-import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.ComponentOrientation;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import java.awt.GridLayout;
-import java.awt.Image;
 
-import javax.swing.ImageIcon;
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.ArrayList;
@@ -40,14 +19,6 @@ import fr.tse.fise2.info4.API.API;
 import fr.tse.fise2.info4.Database;
 import fr.tse.fise2.info4.Classes.*;
 import net.miginfocom.swing.MigLayout;
-import java.awt.CardLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.BoxLayout;
-import javax.swing.JList;
-import javax.swing.JFormattedTextField;
-import javax.swing.JComboBox;
 
 public class Interface extends JFrame {
 
@@ -66,18 +37,18 @@ public class Interface extends JFrame {
 			public void run() {
 				try {
 					Interface frame = new Interface();
-					
+
 					// Récupérer la taille de l'écran
-			        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-			        int screenWidth = gd.getDisplayMode().getWidth();
-			        int screenHeight = gd.getDisplayMode().getHeight();
+					GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+					int screenWidth = gd.getDisplayMode().getWidth();
+					int screenHeight = gd.getDisplayMode().getHeight();
 
-			        // Définir la taille de la JFrame à la taille de l'écran
-			        frame.setSize(screenWidth, screenHeight);
+					// Définir la taille de la JFrame à la taille de l'écran
+					frame.setSize(screenWidth, screenHeight);
 
-			        // Mettre la JFrame en plein écran
-			        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-			        
+					// Mettre la JFrame en plein écran
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -92,183 +63,194 @@ public class Interface extends JFrame {
 	public Interface() {
 		setMinimumSize(new Dimension(800, 600));
 		pack();
-		
+
 		// Variables
 		API api = new API();
-		User user = new User(1,"",null,null,null);
+		User user = new User(1, "", null, null, null);
 		List<String> allUsers = Database.getAllUsers(); // liste contenant les noms de chaque user
 		AtomicReference<String> usernameRef = new AtomicReference<>();
-		
-		
-		Ingredient ingredient1 = new Ingredient("2023-01-01", "Tomato", null,null);
-        Ingredient ingredient2 = new Ingredient("2023-02-15", "Milk", null,null);
-        
-        List<Ingredient> l_ingredients = new ArrayList<Ingredient>();
-        List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
-        List<Ingredient> l_testUsedIngredients = new ArrayList<Ingredient>();
-        List<Ingredient> l_testMissingIngredients = new ArrayList<Ingredient>();
-        List<String> l_steps = new ArrayList<String>();
-        
-        l_steps.add("Preheat your oven to 450F.");
-        l_steps.add("Mix goat cheese, parmesan cheese and basil in a small bowl.");
-        l_steps.add("Cut tomatoes in half, drizzle each half with olive oil and sprinkle with salt & pepper.");
-        l_steps.add("Top each tomato half with the cheese mix, equally dividing the mixture between the four halves.");
-        l_steps.add("Bake the tomatoes for about 20 minutes, or until softened and slightly browned.");
-        l_steps.add("Serve hot or at room temperature.");
-        
-        Ingredient testIngredient1 = new Ingredient(null, "tomatoes", 2.0,"");
-        Ingredient testIngredient2 = new Ingredient(null, "unripened goat's milk cheese", 61.0,"ml");
-        Ingredient testIngredient3 = new Ingredient(null, "parmesan", 2.0,"Tbsps");
-        Ingredient testIngredient5 = new Ingredient(null, "basil", 1.0,"Tbsp");
-        Ingredient testIngredient6 = new Ingredient(null, "salt & pepper", 1.0,"pinch");
-        Ingredient testIngredient7 = new Ingredient(null, "olive oil", 4.0,"servings");
-        
-        Ingredient testUsedIngredient1 = new Ingredient(null, "tomatoes", 2.0,"");
-        Ingredient testUsedIngredient2 = new Ingredient(null, "unripened goat's milk cheese", 0.25,"cup");
-        Ingredient testMissingIngredient1 = new Ingredient(null, "parmesan", 2.0,"tbsp");
-        Ingredient testMissingIngredient2 = new Ingredient(null, "basil", 1.0,"tbsp");
-        
-        l_ingredients.add(ingredient1);
-        l_ingredients.add(ingredient2);
-        
-        l_testIngredients.add(testIngredient1);
-        l_testIngredients.add(testIngredient2);
-        l_testIngredients.add(testIngredient3);
-        l_testIngredients.add(testIngredient5);
-        l_testIngredients.add(testIngredient6);
-        l_testIngredients.add(testIngredient7);
-        
-        l_testUsedIngredients.add(testUsedIngredient1);
-        l_testUsedIngredients.add(testUsedIngredient2);
-        
-        l_testMissingIngredients.add(testMissingIngredient1);
-        l_testMissingIngredients.add(testMissingIngredient2);
-		
+
+
+		Ingredient ingredient1 = new Ingredient("2023-01-01", "Tomato", null, null);
+		Ingredient ingredient2 = new Ingredient("2023-02-15", "Milk", null, null);
+
+		List<Ingredient> l_ingredients = new ArrayList<Ingredient>();
+		List<Ingredient> l_testIngredients = new ArrayList<Ingredient>();
+		List<Ingredient> l_testUsedIngredients = new ArrayList<Ingredient>();
+		List<Ingredient> l_testMissingIngredients = new ArrayList<Ingredient>();
+		List<String> l_steps = new ArrayList<String>();
+
+		l_steps.add("Preheat your oven to 450F.");
+		l_steps.add("Mix goat cheese, parmesan cheese and basil in a small bowl.");
+		l_steps.add("Cut tomatoes in half, drizzle each half with olive oil and sprinkle with salt & pepper.");
+		l_steps.add("Top each tomato half with the cheese mix, equally dividing the mixture between the four halves.");
+		l_steps.add("Bake the tomatoes for about 20 minutes, or until softened and slightly browned.");
+		l_steps.add("Serve hot or at room temperature.");
+
+		Ingredient testIngredient1 = new Ingredient(null, "tomatoes", 2.0, "");
+		Ingredient testIngredient2 = new Ingredient(null, "unripened goat's milk cheese", 61.0, "ml");
+		Ingredient testIngredient3 = new Ingredient(null, "parmesan", 2.0, "Tbsps");
+		Ingredient testIngredient5 = new Ingredient(null, "basil", 1.0, "Tbsp");
+		Ingredient testIngredient6 = new Ingredient(null, "salt & pepper", 1.0, "pinch");
+		Ingredient testIngredient7 = new Ingredient(null, "olive oil", 4.0, "servings");
+
+		Ingredient testUsedIngredient1 = new Ingredient(null, "tomatoes", 2.0, "");
+		Ingredient testUsedIngredient2 = new Ingredient(null, "unripened goat's milk cheese", 0.25, "cup");
+		Ingredient testMissingIngredient1 = new Ingredient(null, "parmesan", 2.0, "tbsp");
+		Ingredient testMissingIngredient2 = new Ingredient(null, "basil", 1.0, "tbsp");
+
+		l_ingredients.add(ingredient1);
+		l_ingredients.add(ingredient2);
+
+		l_testIngredients.add(testIngredient1);
+		l_testIngredients.add(testIngredient2);
+		l_testIngredients.add(testIngredient3);
+		l_testIngredients.add(testIngredient5);
+		l_testIngredients.add(testIngredient6);
+		l_testIngredients.add(testIngredient7);
+
+		l_testUsedIngredients.add(testUsedIngredient1);
+		l_testUsedIngredients.add(testUsedIngredient2);
+
+		l_testMissingIngredients.add(testMissingIngredient1);
+		l_testMissingIngredients.add(testMissingIngredient2);
+
 		Recipe recette = new Recipe(12,
-				"https://spoonacular.com/recipeImages/633852-312x231.jpg", 
+				"https://spoonacular.com/recipeImages/633852-312x231.jpg",
 				"baked tomatoes",
 				l_testIngredients,
-                4,
-                l_steps,
-                l_testUsedIngredients,
-                l_testMissingIngredients,45,96);
+				4,
+				l_steps,
+				l_testUsedIngredients,
+				l_testMissingIngredients, 45, 96);
 		getContentPane().setLayout(new CardLayout(0, 0));
 
-		
+
 		//Panels
-		
+
 		ImageIcon imageIcon = new ImageIcon(Interface.class.getResource("/frigoferme.png"));
-        Image backgroundImageFrigoFerme = imageIcon.getImage();
-        
-        imageIcon = new ImageIcon(Interface.class.getResource("/frigoouvert.png"));
-        Image backgroundImageFrigoOuvert = imageIcon.getImage();
-		
-		JPanel pnlMain = new JPanel(){
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                // Dessinez l'arrière-plan avec l'image
-                g.drawImage(backgroundImageFrigoFerme, 0, 0, getWidth(), getHeight(), this);
-            }
-        };
+		Image backgroundImageFrigoFerme = imageIcon.getImage();
+
+		imageIcon = new ImageIcon(Interface.class.getResource("/frigoouvert.png"));
+		Image backgroundImageFrigoOuvert = imageIcon.getImage();
+		JPanel pnlMain = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				// Dessinez l'arrière-plan avec l'image
+				g.drawImage(backgroundImageFrigoFerme, 0, 0, getWidth(), getHeight(), this);
+			}
+		};
 		getContentPane().add(pnlMain, "name_1742971366120500");
-								
-		JPanel pnlInscription = new JPanel(){
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                // Dessinez l'arrière-plan avec l'image
-                g.drawImage(backgroundImageFrigoFerme, 0, 0, getWidth(), getHeight(), this);
-            }
-        };
+
+		JPanel pnlInscription = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				// Dessinez l'arrière-plan avec l'image
+				g.drawImage(backgroundImageFrigoFerme, 0, 0, getWidth(), getHeight(), this);
+			}
+		};
 		pnlInscription.setVisible(false);
 		getContentPane().add(pnlInscription, "name_1742971381735700");
 		pnlInscription.setLayout(new MigLayout("flowx, wrap 2", "[10%,grow][300px][5px][50%,grow][5px][300px][10%,grow]", "[:10%:100px,grow][50px][20%,grow][50px][25%,grow][100px][5%,grow]"));
-		
-		JPanel pnlConnexion = new JPanel(){
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                // Dessinez l'arrière-plan avec l'image
-                g.drawImage(backgroundImageFrigoFerme, 0, 0, getWidth(), getHeight(), this);
-            }
-        };
+
+		JPanel pnlConnexion = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				// Dessinez l'arrière-plan avec l'image
+				g.drawImage(backgroundImageFrigoFerme, 0, 0, getWidth(), getHeight(), this);
+			}
+		};
 		pnlConnexion.setVisible(false);
 		getContentPane().add(pnlConnexion, "name_1742971397572300");
-						
-		JPanel pnlAccueil = new JPanel(){
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                // Dessinez l'arrière-plan avec l'image
-                g.drawImage(backgroundImageFrigoOuvert, 0, 0, getWidth(), getHeight(), this);
-            }
-        };
+
+		JPanel pnlAccueil = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				// Dessinez l'arrière-plan avec l'image
+				g.drawImage(backgroundImageFrigoOuvert, 0, 0, getWidth(), getHeight(), this);
+			}
+		};
 		getContentPane().add(pnlAccueil, "name_1742971413657900");
-				
 		JPanel pnlAllergenes = new JPanel();
 		pnlAllergenes.setVisible(false);
 		getContentPane().add(pnlAllergenes, "name_1742971429427900");
 		pnlAllergenes.setLayout(new MigLayout("", "[20%,grow][60%,grow][20%,grow]", "[50px][70%][25%,grow]"));
-		
+
 		JPanel pnlAllergenesDisplayAllergenes = new JPanel();
 		pnlAllergenes.add(pnlAllergenesDisplayAllergenes, "cell 1 1,grow");
 		pnlAllergenesDisplayAllergenes.setLayout(new BoxLayout(pnlAllergenesDisplayAllergenes, BoxLayout.Y_AXIS));
-				
+
 		JPanel pnlAllergenesRetourAdd = new JPanel();
 		pnlAllergenes.add(pnlAllergenesRetourAdd, "cell 0 2 3 1,grow");
-		
+
 		JPanel pnlRecetteInfos = new JPanel();
 		pnlRecetteInfos.setVisible(false);
 		getContentPane().add(pnlRecetteInfos, "name_1742971446209000");
 		pnlRecetteInfos.setLayout(new MigLayout("", "[100px:25%:300px,grow][10%,grow][200px:40%,grow][100px:25%:300px,grow]", "[50px:15%:100px][50px:15%:100px][50%,grow][50px:15%:100px,grow]"));
-		
+
 		JPanel pnlRecetteSteps = new JPanel();
 		getContentPane().add(pnlRecetteSteps, "name_238947168100");
 		pnlRecetteSteps.setLayout(new CardLayout(0, 0));
-		
+
 		JPanel pnlConnexionComptes = new JPanel();
 		pnlConnexionComptes.setOpaque(false);
-		
+
 		JPanel pnlFavoris = new JPanel();
 		getContentPane().add(pnlFavoris, "name_33645632673100");
-		pnlFavoris.setLayout(new MigLayout("", "[150px:30%:300px,grow][70%,grow]", "[50px][80%,grow][100px:15%:150px,grow]"));
-		
+		pnlFavoris.setLayout(new MigLayout("", "[150px:30%:300px,grow][40%,grow][150px:30%:300px,grow]", "[50px][80%,grow][100px:15%:150px,grow]"));
+
 		JPanel pnlChercherRecette = new JPanel();
 		getContentPane().add(pnlChercherRecette, "name_34762517307000");
 		pnlChercherRecette.setLayout(new MigLayout("", "[150px:30%:300px,grow][40%,grow][150px:30%:300px,grow]", "[50px][80%,grow][100px:15%:150px,grow]"));
-		
+
 		JPanel pnlVoirFrigo = new JPanel();
 		getContentPane().add(pnlVoirFrigo, "name_35636612101900");
 		pnlVoirFrigo.setLayout(new MigLayout("", "[150px:30%:300px,grow][55%,grow][100px:15%:150px,grow]", "[50px][80%,grow][100px:15%:150px,grow]"));
-		
+
 		JPanel pnlListeCourse = new JPanel();
 		getContentPane().add(pnlListeCourse, "name_36666886837500");
 		pnlListeCourse.setLayout(new MigLayout("", "[150px:30%:300px,grow][55%,grow][100px:15%:150px,grow]", "[50px][80%,grow][100px:15%:150px,grow]"));
-		
-		JPanel pnlAjoutIngr = new JPanel();
-		getContentPane().add(pnlAjoutIngr, "name_37639865607000");
-		pnlAjoutIngr.setLayout(new MigLayout("", "[100px][100px][100px][100px][100px][100px]", "[50px][50px][50px][50px][50px][50px][50px][50px][50px][50px]"));
-		
+
+		JPanel pnlFavorisRecettes = new JPanel();
+		pnlFavoris.add(pnlFavorisRecettes, "cell 1 1,grow");
+		pnlFavorisRecettes.setLayout(new BoxLayout(pnlFavorisRecettes, BoxLayout.Y_AXIS));
+
+		JPanel pnlChercherRecetteResultats = new JPanel();
+		pnlChercherRecette.add(pnlChercherRecetteResultats, "cell 1 1,grow");
+		pnlChercherRecetteResultats.setLayout(new BoxLayout(pnlChercherRecetteResultats, BoxLayout.Y_AXIS));
+
+		JPanel pnlVoirFrigoIngredients = new JPanel();
+		pnlVoirFrigo.add(pnlVoirFrigoIngredients, "cell 1 1,grow");
+		pnlVoirFrigoIngredients.setLayout(new BoxLayout(pnlVoirFrigoIngredients, BoxLayout.Y_AXIS));
+
+		JPanel pnlListeCourseIngredients = new JPanel();
+		pnlListeCourse.add(pnlListeCourseIngredients, "cell 1 1,grow");
+		pnlListeCourseIngredients.setLayout(new BoxLayout(pnlListeCourseIngredients, BoxLayout.Y_AXIS));
+
+
 		//Panel Inscription
-		
+
 		JLabel lblInscriptionTitre = new JLabel("Quel bonheur d'accueillir un nouveau chef ! Entrez votre nom.");
 		lblInscriptionTitre.setFont(new Font("Calibri", Font.BOLD, 30));
 		lblInscriptionTitre.setBackground(Color.LIGHT_GRAY);
 		lblInscriptionTitre.setOpaque(true);
 		lblInscriptionTitre.setHorizontalAlignment(SwingConstants.CENTER);
 		pnlInscription.add(lblInscriptionTitre, "cell 1 1 5 1,grow");
-		
+
 		JLabel lblInscriptionUsername = new JLabel("Nom d'utilisateur :");
 		lblInscriptionUsername.setFont(new Font("Calibri", Font.PLAIN, 25));
 		lblInscriptionUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		pnlInscription.add(lblInscriptionUsername, "cell 1 3,grow");
-		
+
 		txtboxInscription = new JTextField();
 		txtboxInscription.setFont(new Font("Calibri", Font.PLAIN, 25));
 		pnlInscription.add(txtboxInscription, "cell 3 3 3 1,grow");
 		txtboxInscription.setColumns(10);
-		
+
 		JButton btnInscriptionRetour = new JButton("Retour");
 		btnInscriptionRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -279,16 +261,15 @@ public class Interface extends JFrame {
 		});
 		btnInscriptionRetour.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlInscription.add(btnInscriptionRetour, "cell 1 5,grow");
-		
+
 		JButton btnInscriptionValider = new JButton("Valider");
 		btnInscriptionValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(txtboxInscription.getText().compareTo("") != 0)
-				{
+				if (txtboxInscription.getText().compareTo("") != 0) {
 					// *** Méthode pour créer un utilisateur à partir du champ Text de txtboxInscription
 					Database.addUser(txtboxInscription.getText());
 					allUsers.add(txtboxInscription.getText());
-					
+
 					pnlInscription.setVisible(false);
 					pnlMain.setVisible(true);
 					txtboxInscription.setText("");
@@ -297,36 +278,36 @@ public class Interface extends JFrame {
 		});
 		btnInscriptionValider.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlInscription.add(btnInscriptionValider, "cell 5 5,grow");
-		
+
 		//Panel Recette
-		
+
 		JLabel lblRecetteTitre = new JLabel("\"Titre recette\"");
 		lblRecetteTitre.setFont(new Font("Calibri", Font.BOLD, 30));
 		lblRecetteTitre.setHorizontalAlignment(SwingConstants.CENTER);
 		pnlRecetteInfos.add(lblRecetteTitre, "cell 2 0,grow");
-		
+
 		JButton btnRecetteFavoris = new JButton("Favoris");
 		btnRecetteFavoris.setFont(new Font("Calibri", Font.BOLD, 30));
 		btnRecetteFavoris.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// *** Ajouter la recette aux favoris
+				user.addRecipeToFavorites(recette.getId());
 			}
 		});
 		pnlRecetteInfos.add(btnRecetteFavoris, "cell 3 0,grow");
-		
+
 		JLabel lblRecetteIngredients = new JLabel("Ingredients :");
 		lblRecetteIngredients.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlRecetteInfos.add(lblRecetteIngredients, "cell 2 1 2 1,grow");
-		
+
 		JPanel pnlRecetteIngredients = new JPanel();
 		pnlRecetteInfos.add(pnlRecetteIngredients, "cell 2 2 2 1,grow");
 		pnlRecetteIngredients.setLayout(new GridLayout(2, 0, 0, 0));
 		pnlMain.setLayout(new MigLayout("", "[50px:10%,grow][300px][30%,grow][300px][50px:10%,grow]", "[5%,grow][80px][20%,grow][80px][150px][20%,grow]"));
-		
+
 		JLabel lblRecetteImage = new JLabel("\"Image\"");
 		lblRecetteImage.setHorizontalAlignment(SwingConstants.CENTER);
 		pnlRecetteInfos.add(lblRecetteImage, "cell 0 0 2 3,grow");
-		
+
 		JButton btnRecetteRetour = new JButton("Retour");
 		btnRecetteRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -336,7 +317,7 @@ public class Interface extends JFrame {
 		});
 		btnRecetteRetour.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlRecetteInfos.add(btnRecetteRetour, "cell 0 3,grow");
-		
+
 		JButton btnRecetteIngredientsManquants = new JButton("Acheter les ingrédients manquants");
 		btnRecetteIngredientsManquants.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -345,38 +326,39 @@ public class Interface extends JFrame {
 		});
 		btnRecetteIngredientsManquants.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlRecetteInfos.add(btnRecetteIngredientsManquants, "cell 2 3,grow");
-		
+
 		JButton btnRecetteValider = new JButton("Valider");
 		btnRecetteValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InteractionBackFront.actualisationRecetteEtapes(pnlRecetteSteps, recette, pnlRecetteInfos, pnlAccueil, user);
+				InteractionBackFront.actualisationRecetteEtapes(pnlRecetteSteps, recette, pnlRecetteInfos, pnlAccueil,user);
 				pnlRecetteInfos.setVisible(false);
 				pnlRecetteSteps.setVisible(true);
 			}
 		});
 		btnRecetteValider.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlRecetteInfos.add(btnRecetteValider, "cell 3 3,grow");
-		
+
+
 		//Panel Main
-		
+
 		JLabel lblMainTitre = new JLabel("Bienvenue dans la meilleure application de recherche de recette à cuisiner !");
 		lblMainTitre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMainTitre.setFont(new Font("Calibri", Font.BOLD, 35));
 		lblMainTitre.setBackground(Color.LIGHT_GRAY);
 		lblMainTitre.setOpaque(true);
 		pnlMain.add(lblMainTitre, "cell 1 1 3 1,grow");
-		
+
 		JLabel lblMainInscription = new JLabel("Nouvel utilisateur ?");
 		lblMainInscription.setFont(new Font("Calibri", Font.BOLD, 30));
 		lblMainInscription.setHorizontalAlignment(SwingConstants.CENTER);
 		pnlMain.add(lblMainInscription, "cell 1 3,grow");
-		
+
 		JLabel lblMainConnexion = new JLabel("Déjà inscrit ?");
 		lblMainConnexion.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMainConnexion.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlMain.add(lblMainConnexion, "cell 3 3,grow");
 		pnlAccueil.setLayout(new MigLayout("", "[10%,grow][25%,grow][30%,grow][25%,grow][10%,grow]", "[5%,grow][50px][10%,grow][15%,grow][15%,grow][15%,grow][15%,grow][15%,grow]"));
-		
+
 		JButton btnMainInscription = new JButton("Inscription");
 		btnMainInscription.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -386,14 +368,14 @@ public class Interface extends JFrame {
 		});
 		btnMainInscription.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlMain.add(btnMainInscription, "cell 1 4,grow");
-		
+
 		JButton btnMainConnexion = new JButton("Connexion");
 		btnMainConnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// *** Méthode pour récupérer les User
 				pnlConnexionComptes.removeAll();
 				// ***  Appeler InteractionBackFront.remplissagePanelConnexionComptes(pnlConnexionComptes, ); /!\ Ajouter le champ contenant la liste de User
-				InteractionBackFront.remplissagePanelConnexionComptes2(pnlConnexionComptes, allUsers, pnlAccueil, pnlConnexion,user);
+				InteractionBackFront.remplissagePanelConnexionComptes2(pnlConnexionComptes, allUsers, pnlAccueil, pnlConnexion, user);
 				pnlConnexion.setVisible(true);
 				pnlMain.setVisible(false);
 			}
@@ -401,71 +383,70 @@ public class Interface extends JFrame {
 		btnMainConnexion.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlMain.add(btnMainConnexion, "cell 3 4,grow");
 		pnlConnexion.setLayout(new MigLayout("", "[100px:30%:300px,grow][70%,grow]", "[50px][70%,grow][50px:20%:150px,grow]"));
-		
+
 		//Panel Accueil
-				
+
 		JLabel lblAccueilTitre = new JLabel("Bienvenue dans votre cuisine, ... ! Que souhaitez-vous faire ?");
 		lblAccueilTitre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAccueilTitre.setFont(new Font("Calibri", Font.BOLD, 30));
 		lblAccueilTitre.setBackground(Color.LIGHT_GRAY);
 		lblAccueilTitre.setOpaque(true);
 		pnlAccueil.add(lblAccueilTitre, "cell 1 1 3 1,grow");
-		
-		JButton btnAccueilAddIngredient = new JButton("Ajouter un ingrédient");
-		btnAccueilAddIngredient.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pnlAccueil.setVisible(false);
-				pnlAjoutIngr.setVisible(true);
-			}
-		});
-		btnAccueilAddIngredient.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAccueil.add(btnAccueilAddIngredient, "cell 3 3,grow");
-		
-		JButton btnAccueilContentFrigo = new JButton("Voir le contenu du frigo");
-		btnAccueilContentFrigo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 
-				pnlAccueil.setVisible(false);
-				pnlVoirFrigo.setVisible(true);
-			}
-		});
-		
+
+
+
 		JButton btnAccueilListeCourses = new JButton("Voir Liste de courses");
 		btnAccueilListeCourses.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// *** Ajouter le bon champ pour avoir la liste des ingrédients de la liste de course de la BDD à la ligne suivante.
+				InteractionBackFront.remplissagePanelIngredientButton(user.getShoppingList().getShoppingList(), pnlListeCourseIngredients);
 				pnlAccueil.setVisible(false);
 				pnlListeCourse.setVisible(true);
 			}
 		});
-		btnAccueilListeCourses.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAccueil.add(btnAccueilListeCourses, "cell 1 4,grow");
-		btnAccueilContentFrigo.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAccueil.add(btnAccueilContentFrigo, "cell 3 4,grow");
-		
-		JButton btnAccueilCheckFavorite = new JButton("Voir vos recettes favorites");
-		btnAccueilCheckFavorite.addActionListener(new ActionListener() {
+
+		JButton btnAccueilContentFrigo = new JButton("Voir le contenu du frigo");
+		btnAccueilContentFrigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				InteractionBackFront.remplissagePanelIngredientButton(user.getFridge().getInventory(), pnlVoirFrigoIngredients);
 				pnlAccueil.setVisible(false);
-				pnlFavoris.setVisible(true);
+				pnlVoirFrigo.setVisible(true);
 			}
 		});
-		btnAccueilCheckFavorite.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAccueil.add(btnAccueilCheckFavorite, "cell 3 5,grow");
-
-		JList listChercherRecettes = new JList();
-		listChercherRecettes.setFont(new Font("Calibri", Font.PLAIN, 18));
-		pnlChercherRecette.add(listChercherRecettes, "cell 1 1,grow");
+		btnAccueilContentFrigo.setFont(new Font("Calibri", Font.BOLD, 30));
+		pnlAccueil.add(btnAccueilContentFrigo, "cell 3 3,grow");
+		btnAccueilListeCourses.setFont(new Font("Calibri", Font.BOLD, 30));
+		pnlAccueil.add(btnAccueilListeCourses, "cell 1 4,grow");
 
 		JButton btnAccueilSearchRecipes = new JButton("Chercher une recette");
 		btnAccueilSearchRecipes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// *** Appeler une méthode qui trie les recettes qu'il faut récupérer qui renvoie une liste de Recipe
+				InteractionBackFront.remplissagePanelRecherche(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false), pnlChercherRecetteResultats,user);
 				pnlChercherRecette.setVisible(true);
 				pnlAccueil.setVisible(false);
 			}
 		});
+
+		JButton btnAccueilCheckFavorite = new JButton("Voir vos recettes favorites");
+		btnAccueilCheckFavorite.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					InteractionBackFront.remplissagePanelFavoris(api.GetRecipeInformation(user,false), pnlFavorisRecettes,user);
+				} catch (IOException | InterruptedException ex) {
+					throw new RuntimeException(ex);
+				}
+                pnlAccueil.setVisible(false);
+				pnlFavoris.setVisible(true);
+			}
+		});
+		btnAccueilCheckFavorite.setFont(new Font("Calibri", Font.BOLD, 30));
+		pnlAccueil.add(btnAccueilCheckFavorite, "cell 3 4,grow");
 		btnAccueilSearchRecipes.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAccueil.add(btnAccueilSearchRecipes, "cell 3 6,grow");
-		
+		pnlAccueil.add(btnAccueilSearchRecipes, "cell 3 5,grow");
+
+
 		JButton btnAccueilAllergenes = new JButton("Voir/Modifier vos allergènes");
 		btnAccueilAllergenes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -476,16 +457,16 @@ public class Interface extends JFrame {
 		});
 		btnAccueilAllergenes.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlAccueil.add(btnAccueilAllergenes, "cell 1 3,grow");
-		
+
 		JLabel lblAccueilExpired = new JLabel("");
 		lblAccueilExpired.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAccueilExpired.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlAccueil.add(lblAccueilExpired, "cell 1 7 3 1,grow");
-		
+
 		JButton btnAccueilDeconnexion = new JButton("Déconnexion");
 		btnAccueilDeconnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				user.copy(new User(1,"",null,null,null));
+				user.copy(new User(1, "", null, null, null));
 				pnlAccueil.setVisible(false);
 				pnlMain.setVisible(true);
 			}
@@ -493,14 +474,14 @@ public class Interface extends JFrame {
 		btnAccueilDeconnexion.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlAccueil.add(btnAccueilDeconnexion, "cell 1 6,grow");
 		pnlAllergenesRetourAdd.setLayout(new MigLayout("", "[100px:30%:300px,grow][55%,grow][50px:15%:150px]", "[150px]"));
-		
+
 		//Panel Allergènes
-		
+
 		JLabel lblAllergenesTitre = new JLabel("Vos allergènes :");
 		lblAllergenesTitre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAllergenesTitre.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlAllergenes.add(lblAllergenesTitre, "cell 0 0 3 1,alignx center");
-		
+
 		JButton btnAllergenesAdd = new JButton("+");
 		btnAllergenesAdd.setVerticalAlignment(SwingConstants.BOTTOM);
 		btnAllergenesAdd.setFont(new Font("Calibri", Font.BOLD, 97));
@@ -509,18 +490,18 @@ public class Interface extends JFrame {
 		btnAllergenesAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Afficher une boîte de texte
-                String input = JOptionPane.showInputDialog(pnlAllergenes, "Entrez un allergène :");
+				String input = JOptionPane.showInputDialog(pnlAllergenes, "Entrez un allergène :");
 
-                // Vérifier si l'utilisateur a cliqué sur OK ou Annuler
-                if (input != null) {
-                    Allergen newAllergen = new Allergen(input);
-                    user.addAllergy(newAllergen);
-                }
-				
+				// Vérifier si l'utilisateur a cliqué sur OK ou Annuler
+				if (input != null) {
+					Allergen newAllergen = new Allergen(input);
+					user.addAllergy(newAllergen);
+				}
+
 				InteractionBackFront.remplissagePanelAllergenes(user.getAllergies(), pnlAllergenesDisplayAllergenes, user);
 			}
 		});
-		
+
 		JButton btnAllergenesRetour = new JButton("Retour");
 		btnAllergenesRetour.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlAllergenesRetourAdd.add(btnAllergenesRetour, "cell 0 0,grow");
@@ -532,16 +513,16 @@ public class Interface extends JFrame {
 		});
 		btnAllergenesAdd.setIcon(new ImageIcon(".\\src\\main\\resources\\btnAllergenesAdd.png"));
 		pnlAllergenesRetourAdd.add(btnAllergenesAdd, "cell 2 0,grow");
-		
+
 		//Panel Connexion
-		
+
 		JLabel lblConnexionTitre = new JLabel("Heureux de vous revoir ! Sélectionnez votre compte :");
 		lblConnexionTitre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblConnexionTitre.setFont(new Font("Calibri", Font.BOLD, 30));
 		lblConnexionTitre.setBackground(Color.LIGHT_GRAY);
 		lblConnexionTitre.setOpaque(true);
 		pnlConnexion.add(lblConnexionTitre, "cell 0 0 2 1,grow");
-		
+
 		JButton btnConnexionRetour = new JButton("Retour");
 		btnConnexionRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -550,21 +531,21 @@ public class Interface extends JFrame {
 			}
 		});
 		btnConnexionRetour.setFont(new Font("Calibri", Font.BOLD, 30));
-		
+
 		pnlConnexion.add(pnlConnexionComptes, "cell 0 1 2 1,growx,aligny center");
 		pnlConnexion.add(btnConnexionRetour, "cell 0 2,grow");
-		
+
 		//Panel Favoris
-		
+
 		JLabel lblFavorisTitre = new JLabel("Vos recettes favorites :");
 		lblFavorisTitre.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlFavoris.add(lblFavorisTitre, "cell 1 0,alignx left,growy");
-		
+
 		JList listFavorisRecettes = new JList();
 		listFavorisRecettes.setFont(new Font("Calibri", Font.PLAIN, 18));
 		listFavorisRecettes.setBackground(new Color(255, 255, 128));
 		pnlFavoris.add(listFavorisRecettes, "cell 1 1,grow");
-		
+
 		JButton btnFavorisRetour = new JButton("Retour");
 		btnFavorisRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -574,15 +555,13 @@ public class Interface extends JFrame {
 		});
 		btnFavorisRetour.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlFavoris.add(btnFavorisRetour, "cell 0 2,grow");
-		
+
 		//Panel Chercher Recette
-		
+
 		JLabel lblChercherTitle = new JLabel("Sélectionnez une recette dans la liste ci-dessous :");
 		lblChercherTitle.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlChercherRecette.add(lblChercherTitle, "cell 1 0");
-		
 
-		
 		JButton btnChercherRetour = new JButton("Retour");
 		btnChercherRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -592,11 +571,12 @@ public class Interface extends JFrame {
 		});
 		btnChercherRetour.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlChercherRecette.add(btnChercherRetour, "cell 0 2,grow");
-		
+
 		JButton btnChercherValider = new JButton("Valider");
 		btnChercherValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// *** Ajouter méthode pour récupérer la recette sur laquelle on va cliquer dans la liste pour la mettre dans la fonction suivante.
+				// *** Récupérer je sais pas trop comment le champs recipeClicked de RecipeButton et le mettre dans la classe en-dessous.
+
 				InteractionBackFront.actualisationRecettePresentation(lblRecetteImage, lblRecetteTitre, pnlRecetteIngredients, recette);
 				pnlChercherRecette.setVisible(false);
 				pnlRecetteInfos.setVisible(true);
@@ -604,17 +584,14 @@ public class Interface extends JFrame {
 		});
 		btnChercherValider.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlChercherRecette.add(btnChercherValider, "cell 2 2,grow");
-		
+
+
 		//Panel Voir Frigo
-		
+
 		JLabel lblVoirFrigoTitle = new JLabel("Voilà les ingrédients contenus dans votre frigo :");
 		lblVoirFrigoTitle.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlVoirFrigo.add(lblVoirFrigoTitle, "cell 1 0");
-		
-		JList listVoirFrigo = new JList();
-		listVoirFrigo.setFont(new Font("Calibri", Font.PLAIN, 18));
-		pnlVoirFrigo.add(listVoirFrigo, "cell 1 1,grow");
-		
+
 		JButton btnVoirFrigoRetour = new JButton("Retour");
 		btnVoirFrigoRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -624,12 +601,37 @@ public class Interface extends JFrame {
 		});
 		btnVoirFrigoRetour.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlVoirFrigo.add(btnVoirFrigoRetour, "cell 0 2,grow");
-		
+
 		JButton btnVoirFrigoAddIngr = new JButton("+");
 		btnVoirFrigoAddIngr.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				pnlAjoutIngr.setVisible(true);
-				pnlVoirFrigo.setVisible(false);
+				// Obtenir la source de l'événement (le bouton)
+				JButton sourceButton = (JButton) e.getSource();
+
+				// Obtenir l'ancêtre de type Window (la fenêtre parente)
+				Window parentWindow = SwingUtilities.getWindowAncestor(sourceButton);
+
+				// Créer un JDialog
+				JDialog dialog = new JDialog(parentWindow, "Ajout d'un ingrédient", Dialog.ModalityType.APPLICATION_MODAL);
+
+				// Ajouter votre JPanel personnalisé
+				CreationPnlAjoutIngr pnl = new CreationPnlAjoutIngr(dialog);
+				dialog.getContentPane().add(pnl.getPnlAjoutIngr());
+
+				// Configurer la taille du JDialog
+				dialog.setSize(600, 500);
+
+				// Spécifier le positionnement du JDialog
+				dialog.setLocationRelativeTo(parentWindow);
+
+				// Rendre le JDialog visible
+				dialog.setVisible(true);
+
+				//Actualise le contenu du panel avec les ingrédients créés
+				InteractionBackFront.remplissagePanelIngredientButton(user.getFridge().getInventory(), pnlVoirFrigoIngredients);
+				pnlVoirFrigoIngredients.revalidate();
+				pnlVoirFrigoIngredients.repaint();
 			}
 		});
 		btnVoirFrigoAddIngr.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -637,19 +639,13 @@ public class Interface extends JFrame {
 		btnVoirFrigoAddIngr.setForeground(Color.WHITE);
 		btnVoirFrigoAddIngr.setBackground(Color.GREEN);
 		pnlVoirFrigo.add(btnVoirFrigoAddIngr, "cell 2 2,grow");
-		
+
 		//Panel Liste Course
-		
+
 		JLabel lblListeCourseTitle = new JLabel("Voici votre liste de courses :");
 		lblListeCourseTitle.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlListeCourse.add(lblListeCourseTitle, "cell 1 0");
-		
-		JList listListeCourse = new JList();
-		listListeCourse.setFont(new Font("Calibri", Font.PLAIN, 18));
-		listListeCourse.setBackground(new Color(255, 255, 128));
-		listListeCourse.setForeground(new Color(0, 0, 0));
-		pnlListeCourse.add(listListeCourse, "cell 1 1,grow");
-		
+
 		JButton btnListeCourseRetour = new JButton("Retour");
 		btnListeCourseRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -659,93 +655,44 @@ public class Interface extends JFrame {
 		});
 		btnListeCourseRetour.setFont(new Font("Calibri", Font.BOLD, 30));
 		pnlListeCourse.add(btnListeCourseRetour, "cell 0 2,grow");
-		
+
 		JButton btnListeCourseAdd = new JButton("+");
+		btnListeCourseAdd.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Obtenir la source de l'événement (le bouton)
+				JButton sourceButton = (JButton) e.getSource();
+
+				// Obtenir l'ancêtre de type Window (la fenêtre parente)
+				Window parentWindow = SwingUtilities.getWindowAncestor(sourceButton);
+
+				// Créer un JDialog
+				JDialog dialog = new JDialog(parentWindow, "Ajout d'un ingrédient", Dialog.ModalityType.APPLICATION_MODAL);
+
+				// Ajouter votre JPanel personnalisé
+				CreationPnlAjoutIngr pnl = new CreationPnlAjoutIngr(dialog);
+				dialog.getContentPane().add(pnl.getPnlAjoutIngr());
+
+				// Configurer la taille du JDialog
+				dialog.setSize(600, 500);
+
+				// Spécifier le positionnement du JDialog
+				dialog.setLocationRelativeTo(parentWindow);
+
+				// Rendre le JDialog visible
+				dialog.setVisible(true);
+
+				//Actualise le contenu du panel avec les ingrédients créés
+				InteractionBackFront.remplissagePanelIngredientButton(user.getShoppingList().getShoppingList(), pnlListeCourseIngredients);
+				pnlListeCourseIngredients.revalidate();
+				pnlListeCourseIngredients.repaint();
+			}
+		});
 		btnListeCourseAdd.setVerticalAlignment(SwingConstants.BOTTOM);
 		btnListeCourseAdd.setFont(new Font("Calibri", Font.BOLD, 97));
 		btnListeCourseAdd.setForeground(Color.WHITE);
 		btnListeCourseAdd.setBackground(Color.GREEN);
 		pnlListeCourse.add(btnListeCourseAdd, "cell 2 2,grow");
-		
-		//Panel Ajout Ingrédient
-		
-		JLabel lblAjoutIngrTitle = new JLabel("Entrez le nom d'un ingrédient :");
-		lblAjoutIngrTitle.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(lblAjoutIngrTitle, "cell 0 0 6 1,grow");
-		
-		txtboxAjoutIngrNom = new JTextField();
-		txtboxAjoutIngrNom.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(txtboxAjoutIngrNom, "cell 0 1 6 1,grow");
-		txtboxAjoutIngrNom.setColumns(10);
-		
-		JLabel lblAjoutIngrQte = new JLabel("Saisir la quantité :");
-		lblAjoutIngrQte.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(lblAjoutIngrQte, "flowx,cell 0 3 3 1,grow");
-		
-		JComboBox cmbboxAjoutIngrUnites = new JComboBox();
-		cmbboxAjoutIngrUnites.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(cmbboxAjoutIngrUnites, "cell 5 3,grow");
-		
-		JLabel lblAjoutIngrDLdC = new JLabel("Saisissez la date limite de consommation :");
-		lblAjoutIngrDLdC.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(lblAjoutIngrDLdC, "cell 0 5 6 1,grow");
-		
-		JLabel lblAjoutIngrJour = new JLabel("Jour :");
-		lblAjoutIngrJour.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(lblAjoutIngrJour, "cell 0 6,alignx trailing");
-		
-		txtboxAjoutIngrJour = new JTextField();
-		txtboxAjoutIngrJour.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(txtboxAjoutIngrJour, "cell 1 6,grow");
-		txtboxAjoutIngrJour.setColumns(10);
-		
-		JLabel lblAjoutIngrMois = new JLabel("Mois :");
-		lblAjoutIngrMois.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(lblAjoutIngrMois, "cell 2 6,alignx trailing");
-		
-		txtboxAjoutIngrMois = new JTextField();
-		txtboxAjoutIngrMois.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(txtboxAjoutIngrMois, "cell 3 6,grow");
-		txtboxAjoutIngrMois.setColumns(10);
-		
-		JLabel lblAjoutIngrAnnee = new JLabel("Année :");
-		lblAjoutIngrAnnee.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(lblAjoutIngrAnnee, "cell 4 6,alignx trailing");
-		
-		txtboxAjoutIngrAnnee = new JTextField();
-		txtboxAjoutIngrAnnee.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(txtboxAjoutIngrAnnee, "cell 5 6,grow");
-		txtboxAjoutIngrAnnee.setColumns(10);
-		
-		JLabel lblAjoutIngrErreur = new JLabel("");
-		lblAjoutIngrErreur.setForeground(new Color(255, 0, 0));
-		lblAjoutIngrErreur.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAjoutIngrErreur.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(lblAjoutIngrErreur, "cell 0 8 6 1");
-		
-		JButton btnAjoutIngrRetour = new JButton("Retour");
-		btnAjoutIngrRetour.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pnlAjoutIngr.setVisible(false);
-				pnlVoirFrigo.setVisible(true);
-			}
-		});
-		btnAjoutIngrRetour.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAjoutIngr.add(btnAjoutIngrRetour, "cell 0 9 3 1,grow");
-		
-		JButton btnAjoutIngrValider = new JButton("Valider");
-		btnAjoutIngrValider.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// *** Ajouter une méthode pour récupérer les infos entrées et créer un ingrédient avec.
-				pnlAjoutIngr.setVisible(false);
-				pnlVoirFrigo.setVisible(true);
-			}
-		});
-		btnAjoutIngrValider.setFont(new Font("Calibri", Font.BOLD, 30));
-		pnlAjoutIngr.add(btnAjoutIngrValider, "cell 3 9 3 1,grow");
-		
-		JFormattedTextField txtboxAjoutIngrQte = new JFormattedTextField();
-		txtboxAjoutIngrQte.setFont(new Font("Calibri", Font.PLAIN, 30));
-		pnlAjoutIngr.add(txtboxAjoutIngrQte, "cell 3 3 2 1,grow");
 	}
+
 }
