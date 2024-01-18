@@ -374,7 +374,7 @@ public class Interface extends JFrame {
 		btnAccueilSearchRecipes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// *** Appeler une méthode qui trie les recettes qu'il faut récupérer qui renvoie une liste de Recipe
-				InteractionBackFront.remplissagePanelRecherche(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false), pnlChercherRecetteResultats,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,recette,user);
+				InteractionBackFront.remplissagePanelRecherche(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false), pnlChercherRecetteResultats,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,pnlChercherRecette,recette,user);
 				pnlChercherRecette.setVisible(true);
 				pnlAccueil.setVisible(false);
 			}
@@ -384,7 +384,7 @@ public class Interface extends JFrame {
 		btnAccueilCheckFavorite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					InteractionBackFront.remplissagePanelFavoris(api.GetRecipeInformation(user,false),pnlFavorisRecettes,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,recette,user);
+					InteractionBackFront.remplissagePanelFavoris(api.GetRecipeInformation(user,false),pnlFavorisRecettes,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,pnlFavoris,recette,user);
 				} catch (IOException | InterruptedException ex) {
 					throw new RuntimeException(ex);
 				}
