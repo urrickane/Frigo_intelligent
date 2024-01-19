@@ -68,6 +68,11 @@ public class User {
         this.fridge.addOrUpdateIngredients(ingredient);
     }
 
+    public void ModifyIngredientAmount(Ingredient ingredient, double newAmount) {
+        Database.ModifyIngredient(this.id, ingredient, newAmount);
+        this.fridge.ModifyIngredientAmount(ingredient, newAmount);
+    }
+
     public void RemoveIngredient(Ingredient ingredient) {
         Database.SupressIngredient(this.id, ingredient);
         this.fridge.removeOrUpdateItem(ingredient);

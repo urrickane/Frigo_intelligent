@@ -68,7 +68,7 @@ public class IngredientButton {
 						//Si la quantité est inférieure ou égale à 0, c'est qu'il n'y en a plus donc on supprime l'IngredientButton et l'ingrédient dans la BDD.
 						if(Qte <= 0)
 						{
-							//Suppression du label du panel contenant les allergènes.
+							user.RemoveIngredient(ingredient);
 							parentComponent = lblIngredient.getParent();
 							parentComponent.remove(lblIngredient);
 
@@ -76,15 +76,13 @@ public class IngredientButton {
 							parentComponent = btnModif.getParent();
 							parentComponent.remove(btnModif);
 
-							// *** Ajouter un moyen de supprimer un ingredient dans la BDD.
 						}
 						//Sinon on actualise simplement l'affichage et on modifie l'ingrédient dans la BDD.
 						else
 						{
 							//Actualisation du label affichant l'ingrédient dans la liste.
 							actualiserIngredientButton();
-
-							// *** Ajouter un moyen de modifier la quantité d'un ingredient dans la BDD.
+							user.ModifyIngredientAmount(ingredient, Qte);
 						}
 					}
 

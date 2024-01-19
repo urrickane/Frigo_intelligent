@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -26,13 +28,15 @@ import net.miginfocom.swing.MigLayout;
 public class CreationPnlAjoutIngr {
 	private JPanel pnlAjoutIngr;
 	private JTextField txtboxAjoutIngrNom;
-	private JTextField txtboxAjoutIngrJour;
-	private JTextField txtboxAjoutIngrMois;
-	private JTextField txtboxAjoutIngrAnnee;
+	private JComboBox cmbboxAjoutIngrJour;
+	private JComboBox cmbboxAjoutIngrMois;
+	private JComboBox cmbboxAjoutIngrAnnee;
 	private JTextField txtboxAjoutIngrQte;
 
 	private JComboBox cmbboxAjoutIngrUnites;
-	
+
+	private JLabel lblAjoutIngrErreur;
+
 	public CreationPnlAjoutIngr(JDialog dialog,User user, boolean fridge)
 	{
 		try {
@@ -70,30 +74,31 @@ public class CreationPnlAjoutIngr {
 			lblAjoutIngrJour.setFont(new Font("Calibri", Font.PLAIN, 30));
 			pnlAjoutIngr.add(lblAjoutIngrJour, "cell 0 6,alignx trailing");
 
-			txtboxAjoutIngrJour = new JTextField();
-			txtboxAjoutIngrJour.setFont(new Font("Calibri", Font.PLAIN, 30));
-			pnlAjoutIngr.add(txtboxAjoutIngrJour, "cell 1 6,grow");
-			txtboxAjoutIngrJour.setColumns(10);
+				cmbboxAjoutIngrJour = new JComboBox();
+				cmbboxAjoutIngrJour.setFont(new Font("Calibri", Font.PLAIN, 30));
+				pnlAjoutIngr.add(cmbboxAjoutIngrJour, "cell 1 6,grow");
+				cmbboxAjoutIngrJour.setModel(new DefaultComboBoxModel(new String[] {"1","2", "3", "4", "5",  "6", "7", "8", "9", "10", "11", "12", "13", "14", "15","16","17", "18", "19", "20",  "21", "22", "23", "24", "25", "26", "27", "28", "29","30","31"}));
 
 			JLabel lblAjoutIngrMois = new JLabel("Mois :");
 			lblAjoutIngrMois.setFont(new Font("Calibri", Font.PLAIN, 30));
 			pnlAjoutIngr.add(lblAjoutIngrMois, "cell 2 6,alignx trailing");
 
-			txtboxAjoutIngrMois = new JTextField();
-			txtboxAjoutIngrMois.setFont(new Font("Calibri", Font.PLAIN, 30));
-			pnlAjoutIngr.add(txtboxAjoutIngrMois, "cell 3 6,grow");
-			txtboxAjoutIngrMois.setColumns(10);
+
+			cmbboxAjoutIngrMois = new JComboBox();
+			cmbboxAjoutIngrMois.setFont(new Font("Calibri", Font.PLAIN, 30));
+			pnlAjoutIngr.add(cmbboxAjoutIngrMois, "cell 3 6,grow");
+			cmbboxAjoutIngrMois.setModel(new DefaultComboBoxModel(new String[] {"1","2", "3", "4", "5",  "6", "7", "8", "9", "10", "11","12"}));
 
 			JLabel lblAjoutIngrAnnee = new JLabel("Année :");
 			lblAjoutIngrAnnee.setFont(new Font("Calibri", Font.PLAIN, 30));
 			pnlAjoutIngr.add(lblAjoutIngrAnnee, "cell 4 6,alignx trailing");
 
-			txtboxAjoutIngrAnnee = new JTextField();
-			txtboxAjoutIngrAnnee.setFont(new Font("Calibri", Font.PLAIN, 30));
-			pnlAjoutIngr.add(txtboxAjoutIngrAnnee, "cell 5 6,grow");
-			txtboxAjoutIngrAnnee.setColumns(10);
+			cmbboxAjoutIngrAnnee = new JComboBox();
+			cmbboxAjoutIngrAnnee.setFont(new Font("Calibri", Font.PLAIN, 30));
+			pnlAjoutIngr.add(cmbboxAjoutIngrAnnee, "cell 5 6,grow");
+			cmbboxAjoutIngrAnnee.setModel(new DefaultComboBoxModel(new String[] {"2024","2025","2026", "2027", "2028", "2029",  "2030", "2031", "2032", "2033", "2034", "2035"}));
 
-			JLabel lblAjoutIngrErreur = new JLabel("");
+			lblAjoutIngrErreur = new JLabel("");
 			lblAjoutIngrErreur.setForeground(new Color(255, 0, 0));
 			lblAjoutIngrErreur.setHorizontalAlignment(SwingConstants.CENTER);
 			lblAjoutIngrErreur.setFont(new Font("Calibri", Font.PLAIN, 30));
@@ -118,9 +123,25 @@ public class CreationPnlAjoutIngr {
 			JButton btnAjoutIngrValider = new JButton("Valider");
 			btnAjoutIngrValider.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					lblAjoutIngrErreur.setText("");
 
 					if(fridge){
-						user.AddIngredient(new Ingredient(txtboxAjoutIngrJour.getText()+"-"+txtboxAjoutIngrMois.getText()+"-"+txtboxAjoutIngrAnnee.getText(),txtboxAjoutIngrNom.getText(), Double.parseDouble(txtboxAjoutIngrQte.getText()), cmbboxAjoutIngrUnites.getSelectedItem().toString()));
+						Date date = new Date();
+						Date dlc = new Date(Integer.parseInt(cmbboxAjoutIngrAnnee.getSelectedItem().toString())-1900,Integer.parseInt(cmbboxAjoutIngrMois.getSelectedItem().toString())-1,Integer.parseInt(cmbboxAjoutIngrJour.getSelectedItem().toString()));
+						if(txtboxAjoutIngrNom.getText().equals("") || txtboxAjoutIngrQte.getText().equals("") || cmbboxAjoutIngrUnites.getSelectedItem().toString().equals("")){
+							lblAjoutIngrErreur.setText("Veuillez remplir tous les champs.");
+							return;
+						}
+						else if(dlc.before(date)){
+							lblAjoutIngrErreur.setText("Veuillez saisir une date valide.");
+							return;
+						}
+						else if(Double.parseDouble(txtboxAjoutIngrQte.getText())<0){
+							lblAjoutIngrErreur.setText("Veuillez saisir une quantité valide.");
+							return;
+						}
+
+						user.AddIngredient(new Ingredient(dlc.getDay()+"-"+dlc.getMonth()+"-"+dlc.getYear(),txtboxAjoutIngrNom.getText(), Double.parseDouble(txtboxAjoutIngrQte.getText()), cmbboxAjoutIngrUnites.getSelectedItem().toString()));
 					}
 					else{
 						user.addIngredientToShoppingList(new Ingredient("",txtboxAjoutIngrNom.getText(), 0.0, ""));
@@ -144,9 +165,9 @@ public class CreationPnlAjoutIngr {
 	public void cleanTxtbox(boolean fridge)
 	{
 		if(fridge){
-			txtboxAjoutIngrAnnee.setText("");
-			txtboxAjoutIngrJour.setText("");
-			txtboxAjoutIngrMois.setText("");
+			cmbboxAjoutIngrAnnee.setSelectedIndex(0);
+			cmbboxAjoutIngrJour.setSelectedIndex(0);
+			cmbboxAjoutIngrMois.setSelectedIndex(0);
 			txtboxAjoutIngrNom.setText("");
 			txtboxAjoutIngrQte.setText("");
 		}

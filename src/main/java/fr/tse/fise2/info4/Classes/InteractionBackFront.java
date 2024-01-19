@@ -164,6 +164,7 @@ public class InteractionBackFront {
         			public void actionPerformed(ActionEvent e) {
 
 						for (Ingredient ingredient : recipe.getL_usedIngredients()){
+							System.out.println(ingredient.getName() + " " + ingredient.getQuantity() + " " + ingredient.getUnit());
 							user.RemoveIngredient(ingredient);
 						}
 

@@ -111,7 +111,7 @@ public class API {
                 recipesToSort.sort((Recipe r1, Recipe r2) -> r2.getCookingTime() - r1.getCookingTime());
                 break;
             case "healty":
-                //TODO
+                recipesToSort.sort((Recipe r1, Recipe r2) -> r2.getHealthScore() - r1.getHealthScore());
                 break;
             default:
                 break;

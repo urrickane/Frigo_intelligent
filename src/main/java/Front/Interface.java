@@ -24,10 +24,6 @@ public class Interface extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtboxInscription;
-	private JTextField txtboxAjoutIngrNom;
-	private JTextField txtboxAjoutIngrJour;
-	private JTextField txtboxAjoutIngrMois;
-	private JTextField txtboxAjoutIngrAnnee;
 
 	/**
 	 * Launch the application.
@@ -68,9 +64,8 @@ public class Interface extends JFrame {
 		API api = new API();
 		User user = new User(1, "", null, null, null);
 		List<String> allUsers = Database.getAllUsers(); // liste contenant les noms de chaque user
-		AtomicReference<String> usernameRef = new AtomicReference<>();
 		Recipe recette = new Recipe(0, null, null, null, 0, null, null, null, 0, 0);
-
+		final List<Recipe> recipies = new ArrayList<>();
 
 		getContentPane().setLayout(new CardLayout(0, 0));
 
@@ -374,6 +369,8 @@ public class Interface extends JFrame {
 		btnAccueilSearchRecipes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// *** Appeler une méthode qui trie les recettes qu'il faut récupérer qui renvoie une liste de Recipe
+				recipies.clear();
+				recipies.addAll(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false));
 				InteractionBackFront.remplissagePanelRecherche(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false), pnlChercherRecetteResultats,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,pnlChercherRecette,recette,user);
 				pnlChercherRecette.setVisible(true);
 				pnlAccueil.setVisible(false);
@@ -508,6 +505,15 @@ public class Interface extends JFrame {
 		pnlFavoris.add(btnFavorisRetour, "cell 0 2,grow");
 
 		//Panel Chercher Recette
+		JComboBox cmbboxTri = new JComboBox();
+		cmbboxTri.setFont(new Font("Calibri", Font.PLAIN, 20));
+		pnlChercherRecette.add(cmbboxTri, "cell 1 0,grow");
+		// *** Ajouter toutes les unités possibles (g, kg, L, ...) à la combobox.
+		cmbboxTri.setModel(new DefaultComboBoxModel(new String[] {"max-used-ingredients","max-missing-ingredients", "max-time", "healty"}));
+
+		cmbboxTri.addItemListener(e -> {
+			InteractionBackFront.remplissagePanelRecherche(api.SortRecipies(recipies,cmbboxTri.getSelectedItem().toString()), pnlChercherRecetteResultats,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,pnlChercherRecette,recette,user);
+		});
 
 		JLabel lblChercherTitle = new JLabel("Sélectionnez une recette dans la liste ci-dessous :");
 		lblChercherTitle.setFont(new Font("Calibri", Font.BOLD, 30));
@@ -518,6 +524,7 @@ public class Interface extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				pnlChercherRecette.setVisible(false);
 				pnlAccueil.setVisible(true);
+				cmbboxTri.setSelectedIndex(0);
 			}
 		});
 		btnChercherRetour.setFont(new Font("Calibri", Font.BOLD, 30));

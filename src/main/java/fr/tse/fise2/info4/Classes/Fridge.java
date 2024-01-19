@@ -31,6 +31,13 @@ public class Fridge {
         }
     }
 
+    public void ModifyIngredientAmount(Ingredient ingredient, double newAmount) {
+    	Ingredient toFind = findItemFromName(ingredient.getName());
+    	if(toFind != null) {
+    		toFind.setQuantity(newAmount);
+    	}
+    }
+
     // Méthode pour supprimer un ingrédient du réfrigérateur
     public boolean removeOrUpdateItem(Ingredient toRemove) {
         Ingredient toFind = findItemFromName(toRemove.getName());

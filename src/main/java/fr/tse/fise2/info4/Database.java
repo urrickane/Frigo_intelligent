@@ -229,6 +229,7 @@ public class Database {
         try (Connection connection = connect()) {
             if (connection != null) {
                 id = getAnIngredientID(ingredient.getName());
+                System.out.println(id);
                 String query = "SELECT AMOUNT FROM Fridge WHERE INGREDIENT_ID = ? AND USER_ID = ?";
 
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -240,23 +241,63 @@ public class Database {
                         amount = resultSet.getDouble("AMOUNT");
                     }
                 }
-                if(amount > ingredient.getQuantity()) {
-                    query = "UPDATE Fridge SET AMOUNT = ? WHERE INGREDIENT_ID = ? AND USER_ID = ?";
+                if(amount != null){
+                    if(amount > ingredient.getQuantity()) {
+                        query = "UPDATE Fridge SET AMOUNT = ? WHERE INGREDIENT_ID = ? AND USER_ID = ?";
 
-                    try (PreparedStatement statement = connection.prepareStatement(query)) {
-                        statement.setDouble(1, amount - ingredient.getQuantity());
-                        statement.setInt(2, id);
-                        statement.setInt(3, userID);
-                        // Execute request
-                        statement.executeUpdate();
-                    }
+                        try (PreparedStatement statement = connection.prepareStatement(query)) {
+                            statement.setDouble(1, amount - ingredient.getQuantity());
+                            statement.setInt(2, id);
+                            statement.setInt(3, userID);
+                            // Execute request
+                            statement.executeUpdate();
+                        }
                 }
-                else if(amount != null){
+                else{
                     query = "DELETE FROM Fridge WHERE INGREDIENT_ID = ? AND USER_ID = ?";
 
                     try (PreparedStatement statement = connection.prepareStatement(query)) {
                         statement.setInt(1, id);
                         statement.setInt(2, userID);
+                        // Execute request
+                        statement.executeUpdate();
+                    }
+                }}
+            } else {
+                System.out.println("Failed to connect to db");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // modify an ingredient from the fridge
+    public static void ModifyIngredient(Integer userID, Ingredient ingredient, double newAmount){
+        int id;
+        Double amount = null;
+        // Establish connection to db
+        try (Connection connection = connect()) {
+            if (connection != null) {
+                id = getAnIngredientID(ingredient.getName());
+                System.out.println(id);
+                String query = "SELECT AMOUNT FROM Fridge WHERE INGREDIENT_ID = ? AND USER_ID = ?";
+
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setInt(1, id);
+                    statement.setInt(2, userID);
+                    // Execute request
+                    ResultSet resultSet = statement.executeQuery();
+                    while (resultSet.next()) {
+                        amount = resultSet.getDouble("AMOUNT");
+                    }
+                }
+                if(amount != null){
+                    query = "UPDATE Fridge SET AMOUNT = ? WHERE INGREDIENT_ID = ? AND USER_ID = ?";
+
+                    try (PreparedStatement statement = connection.prepareStatement(query)) {
+                        statement.setDouble(1, newAmount);
+                        statement.setInt(2, id);
+                        statement.setInt(3, userID);
                         // Execute request
                         statement.executeUpdate();
                     }
