@@ -40,7 +40,6 @@ public class CreationPnlAjoutIngr {
 	public CreationPnlAjoutIngr(JDialog dialog,User user, boolean fridge)
 	{
 		try {
-			List<String> ingredients = readIngredients("./src/main/resources/Ing.txt");
 
 			pnlAjoutIngr = new JPanel();
 			pnlAjoutIngr.setLayout(new MigLayout("", "[100px][100px][100px][100px][100px][100px]", "[50px][50px][50px][50px][50px][50px][50px][50px][50px][50px]"));
@@ -52,7 +51,6 @@ public class CreationPnlAjoutIngr {
 			txtboxAjoutIngrNom = new JTextField();
 			txtboxAjoutIngrNom.setFont(new Font("Calibri", Font.PLAIN, 30));
 			pnlAjoutIngr.add(txtboxAjoutIngrNom, "cell 0 1 6 1,grow");
-			AutoCompletion.setupAutoComplete(ingredients,txtboxAjoutIngrNom );
 
 			txtboxAjoutIngrNom.setColumns(10);
 			if(fridge){
@@ -176,19 +174,5 @@ public class CreationPnlAjoutIngr {
 		}
 	}
 
-	private static List<String> readIngredients(String filePath) throws IOException {
-		List<String> ingredients = new ArrayList<>();
 
-
-
-		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-			String line;
-			while ((line = br.readLine()) != null) {
-				// Ajoutez chaque ligne à la liste
-				ingredients.add(line.trim());
-			}
-		}
-
-		return ingredients;
-	}
 }
