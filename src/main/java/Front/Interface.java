@@ -25,6 +25,10 @@ public class Interface extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtboxInscription;
 
+	private void displayErrorMessage(String message) {
+		JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+	}
+
 	/**
 	 * Launch the application.
 	 */
@@ -345,7 +349,7 @@ public class Interface extends JFrame {
 		btnAccueilListeCourses.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// *** Ajouter le bon champ pour avoir la liste des ingrédients de la liste de course de la BDD à la ligne suivante.
-				System.out.println(user.getShoppingList().getShoppingList().get(0).getQuantity());
+				//System.out.println(user.getShoppingList().getShoppingList().get(0).getQuantity()); That gives an error when the list is empty since there is no index 0
 				InteractionBackFront.remplissagePanelIngredientButton(user.getShoppingList().getShoppingList(), pnlListeCourseIngredients,false,user);
 				pnlAccueil.setVisible(false);
 				pnlListeCourse.setVisible(true);
@@ -368,12 +372,17 @@ public class Interface extends JFrame {
 		JButton btnAccueilSearchRecipes = new JButton("Chercher une recette");
 		btnAccueilSearchRecipes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// *** Appeler une méthode qui trie les recettes qu'il faut récupérer qui renvoie une liste de Recipe
-				recipies.clear();
-				recipies.addAll(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false));
-				InteractionBackFront.remplissagePanelRecherche(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false), pnlChercherRecetteResultats,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,pnlChercherRecette,recette,user);
-				pnlChercherRecette.setVisible(true);
-				pnlAccueil.setVisible(false);
+				try{
+					// *** Appeler une méthode qui trie les recettes qu'il faut récupérer qui renvoie une liste de Recipe
+					recipies.clear();
+					recipies.addAll(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false));
+					InteractionBackFront.remplissagePanelRecherche(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false), pnlChercherRecetteResultats,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,pnlChercherRecette,recette,user);
+					pnlChercherRecette.setVisible(true);
+					pnlAccueil.setVisible(false);
+				} catch(Exception ex) {
+					String errorMessage = "One of the Ingredients written is misspelled. Please check your input.";
+					displayErrorMessage(errorMessage); // Implement a method to display the error message
+				}
 			}
 		});
 

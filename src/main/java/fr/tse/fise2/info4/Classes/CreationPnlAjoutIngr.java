@@ -43,6 +43,8 @@ public class CreationPnlAjoutIngr {
 		pnlAjoutIngr = new JPanel();
 		pnlAjoutIngr.setLayout(new MigLayout("", "[100px][100px][100px][100px][100px][100px]", "[50px][50px][50px][50px][50px][50px][50px][50px][50px][50px]"));
 
+		lblAjoutIngrErreur = new JLabel("");
+
 		JLabel lblAjoutIngrTitle = new JLabel("Entrez le nom d'un ingrédient :");
 		lblAjoutIngrTitle.setFont(new Font("Calibri", Font.PLAIN, 30));
 		pnlAjoutIngr.add(lblAjoutIngrTitle, "cell 0 0 6 1,grow");
@@ -120,6 +122,7 @@ public class CreationPnlAjoutIngr {
 		JButton btnAjoutIngrValider = new JButton("Valider");
 		btnAjoutIngrValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				lblAjoutIngrErreur.setText("");
 
 				if(fridge){
