@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class User {
-    private final Integer id;
-    private final String userName;
+    private Integer id;
+    private String userName;
     private List<Allergen> l_allergies;
     private List<Integer> l_favoriteRecipes;
 
@@ -24,6 +24,15 @@ public class User {
         this.l_allergies = l_allergies;
         this.l_favoriteRecipes = l_favRecipes;
         this.shoppingList = shoppingList;
+    }
+
+    public void copy(User user) {
+        this.id = user.id;
+        this.fridge = user.fridge;
+        this.userName = user.userName;
+        this.l_allergies = user.l_allergies;
+        this.l_favoriteRecipes = user.l_favoriteRecipes;
+        this.shoppingList = user.shoppingList;
     }
 
 
@@ -57,6 +66,11 @@ public class User {
     public void AddIngredient(Ingredient ingredient) {
         Database.AddorUpdateIngredient(this.id, ingredient);
         this.fridge.addOrUpdateIngredients(ingredient);
+    }
+
+    public void ModifyIngredientAmount(Ingredient ingredient, double newAmount) {
+        Database.ModifyIngredient(this.id, ingredient, newAmount);
+        this.fridge.ModifyIngredientAmount(ingredient, newAmount);
     }
 
     public void RemoveIngredient(Ingredient ingredient) {

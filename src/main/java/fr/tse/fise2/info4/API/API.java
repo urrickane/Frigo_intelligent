@@ -111,7 +111,7 @@ public class API {
                 recipesToSort.sort((Recipe r1, Recipe r2) -> r2.getCookingTime() - r1.getCookingTime());
                 break;
             case "healty":
-                //TODO
+                recipesToSort.sort((Recipe r1, Recipe r2) -> r2.getHealthScore() - r1.getHealthScore());
                 break;
             default:
                 break;
@@ -138,7 +138,7 @@ public class API {
             }
             else jsonSteps = aRecipe.get("instructions");
             for(JsonNode anIngredient :aRecipe.get("extendedIngredients")){
-                Ingredient ingredient = new Ingredient(null,anIngredient.get("name").asText(),anIngredient.get("measures").get("metric").get("amount").asDouble(),anIngredient.get("measures").get("metric").get("unitShort").asText());
+                Ingredient ingredient = new Ingredient(null,anIngredient.get("name").asText(),anIngredient.get("amount").asDouble(),anIngredient.get("unit").asText());
                 l_ing.add(ingredient);
             }
             if(aRecipe.get("usedIngredients") != null) {
@@ -161,10 +161,9 @@ public class API {
             int nbPeople = aRecipe.get("servings").asInt();
             int id = aRecipe.get("id").asInt();
             String srcImg = aRecipe.get("image").asText();
-            String summary = aRecipe.get("summary").asText();
             String title = aRecipe.get("title").asText();
             int healthScore = aRecipe.get("healthScore").asInt();
-            Recipe recipe = new Recipe(id,srcImg,title,l_ing,summary,nbPeople,l_steps,l_usedIng,l_missIng,cookingTime,healthScore);
+            Recipe recipe = new Recipe(id,srcImg,title,l_ing,nbPeople,l_steps,l_usedIng,l_missIng,cookingTime,healthScore);
             recipes.add(recipe);
         }
         return recipes;

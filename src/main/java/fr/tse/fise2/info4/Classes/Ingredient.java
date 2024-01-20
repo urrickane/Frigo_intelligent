@@ -17,7 +17,7 @@ public class Ingredient {
     public Ingredient(String expDate, String name, Double quantity, String unit) {
         this.expDate = expDate;
         this.name = name;
-        this.quantity = Objects.requireNonNullElse(quantity, 0);
+        this.quantity = Objects.requireNonNullElse(quantity, 0.0);
         this.unit = unit;
     }
 
@@ -39,7 +39,7 @@ public class Ingredient {
         this.name = name;
     }
 
-    public double getQuantity() {
+    public Double getQuantity() {
         return (double) quantity;
     }
 
