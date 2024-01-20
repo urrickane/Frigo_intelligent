@@ -2,8 +2,6 @@ package fr.tse.fise2.info4.Classes;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +10,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -21,6 +18,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import Front.AllergenButton;
+import Front.IngredientButton;
+import Front.RecipeButton;
 import fr.tse.fise2.info4.Database;
 import net.miginfocom.swing.MigLayout;
 

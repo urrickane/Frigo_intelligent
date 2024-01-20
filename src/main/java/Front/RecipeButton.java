@@ -1,5 +1,8 @@
-package fr.tse.fise2.info4.Classes;
+package Front;
 
+import fr.tse.fise2.info4.Classes.InteractionBackFront;
+import fr.tse.fise2.info4.Classes.Recipe;
+import fr.tse.fise2.info4.Classes.User;
 import fr.tse.fise2.info4.Database;
 
 import java.awt.Color;
@@ -23,7 +26,7 @@ public class RecipeButton {
 	/*
 	 * Constructeur qui crée la structure Bouton+Label pour afficher et supprimer un allergène.
 	 */
-	public RecipeButton(Recipe recipe, User user, JLabel lblRecetteImage, JLabel lblRecetteTitre, JPanel pnlRecetteIngredients, JPanel pnlTomakeDissapear, JPanel pnlRecetteInfos,Recipe recipeToReturn)
+	public RecipeButton(Recipe recipe, User user, JLabel lblRecetteImage, JLabel lblRecetteTitre, JPanel pnlRecetteIngredients, JPanel pnlTomakeDissapear, JPanel pnlRecetteInfos, Recipe recipeToReturn)
 	{
 		//Cr&ation d'un label et d'un bouton. Le premier va contenir l'image de la recette et le second va permettre de la sélectionner en appuyant dessus.		
 		lblImageRecette = new JLabel();

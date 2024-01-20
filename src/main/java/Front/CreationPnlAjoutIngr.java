@@ -1,4 +1,4 @@
-package fr.tse.fise2.info4.Classes;
+package Front;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -23,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import Front.Interface;
+import fr.tse.fise2.info4.Classes.Ingredient;
+import fr.tse.fise2.info4.Classes.User;
 import net.miginfocom.swing.MigLayout;
 
 public class CreationPnlAjoutIngr {
@@ -37,7 +39,7 @@ public class CreationPnlAjoutIngr {
 
 	private JLabel lblAjoutIngrErreur;
 
-	public CreationPnlAjoutIngr(JDialog dialog,User user, boolean fridge)
+	public CreationPnlAjoutIngr(JDialog dialog, User user, boolean fridge)
 	{
 
 		pnlAjoutIngr = new JPanel();

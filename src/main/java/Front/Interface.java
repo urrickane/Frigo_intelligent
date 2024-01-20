@@ -3,17 +3,12 @@ package Front;
 import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.ArrayList;
-import java.awt.image.ImageObserver;
-
-import java.net.*;
 
 import fr.tse.fise2.info4.API.API;
 import fr.tse.fise2.info4.Database;
