@@ -1,4 +1,7 @@
-package fr.tse.fise2.info4.Classes;
+package fr.tse.fise2.info4.Front;
+
+import fr.tse.fise2.info4.Classes.Ingredient;
+import fr.tse.fise2.info4.Classes.User;
 
 import java.awt.Color;
 import java.awt.Container;

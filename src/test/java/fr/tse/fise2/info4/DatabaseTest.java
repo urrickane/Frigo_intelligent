@@ -1,6 +1,7 @@
 package fr.tse.fise2.info4;
 
 import fr.tse.fise2.info4.Classes.*;
+import fr.tse.fise2.info4.Database.Database;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

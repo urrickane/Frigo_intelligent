@@ -1,6 +1,8 @@
-package fr.tse.fise2.info4.Classes;
+package fr.tse.fise2.info4.Front;
 
-import fr.tse.fise2.info4.Database;
+import fr.tse.fise2.info4.Classes.InteractionBackFront;
+import fr.tse.fise2.info4.Classes.Recipe;
+import fr.tse.fise2.info4.Classes.User;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -23,7 +25,7 @@ public class RecipeButton {
 	/*
 	 * Constructeur qui crée la structure Bouton+Label pour afficher et supprimer un allergène.
 	 */
-	public RecipeButton(Recipe recipe, User user, JLabel lblRecetteImage, JLabel lblRecetteTitre, JPanel pnlRecetteIngredients, JPanel pnlTomakeDissapear, JPanel pnlRecetteInfos,Recipe recipeToReturn)
+	public RecipeButton(Recipe recipe, User user, JLabel lblRecetteImage, JLabel lblRecetteTitre, JPanel pnlRecetteIngredients, JPanel pnlTomakeDissapear, JPanel pnlRecetteInfos, Recipe recipeToReturn)
 	{
 		//Cr&ation d'un label et d'un bouton. Le premier va contenir l'image de la recette et le second va permettre de la sélectionner en appuyant dessus.		
 		lblImageRecette = new JLabel();
@@ -39,7 +41,7 @@ public class RecipeButton {
 		lblImageRecette.setPreferredSize(new Dimension(100, 100));
 		lblImageRecette.setMaximumSize(new Dimension(100, 100));
 		
-		btnNomRecette = new JButton(recipe.getTitle());
+		btnNomRecette = new JButton(recipe.getTitle() + "/ Healtscore : " + recipe.getHealthScore());
 		btnNomRecette.setFont(new Font("Calibri", Font.BOLD, 25));
 		btnNomRecette.setPreferredSize(new Dimension(500, 100));
 		btnNomRecette.setMaximumSize(new Dimension(500, 100));

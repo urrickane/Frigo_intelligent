@@ -1,22 +1,17 @@
-package Front;
+package fr.tse.fise2.info4.Front;
 
 import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.ArrayList;
-import java.awt.image.ImageObserver;
-
-import java.net.*;
 
 import fr.tse.fise2.info4.API.API;
-import fr.tse.fise2.info4.Database;
+import fr.tse.fise2.info4.Database.Database;
 import fr.tse.fise2.info4.Classes.*;
 import net.miginfocom.swing.MigLayout;
 
@@ -30,34 +25,6 @@ public class Interface extends JFrame {
 	}
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Interface frame = new Interface();
-
-					// Récupérer la taille de l'écran
-					GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-					int screenWidth = gd.getDisplayMode().getWidth();
-					int screenHeight = gd.getDisplayMode().getHeight();
-
-					// Définir la taille de la JFrame à la taille de l'écran
-					frame.setSize(screenWidth, screenHeight);
-
-					// Mettre la JFrame en plein écran
-					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public Interface() {
@@ -65,7 +32,7 @@ public class Interface extends JFrame {
 		pack();
 
 		// Variables
-		API api = new API();
+		API api = API.getAPI();
 		User user = new User(1, "", null, null, null);
 		List<String> allUsers = Database.getAllUsers(); // liste contenant les noms de chaque user
 		Recipe recette = new Recipe(0, null, null, null, 0, null, null, null, 0, 0);
@@ -78,6 +45,7 @@ public class Interface extends JFrame {
 
 		ImageIcon imageIcon = new ImageIcon(Interface.class.getResource("/frigoferme.png"));
 		Image backgroundImageFrigoFerme = imageIcon.getImage();
+
 
 		imageIcon = new ImageIcon(Interface.class.getResource("/frigoouvert.png"));
 		Image backgroundImageFrigoOuvert = imageIcon.getImage();
@@ -375,8 +343,8 @@ public class Interface extends JFrame {
 				try{
 					// *** Appeler une méthode qui trie les recettes qu'il faut récupérer qui renvoie une liste de Recipe
 					recipies.clear();
-					recipies.addAll(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false));
-					InteractionBackFront.remplissagePanelRecherche(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false), pnlChercherRecetteResultats,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,pnlChercherRecette,recette,user);
+					recipies.addAll(api.ComplexSearch(user,8,"max-used-ingredients",true,true,false));
+					InteractionBackFront.remplissagePanelRecherche(recipies, pnlChercherRecetteResultats,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,pnlChercherRecette,recette,user);
 					pnlChercherRecette.setVisible(true);
 					pnlAccueil.setVisible(false);
 				} catch(Exception ex) {
@@ -518,7 +486,7 @@ public class Interface extends JFrame {
 		cmbboxTri.setFont(new Font("Calibri", Font.PLAIN, 20));
 		pnlChercherRecette.add(cmbboxTri, "cell 1 0,grow");
 		// *** Ajouter toutes les unités possibles (g, kg, L, ...) à la combobox.
-		cmbboxTri.setModel(new DefaultComboBoxModel(new String[] {"max-used-ingredients","max-missing-ingredients", "max-time", "healty"}));
+		cmbboxTri.setModel(new DefaultComboBoxModel(new String[] {"max-used-ingredients","less-missing-ingredients", "less-time", "healty"}));
 
 		cmbboxTri.addItemListener(e -> {
 			InteractionBackFront.remplissagePanelRecherche(api.SortRecipies(recipies,cmbboxTri.getSelectedItem().toString()), pnlChercherRecetteResultats,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,pnlChercherRecette,recette,user);

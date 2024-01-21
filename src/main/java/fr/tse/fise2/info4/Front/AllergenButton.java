@@ -1,6 +1,9 @@
-package fr.tse.fise2.info4.Classes;
+package fr.tse.fise2.info4.Front;
 
 
+
+import fr.tse.fise2.info4.Classes.Allergen;
+import fr.tse.fise2.info4.Classes.User;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -21,7 +24,7 @@ public class AllergenButton {
 	/*
 	 * Constructeur qui crée la structure Bouton+Label pour afficher et supprimer un allergène.
 	 */
-	public AllergenButton(String allergenName,User user)
+	public AllergenButton(String allergenName, User user)
 	{
 		//Cr&ation d'un label et d'un bouton. Le premier va contenir le nom de l'allergène et le second va permettre de le supprimer en appuyant dessus.
 		lblAllergen = new JLabel();
