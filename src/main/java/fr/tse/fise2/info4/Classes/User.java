@@ -1,6 +1,6 @@
 package fr.tse.fise2.info4.Classes;
 
-import fr.tse.fise2.info4.Database;
+import fr.tse.fise2.info4.Database.Database;
 
 import java.util.List;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package fr.tse.fise2.info4;
+package fr.tse.fise2.info4.Database;
 import java.sql.Connection;
 
 import java.sql.DriverManager;
@@ -17,11 +17,13 @@ public class Database {
 	// use to connect to db
 	public static Connection connect() {
         try {
-            // Loading the SQLite JDBC driver
-            Class.forName("org.sqlite.JDBC");
 
-            // Creating the connection to the db
-            return DriverManager.getConnection(URL);
+                // Loading the SQLite JDBC driver
+                Class.forName("org.sqlite.JDBC");
+
+                // Creating the connection to the db
+                return DriverManager.getConnection(URL);
+
         } catch (ClassNotFoundException | SQLException e) {
             // Handling exceptions for connection exceptions and not found exceptions 
             e.printStackTrace(); 

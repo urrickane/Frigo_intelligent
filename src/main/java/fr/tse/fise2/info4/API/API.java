@@ -15,6 +15,8 @@ import java.util.List;
 public class API {
     private final HttpClient client;
 
+    private static API instance = null;
+
     public String getAPIkey() {
         return APIkey;
     }
@@ -25,14 +27,22 @@ public class API {
 
     private String APIkey;
     private String Baseurl;
-    public API(){
+    private API(){
         client = getDefaultApi();
         Baseurl = "https://api.spoonacular.com/";
         APIkey = "338284d8348d4e2bb344a1747cb00005";
     }
+
+    public static API getAPI(){
+        if(instance == null){
+            instance = new API();
+        }
+        return instance;
+    }
+
     private static HttpClient getDefaultApi() {
         // create a client
-        return HttpClient.newHttpClient();
+            return HttpClient.newHttpClient();
     }
 
     /**
@@ -48,6 +58,7 @@ public class API {
     public void setBaseurl(String baseurl) {
         Baseurl = baseurl;
     }
+
 
     /**
      * @param user
@@ -120,7 +131,6 @@ public class API {
     }
 
     private static List<Recipe> getRecipeList(HttpResponse<String> response) throws JsonProcessingException, NullPointerException {
-        System.out.println(response.body());
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(response.body());
         List<Recipe> recipes = new ArrayList<>();
@@ -153,9 +163,11 @@ public class API {
                     l_missIng.add(ingredient);
                 }
             }
-            for(JsonNode jsonStep : jsonSteps){
-                String step = jsonStep.get("step").asText();
-                l_steps.add(step);
+            if(jsonSteps == null) {
+                for (JsonNode jsonStep : jsonSteps) {
+                    String step = jsonStep.get("step").asText();
+                    l_steps.add(step);
+                }
             }
             int cookingTime = aRecipe.get("readyInMinutes").asInt();
             int nbPeople = aRecipe.get("servings").asInt();

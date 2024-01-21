@@ -18,10 +18,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import Front.AllergenButton;
-import Front.IngredientButton;
-import Front.RecipeButton;
-import fr.tse.fise2.info4.Database;
+import fr.tse.fise2.info4.Front.AllergenButton;
+import fr.tse.fise2.info4.Front.IngredientButton;
+import fr.tse.fise2.info4.Front.RecipeButton;
+import fr.tse.fise2.info4.Database.Database;
 import net.miginfocom.swing.MigLayout;
 
 public class InteractionBackFront {

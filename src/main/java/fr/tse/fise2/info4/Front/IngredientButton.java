@@ -1,4 +1,4 @@
-package Front;
+package fr.tse.fise2.info4.Front;
 
 import fr.tse.fise2.info4.Classes.Ingredient;
 import fr.tse.fise2.info4.Classes.User;

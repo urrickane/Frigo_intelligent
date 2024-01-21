@@ -1,9 +1,8 @@
-package Front;
+package fr.tse.fise2.info4.Front;
 
 import fr.tse.fise2.info4.Classes.InteractionBackFront;
 import fr.tse.fise2.info4.Classes.Recipe;
 import fr.tse.fise2.info4.Classes.User;
-import fr.tse.fise2.info4.Database;
 
 import java.awt.Color;
 import java.awt.Container;

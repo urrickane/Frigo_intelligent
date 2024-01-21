@@ -1,4 +1,4 @@
-package Front;
+package fr.tse.fise2.info4.Front;
 
 
 

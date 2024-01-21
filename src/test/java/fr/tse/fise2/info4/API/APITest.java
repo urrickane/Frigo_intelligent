@@ -16,7 +16,7 @@ class APITest {
 
     @org.junit.jupiter.api.Test
     void TestComplexSearch() throws JsonProcessingException {
-        API api = new API();
+        API api = API.getAPI();
         Ingredient ingredient1 = new Ingredient("2023-01-01", "Tomato", null,null);
         Ingredient ingredient2 = new Ingredient("2023-02-15", "Milk", null,null);
         List<Ingredient> l_ingredients = new ArrayList<Ingredient>();
@@ -64,7 +64,6 @@ class APITest {
                 "https://spoonacular.com/recipeImages/633852-312x231.jpg",
                 "baked tomatoes",
                 l_testIngredients,
-                "Baked tomatoes is a <b>gluten free and primal</b> side dish. This recipe serves 4. One serving contains <b>156 calories</b>, <b>2g of protein</b>, and <b>15g of fat</b>. For <b>48 cents per serving</b>, this recipe <b>covers 4%</b> of your daily requirements of vitamins and minerals. 1 person were impressed by this recipe. A mixture of tomatoes, salt & pepper, parmesan, and a handful of other ingredients are all it takes to make this recipe so scrumptious. From preparation to the plate, this recipe takes roughly <b>45 minutes</b>. It is brought to you by Foodista. Overall, this recipe earns a <b>solid spoonacular score of 41%</b>. Users who liked this recipe also liked <a href=\"https://spoonacular.com/recipes/provenal-tomatoes-baked-tomatoes-stuffed-with-cheese-and-breadcrumbs-90796\">Provençal Tomatoes (Baked Tomatoes Stuffed with Cheese and Breadcrumbs)</a>, <a href=\"https://spoonacular.com/recipes/baked-tomatoes-with-whole-wheat-tomatoes-and-thyme-479539\">Baked Tomatoes with Whole Wheat Tomatoes and Thyme</a>, and <a href=\"https://spoonacular.com/recipes/baked-tomatoes-26817\">Baked Tomatoes</a>.",
                 4,
                 l_steps,
                 l_testUsedIngredients,
@@ -85,7 +84,7 @@ class APITest {
 
     @org.junit.jupiter.api.Test
     void TestGetRecipeInformation() throws JsonProcessingException {
-        API api = new API();
+        API api = API.getAPI();
         Ingredient ingredient1 = new Ingredient("2023-01-01", "Tomato", null,null);
         Ingredient ingredient2 = new Ingredient("2023-02-15", "Milk", null,null);
         List<Integer> l_id = new ArrayList<Integer>();
@@ -113,7 +112,6 @@ class APITest {
                 "https://spoonacular.com/recipeImages/715538-556x370.jpg",
                 "What to make for dinner tonight?? Bruschetta Style Pork & Pasta",
                 l_testIngredients,
-                "What to make for dinner tonight?? Bruschetta Style Pork & Pasta takes roughly <b>35 minutes</b> from beginning to end. This recipe serves 5 and costs $1.96 per serving. This main course has <b>591 calories</b>, <b>45g of protein</b>, and <b>13g of fat</b> per serving. If you have bow tie pasta, parmigiano reggiano, recipe makers chicken bruschetta pasta, and a few other ingredients on hand, you can make it. 163 people have made this recipe and would make it again. It is brought to you by Pink When. Plenty of people really liked this Mediterranean dish. With a spoonacular <b>score of 90%</b>, this dish is outstanding. Similar recipes are <a href=\"https://spoonacular.com/recipes/dinner-tonight-grilled-romesco-style-pork-209128\">Dinner Tonight: Grilled Romesco-Style Pork</a>, <a href=\"https://spoonacular.com/recipes/dinner-tonight-chickpea-bruschetta-31868\">Dinner Tonight: Chickpea Bruschetta</a>, and <a href=\"https://spoonacular.com/recipes/dinner-tonight-shrimp-bruschetta-from-da-zaccaria-209251\">Dinner Tonight: Shrimp Bruschetta from 'da Zaccaria</a>.",
                 5,
                 l_steps,
                 l_testUsedIngredients,

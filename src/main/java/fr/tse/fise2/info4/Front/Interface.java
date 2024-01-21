@@ -1,4 +1,4 @@
-package Front;
+package fr.tse.fise2.info4.Front;
 
 import java.awt.*;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import fr.tse.fise2.info4.API.API;
-import fr.tse.fise2.info4.Database;
+import fr.tse.fise2.info4.Database.Database;
 import fr.tse.fise2.info4.Classes.*;
 import net.miginfocom.swing.MigLayout;
 
@@ -25,34 +25,6 @@ public class Interface extends JFrame {
 	}
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Interface frame = new Interface();
-
-					// Récupérer la taille de l'écran
-					GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-					int screenWidth = gd.getDisplayMode().getWidth();
-					int screenHeight = gd.getDisplayMode().getHeight();
-
-					// Définir la taille de la JFrame à la taille de l'écran
-					frame.setSize(screenWidth, screenHeight);
-
-					// Mettre la JFrame en plein écran
-					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public Interface() {
@@ -60,7 +32,7 @@ public class Interface extends JFrame {
 		pack();
 
 		// Variables
-		API api = new API();
+		API api = API.getAPI();
 		User user = new User(1, "", null, null, null);
 		List<String> allUsers = Database.getAllUsers(); // liste contenant les noms de chaque user
 		Recipe recette = new Recipe(0, null, null, null, 0, null, null, null, 0, 0);

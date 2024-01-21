@@ -1,9 +1,6 @@
 package fr.tse.fise2.info4.Classes;
 
-import fr.tse.fise2.info4.Classes.Allergen;
-import fr.tse.fise2.info4.Classes.Ingredient;
-import fr.tse.fise2.info4.Classes.User;
-import fr.tse.fise2.info4.Database;
+import fr.tse.fise2.info4.Database.Database;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
