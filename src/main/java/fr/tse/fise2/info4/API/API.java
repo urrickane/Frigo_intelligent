@@ -10,6 +10,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class API {
@@ -115,11 +116,11 @@ public class API {
             case "max-used-ingredients":
                 recipesToSort.sort((Recipe r1, Recipe r2) -> r2.getL_usedIngredients().size() - r1.getL_usedIngredients().size());
                 break;
-            case "max-missing-ingredients":
-                recipesToSort.sort((Recipe r1, Recipe r2) -> r2.getL_missingIngredients().size() - r1.getL_missingIngredients().size());
+            case "less-missed-ingredients":
+                recipesToSort.sort(Comparator.comparingInt((Recipe r) -> r.getL_missingIngredients().size()));
                 break;
-            case "max-time":
-                recipesToSort.sort((Recipe r1, Recipe r2) -> r2.getCookingTime() - r1.getCookingTime());
+            case "less-time":
+                recipesToSort.sort(Comparator.comparingInt(Recipe::getCookingTime));
                 break;
             case "healty":
                 recipesToSort.sort((Recipe r1, Recipe r2) -> r2.getHealthScore() - r1.getHealthScore());
@@ -163,7 +164,7 @@ public class API {
                     l_missIng.add(ingredient);
                 }
             }
-            if(jsonSteps == null) {
+            if(jsonSteps != null) {
                 for (JsonNode jsonStep : jsonSteps) {
                     String step = jsonStep.get("step").asText();
                     l_steps.add(step);

@@ -41,7 +41,7 @@ public class RecipeButton {
 		lblImageRecette.setPreferredSize(new Dimension(100, 100));
 		lblImageRecette.setMaximumSize(new Dimension(100, 100));
 		
-		btnNomRecette = new JButton(recipe.getTitle());
+		btnNomRecette = new JButton(recipe.getTitle() + "/ Healtscore : " + recipe.getHealthScore());
 		btnNomRecette.setFont(new Font("Calibri", Font.BOLD, 25));
 		btnNomRecette.setPreferredSize(new Dimension(500, 100));
 		btnNomRecette.setMaximumSize(new Dimension(500, 100));

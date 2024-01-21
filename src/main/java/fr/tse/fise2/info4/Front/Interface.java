@@ -46,6 +46,7 @@ public class Interface extends JFrame {
 		ImageIcon imageIcon = new ImageIcon(Interface.class.getResource("/frigoferme.png"));
 		Image backgroundImageFrigoFerme = imageIcon.getImage();
 
+
 		imageIcon = new ImageIcon(Interface.class.getResource("/frigoouvert.png"));
 		Image backgroundImageFrigoOuvert = imageIcon.getImage();
 		JPanel pnlMain = new JPanel() {
@@ -342,8 +343,8 @@ public class Interface extends JFrame {
 				try{
 					// *** Appeler une méthode qui trie les recettes qu'il faut récupérer qui renvoie une liste de Recipe
 					recipies.clear();
-					recipies.addAll(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false));
-					InteractionBackFront.remplissagePanelRecherche(api.ComplexSearch(user,2,"max-used-ingredients",true,true,false), pnlChercherRecetteResultats,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,pnlChercherRecette,recette,user);
+					recipies.addAll(api.ComplexSearch(user,8,"max-used-ingredients",true,true,false));
+					InteractionBackFront.remplissagePanelRecherche(recipies, pnlChercherRecetteResultats,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,pnlChercherRecette,recette,user);
 					pnlChercherRecette.setVisible(true);
 					pnlAccueil.setVisible(false);
 				} catch(Exception ex) {
@@ -485,7 +486,7 @@ public class Interface extends JFrame {
 		cmbboxTri.setFont(new Font("Calibri", Font.PLAIN, 20));
 		pnlChercherRecette.add(cmbboxTri, "cell 1 0,grow");
 		// *** Ajouter toutes les unités possibles (g, kg, L, ...) à la combobox.
-		cmbboxTri.setModel(new DefaultComboBoxModel(new String[] {"max-used-ingredients","max-missing-ingredients", "max-time", "healty"}));
+		cmbboxTri.setModel(new DefaultComboBoxModel(new String[] {"max-used-ingredients","less-missing-ingredients", "less-time", "healty"}));
 
 		cmbboxTri.addItemListener(e -> {
 			InteractionBackFront.remplissagePanelRecherche(api.SortRecipies(recipies,cmbboxTri.getSelectedItem().toString()), pnlChercherRecetteResultats,lblRecetteImage,lblRecetteTitre,pnlRecetteIngredients,pnlRecetteInfos,pnlChercherRecette,recette,user);

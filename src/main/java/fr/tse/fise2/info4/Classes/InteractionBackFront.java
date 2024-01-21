@@ -11,12 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.Box;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 import fr.tse.fise2.info4.Front.AllergenButton;
 import fr.tse.fise2.info4.Front.IngredientButton;
@@ -30,6 +25,7 @@ public class InteractionBackFront {
 	 */
 	public static void actualisationRecettePresentation(JLabel recipeImage, JLabel recipeTitle, JPanel recipeIngredients, Recipe recipe)
 	{
+		recipeIngredients.removeAll();
 		// Affichage de l'image
         try {
             URL url = new URL(recipe.getLinkToImage());
@@ -43,17 +39,25 @@ public class InteractionBackFront {
         // Affichage du titre
         recipeTitle.setText(recipe.getTitle() + " (" + recipe.getCookingTime() + " min)");
         recipeTitle.setFont(new Font("Calibri", Font.BOLD, 40));
+
         
         // Affichage des ingrédients
         int i = 0;
-        while(i < recipe.getL_ingredients().size())
-        {
-        	JLabel label = new JLabel();
-        	label.setText("<html><div style='white-space: pre-wrap;'> -" + recipe.getL_ingredients().get(i).getName() + ": " + recipe.getL_ingredients().get(i).getQuantity() + " " + recipe.getL_ingredients().get(i).getUnit() + "</div></html>");
-        	label.setFont(new Font("Calibri", Font.PLAIN, 30));
-            recipeIngredients.add(label);
-            i++;
-        }
+		StringBuilder listeIngredients = new StringBuilder("<html><div style='white-space: pre-wrap;'><ul>");
+		while(i < recipe.getL_ingredients().size())
+		{
+			listeIngredients.append("<li>").append(recipe.getL_ingredients().get(i).getName()).append(": ").append(recipe.getL_ingredients().get(i).getQuantity()).append(" ").append(recipe.getL_ingredients().get(i).getUnit()).append("</li>");
+			i++;
+		}
+		listeIngredients.append("</ul></div></html>");
+		JLabel thelabel = new JLabel();
+		thelabel.setText(listeIngredients.toString());
+		thelabel.setFont(new Font("Calibri", Font.PLAIN, 20));
+		recipeIngredients.add(thelabel);
+		JLabel lblHealthScore = new JLabel();
+		lblHealthScore.setText("HealtScore : " + recipe.getHealthScore());
+		lblHealthScore.setFont(new Font("Calibri", Font.BOLD, 40));
+		recipeIngredients.add(lblHealthScore);
 	}
 	
 	/*
